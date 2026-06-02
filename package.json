@@ -1,0 +1,42 @@
+{
+  "name": "ashtech-fullstack-website",
+  "version": "1.0.0",
+  "description": "Full-stack AshTech IT services website using HTML, CSS, JavaScript, Node.js, Express, Prisma, and Supabase PostgreSQL.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "build": "prisma generate",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:deploy": "prisma migrate deploy",
+    "db:seed": "node scripts/seed-admin.js",
+    "seed": "node scripts/seed-admin.js",
+    "hash-password": "node scripts/hash-password.js",
+    "test:routes": "node scripts/test-routes.js",
+    "audit": "npm audit"
+  },
+  "keywords": [
+    "it-services",
+    "express",
+    "supabase",
+    "postgresql",
+    "prisma",
+    "ashtech"
+  ],
+  "author": "AshTech",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^8.5.2",
+    "helmet": "^8.2.0",
+    "jsonwebtoken": "^9.0.3"
+  },
+  "devDependencies": {
+    "prisma": "^6.19.3"
+  }
+}

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AshTech admin dashboard for contact messages and quote requests.">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin | AshTech</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="admin-page">
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="AshTech home">
+      <span class="brand-mark">A</span>
+      <span class="brand-text"><strong>AshTech</strong><small>IT Services</small></span>
+    </a>
+    <button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" data-nav-toggle><span></span><span></span><span></span></button>
+    <nav class="site-nav" data-nav>
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="solutions.html">Solutions</a>
+      <a href="projects.html">Projects</a>
+      <a href="contact.html">Contact</a>
+      <a href="admin.html">Admin</a>
+    </nav>
+    <button class="theme-toggle" type="button" aria-label="Toggle light and dark mode" data-theme-toggle><span data-theme-label>Dark</span></button>
+  </header>
+
+  <main>
+    <section class="page-hero admin-hero">
+      <div class="hero-overlay"></div>
+      <div class="container hero-content">
+        <p class="eyebrow">Admin</p>
+        <h1>AshTech dashboard</h1>
+        <p class="hero-lede">Review contact messages and quote requests stored in Supabase PostgreSQL.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container admin-layout">
+        <form class="form-card admin-login" id="admin-login-form">
+          <p class="eyebrow">Protected Area</p>
+          <h2>Admin login</h2>
+          <div class="form-row">
+            <label for="admin-email">Email</label>
+            <input id="admin-email" name="email" type="email" autocomplete="username" required maxlength="120">
+          </div>
+          <div class="form-row">
+            <label for="admin-password">Password</label>
+            <input id="admin-password" name="password" type="password" autocomplete="current-password" required>
+          </div>
+          <button class="button button-primary" type="submit">Open Dashboard</button>
+          <p class="form-status" data-admin-login-status role="status"></p>
+        </form>
+
+        <div class="admin-dashboard hidden" id="admin-dashboard">
+          <div class="admin-toolbar">
+            <div>
+              <p class="eyebrow">Inbox</p>
+              <h2>Submissions</h2>
+            </div>
+            <div class="admin-actions">
+              <button class="button button-outline" type="button" id="export-messages">Export Messages CSV</button>
+              <button class="button button-outline" type="button" id="export-quotes">Export Quotes CSV</button>
+              <button class="button button-outline" type="button" id="admin-refresh">Refresh</button>
+              <button class="button button-danger" type="button" id="admin-logout">Logout</button>
+            </div>
+          </div>
+          <form class="admin-controls" id="admin-controls-form">
+            <div class="form-row">
+              <label for="admin-search">Search submissions</label>
+              <input id="admin-search" name="search" type="search" placeholder="Name, email, phone, service, or message" maxlength="120">
+            </div>
+            <div class="form-row">
+              <label for="message-language-filter">Message language</label>
+              <select id="message-language-filter" name="preferredLanguage">
+                <option value="">All languages</option>
+                <option value="English">English</option>
+                <option value="French">French</option>
+                <option value="Arabic">Arabic</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="quote-service-filter">Quote service</label>
+              <select id="quote-service-filter" name="service">
+                <option value="">All services</option>
+                <option value="Network installation">Network installation</option>
+                <option value="Router and switch configuration">Router and switch configuration</option>
+                <option value="CCTV/IP cameras">CCTV/IP cameras</option>
+                <option value="Wi-Fi optimization">Wi-Fi optimization</option>
+                <option value="IT maintenance">IT maintenance</option>
+                <option value="Backup solutions">Backup solutions</option>
+                <option value="Basic cybersecurity audit">Basic cybersecurity audit</option>
+              </select>
+            </div>
+            <div class="admin-control-actions">
+              <button class="button button-primary" type="submit">Apply Filters</button>
+              <button class="button button-outline" type="button" id="admin-clear-filters">Clear</button>
+            </div>
+          </form>
+          <div class="admin-stats">
+            <div>
+              <strong id="message-count">0</strong>
+              <span>Messages</span>
+            </div>
+            <div>
+              <strong id="quote-count">0</strong>
+              <span>Quote requests</span>
+            </div>
+            <div>
+              <strong id="today-count">0</strong>
+              <span>Today</span>
+            </div>
+            <div>
+              <strong id="last-login">Never</strong>
+              <span>Last login</span>
+            </div>
+          </div>
+          <div class="admin-sections">
+            <section class="admin-section">
+              <h3>Contact messages</h3>
+              <div class="admin-list" id="messages-list"></div>
+              <div class="pagination" id="messages-pagination">
+                <button class="button button-outline" type="button" data-page-target="messages" data-page-direction="-1">Previous</button>
+                <span data-page-label="messages">Page 1 of 1</span>
+                <button class="button button-outline" type="button" data-page-target="messages" data-page-direction="1">Next</button>
+              </div>
+            </section>
+            <section class="admin-section">
+              <h3>Quote requests</h3>
+              <div class="admin-list" id="quotes-list"></div>
+              <div class="pagination" id="quotes-pagination">
+                <button class="button button-outline" type="button" data-page-target="quotes" data-page-direction="-1">Previous</button>
+                <span data-page-label="quotes">Page 1 of 1</span>
+                <button class="button button-outline" type="button" data-page-target="quotes" data-page-direction="1">Next</button>
+              </div>
+            </section>
+          </div>
+          <section class="admin-section activity-panel">
+            <h3>Recent activity</h3>
+            <div class="admin-list" id="activity-list"></div>
+          </section>
+          <p class="form-status" id="admin-status" role="status"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-bottom"><span>© 2026 AshTech. Admin dashboard.</span></div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,2119 @@
+(function () {
+  const adminTokenKey = "ashtech-admin-token";
+  const languageKey = "ashtech-language";
+  const supportedLanguages = ["en", "fr", "ar"];
+  const languageLabels = {
+    en: "English",
+    fr: "Français",
+    ar: "العربية"
+  };
+  const dateLocales = {
+    en: undefined,
+    fr: "fr-FR",
+    ar: "ar-MA"
+  };
+  const originalTextNodes = new WeakMap();
+  const originalAttributes = new WeakMap();
+  let currentLanguage = normalizeLanguage(localStorage.getItem(languageKey) || "en");
+  let originalDocumentTitle = "";
+  const adminState = {
+    messagesPage: 1,
+    quotesPage: 1,
+    limit: 6,
+    search: "",
+    preferredLanguage: "",
+    service: "",
+    messagesTotalPages: 1,
+    quotesTotalPages: 1
+  };
+
+  const translations = {
+    "AshTech | IT Services, Networks, CCTV and Cybersecurity": {
+      fr: "AshTech | Services informatiques, réseaux, CCTV et cybersécurité",
+      ar: "AshTech | خدمات تقنية المعلومات والشبكات والكاميرات والأمن السيبراني"
+    },
+    "Services | AshTech": {
+      fr: "Services | AshTech",
+      ar: "الخدمات | AshTech"
+    },
+    "Solutions | AshTech": {
+      fr: "Solutions | AshTech",
+      ar: "الحلول | AshTech"
+    },
+    "Projects | AshTech": {
+      fr: "Projets | AshTech",
+      ar: "المشاريع | AshTech"
+    },
+    "Contact | AshTech": {
+      fr: "Contact | AshTech",
+      ar: "اتصل بنا | AshTech"
+    },
+    "Admin | AshTech": {
+      fr: "Administration | AshTech",
+      ar: "الإدارة | AshTech"
+    },
+    "IT Services": {
+      fr: "Services informatiques",
+      ar: "خدمات تقنية المعلومات"
+    },
+    "Home": {
+      fr: "Accueil",
+      ar: "الرئيسية"
+    },
+    "Services": {
+      fr: "Services",
+      ar: "الخدمات"
+    },
+    "Solutions": {
+      fr: "Solutions",
+      ar: "الحلول"
+    },
+    "Projects": {
+      fr: "Projets",
+      ar: "المشاريع"
+    },
+    "Contact": {
+      fr: "Contact",
+      ar: "اتصل بنا"
+    },
+    "Admin": {
+      fr: "Admin",
+      ar: "الإدارة"
+    },
+    "Dark": {
+      fr: "Sombre",
+      ar: "داكن"
+    },
+    "Light": {
+      fr: "Clair",
+      ar: "فاتح"
+    },
+    "Open navigation": {
+      fr: "Ouvrir la navigation",
+      ar: "فتح القائمة"
+    },
+    "Toggle light and dark mode": {
+      fr: "Changer le mode clair ou sombre",
+      ar: "تبديل الوضع الفاتح والداكن"
+    },
+    "AshTech home": {
+      fr: "Accueil AshTech",
+      ar: "الرئيسية AshTech"
+    },
+    "Networks • CCTV • Cybersecurity • Maintenance": {
+      fr: "Réseaux • CCTV • Cybersécurité • Maintenance",
+      ar: "الشبكات • كاميرات المراقبة • الأمن السيبراني • الصيانة"
+    },
+    "AshTech IT Services": {
+      fr: "Services informatiques AshTech",
+      ar: "خدمات AshTech لتقنية المعلومات"
+    },
+    "Reliable infrastructure, secure cameras, optimized Wi-Fi, and practical IT support for businesses, shops, schools, offices, and homes.": {
+      fr: "Infrastructure fiable, caméras sécurisées, Wi-Fi optimisé et support informatique pratique pour entreprises, commerces, écoles, bureaux et maisons.",
+      ar: "بنية تحتية موثوقة، كاميرات آمنة، واي فاي محسّن، ودعم تقني عملي للشركات والمتاجر والمدارس والمكاتب والمنازل."
+    },
+    "Réseaux fiables, sécurité claire, support rapide.": {
+      fr: "Réseaux fiables, sécurité claire, support rapide.",
+      ar: "شبكات موثوقة، أمان واضح، ودعم سريع."
+    },
+    "شبكات مستقرة، كاميرات مراقبة، وحماية أساسية باحتراف.": {
+      fr: "Réseaux stables, caméras de surveillance et protection de base avec professionnalisme.",
+      ar: "شبكات مستقرة، كاميرات مراقبة، وحماية أساسية باحتراف."
+    },
+    "Request Quote": {
+      fr: "Demander un devis",
+      ar: "اطلب عرض سعر"
+    },
+    "Contact Us": {
+      fr: "Contactez-nous",
+      ar: "اتصل بنا"
+    },
+    "3": {
+      fr: "3",
+      ar: "3"
+    },
+    "Languages": {
+      fr: "Langues",
+      ar: "اللغات"
+    },
+    "7+": {
+      fr: "7+",
+      ar: "+7"
+    },
+    "Core services": {
+      fr: "Services clés",
+      ar: "خدمات أساسية"
+    },
+    "SMB": {
+      fr: "PME",
+      ar: "الأعمال الصغيرة"
+    },
+    "Ready support": {
+      fr: "Support prêt",
+      ar: "دعم جاهز"
+    },
+    "Core Services": {
+      fr: "Services principaux",
+      ar: "الخدمات الرئيسية"
+    },
+    "Clean installations for connected spaces": {
+      fr: "Installations propres pour espaces connectés",
+      ar: "تركيبات منظمة للمساحات المتصلة"
+    },
+    "AshTech builds and maintains practical IT systems that stay organized, secure, and easy to support.": {
+      fr: "AshTech installe et maintient des systèmes informatiques pratiques, organisés, sécurisés et faciles à supporter.",
+      ar: "تقوم AshTech ببناء وصيانة أنظمة تقنية عملية تبقى منظمة وآمنة وسهلة الدعم."
+    },
+    "Network Installation": {
+      fr: "Installation réseau",
+      ar: "تركيب الشبكات"
+    },
+    "Structured cabling, rack cleanup, LAN planning, and dependable connectivity from the first cable to final test.": {
+      fr: "Câblage structuré, organisation de baie, planification LAN et connectivité fiable du premier câble au test final.",
+      ar: "كابلات منظمة، ترتيب الراك، تخطيط الشبكة المحلية، واتصال موثوق من أول كابل حتى الاختبار النهائي."
+    },
+    "CCTV/IP Cameras": {
+      fr: "Caméras CCTV/IP",
+      ar: "كاميرات CCTV/IP"
+    },
+    "Camera placement, NVR setup, remote viewing, and coverage designed for real security needs.": {
+      fr: "Positionnement des caméras, configuration NVR, consultation à distance et couverture pensée pour les besoins réels de sécurité.",
+      ar: "تحديد أماكن الكاميرات، إعداد NVR، المشاهدة عن بعد، وتغطية مناسبة لاحتياجات الأمان الحقيقية."
+    },
+    "Wi-Fi Optimization": {
+      fr: "Optimisation Wi-Fi",
+      ar: "تحسين الواي فاي"
+    },
+    "Signal mapping, access point placement, guest networks, and better performance in busy environments.": {
+      fr: "Analyse du signal, placement des points d'accès, réseaux invités et meilleure performance dans les environnements chargés.",
+      ar: "تحليل الإشارة، وضع نقاط الوصول، شبكات الضيوف، وأداء أفضل في الأماكن المزدحمة."
+    },
+    "Basic Cybersecurity": {
+      fr: "Cybersécurité de base",
+      ar: "أمن سيبراني أساسي"
+    },
+    "Router hardening, password review, updates, backups, and clear recommendations for safer daily operations.": {
+      fr: "Renforcement du routeur, vérification des mots de passe, mises à jour, sauvegardes et recommandations claires pour un usage quotidien plus sûr.",
+      ar: "تقوية إعدادات الراوتر، مراجعة كلمات المرور، التحديثات، النسخ الاحتياطي، وتوصيات واضحة لاستخدام يومي أكثر أمانا."
+    },
+    "Explore all services": {
+      fr: "Voir tous les services",
+      ar: "استكشف كل الخدمات"
+    },
+    "Why Choose AshTech": {
+      fr: "Pourquoi choisir AshTech",
+      ar: "لماذا AshTech"
+    },
+    "Premium service without enterprise complexity": {
+      fr: "Service premium sans complexité d'entreprise",
+      ar: "خدمة احترافية بدون تعقيد المؤسسات الكبيرة"
+    },
+    "We focus on clear diagnostics, careful installation, and documentation that makes future maintenance simpler.": {
+      fr: "Nous misons sur un diagnostic clair, une installation soignée et une documentation qui simplifie la maintenance future.",
+      ar: "نركز على تشخيص واضح، تركيب دقيق، وتوثيق يجعل الصيانة المستقبلية أسهل."
+    },
+    "Clean physical work": {
+      fr: "Travail physique propre",
+      ar: "عمل ميداني منظم"
+    },
+    "Cables, racks, cameras, and access points are installed neatly with future service in mind.": {
+      fr: "Câbles, baies, caméras et points d'accès sont installés proprement pour faciliter les interventions futures.",
+      ar: "يتم تركيب الكابلات والراك والكاميرات ونقاط الوصول بشكل منظم مع مراعاة الصيانة مستقبلا."
+    },
+    "Clear multilingual communication": {
+      fr: "Communication multilingue claire",
+      ar: "تواصل واضح بعدة لغات"
+    },
+    "English, français, والعربية for smoother planning, support, and handover.": {
+      fr: "English, français et العربية pour une planification, un support et une remise plus fluides.",
+      ar: "English وfrançais والعربية لتخطيط ودعم وتسليم أكثر سلاسة."
+    },
+    "Security by default": {
+      fr: "Sécurité par défaut",
+      ar: "الأمان من البداية"
+    },
+    "Network separation, strong credentials, firmware checks, and backup basics are part of the conversation.": {
+      fr: "Séparation réseau, identifiants solides, vérification du firmware et bases de sauvegarde font partie du travail.",
+      ar: "فصل الشبكات، كلمات مرور قوية، فحص التحديثات، وأساسيات النسخ الاحتياطي جزء من الخدمة."
+    },
+    "Practical maintenance": {
+      fr: "Maintenance pratique",
+      ar: "صيانة عملية"
+    },
+    "We keep systems understandable, documented, and ready for quick troubleshooting.": {
+      fr: "Nous gardons les systèmes compréhensibles, documentés et prêts pour un dépannage rapide.",
+      ar: "نحافظ على الأنظمة واضحة وموثقة وجاهزة للتشخيص السريع."
+    },
+    "Process": {
+      fr: "Processus",
+      ar: "طريقة العمل"
+    },
+    "From site visit to stable operation": {
+      fr: "De la visite du site au fonctionnement stable",
+      ar: "من زيارة الموقع إلى تشغيل مستقر"
+    },
+    "A predictable workflow keeps projects calm, transparent, and easy to approve.": {
+      fr: "Une méthode claire rend les projets plus calmes, transparents et faciles à valider.",
+      ar: "طريقة عمل واضحة تجعل المشاريع أكثر هدوءا وشفافية وسهولة في الموافقة."
+    },
+    "Discovery": {
+      fr: "Analyse",
+      ar: "الاستكشاف"
+    },
+    "We review the space, users, current equipment, risks, and what the network needs to support.": {
+      fr: "Nous analysons l'espace, les utilisateurs, l'équipement existant, les risques et les besoins réseau.",
+      ar: "نراجع المكان والمستخدمين والمعدات الحالية والمخاطر وما تحتاج الشبكة إلى دعمه."
+    },
+    "Design": {
+      fr: "Conception",
+      ar: "التصميم"
+    },
+    "You receive a clear plan covering hardware, cabling, cameras, Wi-Fi zones, and security basics.": {
+      fr: "Vous recevez un plan clair couvrant matériel, câblage, caméras, zones Wi-Fi et bases de sécurité.",
+      ar: "تحصل على خطة واضحة تشمل الأجهزة والكابلات والكاميرات ومناطق الواي فاي وأساسيات الأمان."
+    },
+    "Installation": {
+      fr: "Installation",
+      ar: "التركيب"
+    },
+    "We configure routers, switches, cameras, access points, backups, and test the full path end to end.": {
+      fr: "Nous configurons routeurs, switches, caméras, points d'accès, sauvegardes et testons l'ensemble de bout en bout.",
+      ar: "نقوم بإعداد الراوترات والسويتشات والكاميرات ونقاط الوصول والنسخ الاحتياطي واختبار كل شيء من البداية للنهاية."
+    },
+    "Handover": {
+      fr: "Remise",
+      ar: "التسليم"
+    },
+    "We provide passwords, diagrams, support notes, maintenance recommendations, and next-step options.": {
+      fr: "Nous fournissons mots de passe, schémas, notes de support, recommandations de maintenance et prochaines étapes.",
+      ar: "نوفر كلمات المرور والمخططات وملاحظات الدعم وتوصيات الصيانة وخيارات الخطوات التالية."
+    },
+    "Testimonials": {
+      fr: "Témoignages",
+      ar: "آراء العملاء"
+    },
+    "Trusted by local teams and families": {
+      fr: "Apprécié par les équipes locales et les familles",
+      ar: "ثقة الفرق المحلية والعائلات"
+    },
+    "“Our shop Wi-Fi and camera system finally feel stable. The installation was clean and the explanation was simple.”": {
+      fr: "« Le Wi-Fi et les caméras de notre magasin sont enfin stables. L'installation était propre et l'explication simple. »",
+      ar: "« أصبح واي فاي المحل ونظام الكاميرات مستقرين أخيرا. التركيب كان منظما والشرح بسيطا. »"
+    },
+    "Retail shop owner": {
+      fr: "Propriétaire de commerce",
+      ar: "صاحب متجر"
+    },
+    "“AshTech organized the school lab network, separated guest access, and gave us clear documentation.”": {
+      fr: "« AshTech a organisé le réseau du laboratoire, séparé l'accès invité et fourni une documentation claire. »",
+      ar: "« نظمت AshTech شبكة مختبر المدرسة، وفصلت وصول الضيوف، وقدمت توثيقا واضحا. »"
+    },
+    "School administrator": {
+      fr: "Administrateur scolaire",
+      ar: "مسؤول مدرسة"
+    },
+    "“La connexion est plus rapide, les caméras sont accessibles à distance, et le support est très réactif.”": {
+      fr: "« La connexion est plus rapide, les caméras sont accessibles à distance, et le support est très réactif. »",
+      ar: "« الاتصال أصبح أسرع، والكاميرات متاحة عن بعد، والدعم سريع الاستجابة. »"
+    },
+    "Office manager": {
+      fr: "Responsable de bureau",
+      ar: "مدير مكتب"
+    },
+    "FAQ": {
+      fr: "FAQ",
+      ar: "الأسئلة الشائعة"
+    },
+    "Common questions": {
+      fr: "Questions fréquentes",
+      ar: "أسئلة شائعة"
+    },
+    "Do you work with homes as well as businesses?": {
+      fr: "Travaillez-vous avec les maisons et les entreprises ?",
+      ar: "هل تعملون مع المنازل والشركات؟"
+    },
+    "Yes. AshTech supports small businesses, shops, schools, offices, and homes with scaled solutions.": {
+      fr: "Oui. AshTech accompagne petites entreprises, commerces, écoles, bureaux et maisons avec des solutions adaptées.",
+      ar: "نعم. تدعم AshTech الشركات الصغيرة والمتاجر والمدارس والمكاتب والمنازل بحلول مناسبة للحجم."
+    },
+    "Can you improve an existing network?": {
+      fr: "Pouvez-vous améliorer un réseau existant ?",
+      ar: "هل يمكنكم تحسين شبكة موجودة؟"
+    },
+    "Yes. We audit current cabling, router settings, switches, Wi-Fi coverage, and security basics before recommending changes.": {
+      fr: "Oui. Nous auditons câblage, réglages routeur, switches, couverture Wi-Fi et sécurité de base avant de recommander des changements.",
+      ar: "نعم. نراجع الكابلات وإعدادات الراوتر والسويتشات وتغطية الواي فاي وأساسيات الأمان قبل اقتراح التغييرات."
+    },
+    "Do you configure CCTV remote viewing?": {
+      fr: "Configurez-vous la visualisation CCTV à distance ?",
+      ar: "هل تقومون بإعداد مشاهدة الكاميرات عن بعد؟"
+    },
+    "Yes. We configure IP cameras, NVR access, mobile viewing, and basic account security where supported by the equipment.": {
+      fr: "Oui. Nous configurons caméras IP, accès NVR, visualisation mobile et sécurité de compte selon l'équipement.",
+      ar: "نعم. نعد كاميرات IP ووصول NVR والمشاهدة من الهاتف وأمان الحسابات الأساسي حسب دعم الأجهزة."
+    },
+    "Can you provide support in Arabic or French?": {
+      fr: "Pouvez-vous fournir le support en arabe ou en français ?",
+      ar: "هل يمكنكم تقديم الدعم بالعربية أو الفرنسية؟"
+    },
+    "Yes. We can communicate in English, French, and Arabic for planning, installation, and support.": {
+      fr: "Oui. Nous pouvons communiquer en anglais, français et arabe pour la planification, l'installation et le support.",
+      ar: "نعم. يمكننا التواصل بالإنجليزية والفرنسية والعربية للتخطيط والتركيب والدعم."
+    },
+    "Ready to upgrade?": {
+      fr: "Prêt à améliorer votre installation ?",
+      ar: "جاهز للتطوير؟"
+    },
+    "Tell AshTech what you need connected, protected, or repaired.": {
+      fr: "Dites à AshTech ce que vous voulez connecter, protéger ou réparer.",
+      ar: "أخبر AshTech بما تحتاج إلى ربطه أو حمايته أو إصلاحه."
+    },
+    "Network installation, CCTV, Wi-Fi, maintenance, and basic cybersecurity for practical daily operations.": {
+      fr: "Installation réseau, CCTV, Wi-Fi, maintenance et cybersécurité de base pour les opérations quotidiennes.",
+      ar: "تركيب الشبكات والكاميرات والواي فاي والصيانة والأمن السيبراني الأساسي للعمل اليومي."
+    },
+    "Pages": {
+      fr: "Pages",
+      ar: "الصفحات"
+    },
+    "Phone: +212 600 000 000": {
+      fr: "Téléphone : +212 600 000 000",
+      ar: "الهاتف: +212 600 000 000"
+    },
+    "Email: contact@ashtech.example": {
+      fr: "Email : contact@ashtech.example",
+      ar: "البريد: contact@ashtech.example"
+    },
+    "خدمة محلية ودعم عن بعد": {
+      fr: "Service local et support à distance",
+      ar: "خدمة محلية ودعم عن بعد"
+    },
+    "© 2026 AshTech. All rights reserved.": {
+      fr: "© 2026 AshTech. Tous droits réservés.",
+      ar: "© 2026 AshTech. جميع الحقوق محفوظة."
+    },
+    "IT infrastructure services built for reliability": {
+      fr: "Services d'infrastructure informatique conçus pour la fiabilité",
+      ar: "خدمات بنية تحتية تقنية مصممة للاعتمادية"
+    },
+    "Installation, configuration, maintenance, and practical security support across homes and organizations.": {
+      fr: "Installation, configuration, maintenance et support de sécurité pratique pour maisons et organisations.",
+      ar: "تركيب وإعداد وصيانة ودعم أمني عملي للمنازل والمؤسسات."
+    },
+    "Installation réseau et sécurité simple.": {
+      fr: "Installation réseau et sécurité simple.",
+      ar: "تركيب شبكات وأمان بسيط."
+    },
+    "تركيب الشبكات والكاميرات وتحسين الأداء.": {
+      fr: "Installation de réseaux, caméras et optimisation des performances.",
+      ar: "تركيب الشبكات والكاميرات وتحسين الأداء."
+    },
+    "Structured cabling, rack organization, patch panels, LAN design, labeling, and testing for stable daily use.": {
+      fr: "Câblage structuré, organisation de baie, panneaux de brassage, conception LAN, étiquetage et tests pour un usage stable.",
+      ar: "كابلات منظمة، ترتيب الراك، لوحات توزيع، تصميم LAN، تسمية واختبار لاستخدام يومي مستقر."
+    },
+    "Ethernet cabling and wall outlets": {
+      fr: "Câblage Ethernet et prises murales",
+      ar: "كابلات إيثرنت ومخارج حائط"
+    },
+    "Small rack and cabinet setup": {
+      fr: "Installation de petites baies et armoires",
+      ar: "إعداد راك أو خزانة صغيرة"
+    },
+    "Network map and handover notes": {
+      fr: "Plan réseau et notes de remise",
+      ar: "خريطة الشبكة وملاحظات التسليم"
+    },
+    "Router & Switch Configuration": {
+      fr: "Configuration routeur et switch",
+      ar: "إعداد الراوتر والسويتش"
+    },
+    "Professional setup for routers, managed switches, VLANs, guest networks, firewall basics, and access policies.": {
+      fr: "Configuration professionnelle des routeurs, switches administrables, VLAN, réseaux invités, bases firewall et règles d'accès.",
+      ar: "إعداد احترافي للراوترات والسويتشات المدارة وVLAN وشبكات الضيوف وأساسيات الجدار الناري وسياسات الوصول."
+    },
+    "Router hardening and updates": {
+      fr: "Renforcement et mises à jour du routeur",
+      ar: "تقوية الراوتر وتحديثه"
+    },
+    "VLAN planning for staff, guests, cameras, and POS": {
+      fr: "Planification VLAN pour personnel, invités, caméras et caisse",
+      ar: "تخطيط VLAN للموظفين والضيوف والكاميرات ونقاط البيع"
+    },
+    "Port labeling and switch documentation": {
+      fr: "Étiquetage des ports et documentation du switch",
+      ar: "تسمية المنافذ وتوثيق السويتش"
+    },
+    "IP camera installation, camera placement, NVR configuration, remote access, storage planning, and account security.": {
+      fr: "Installation de caméras IP, positionnement, configuration NVR, accès à distance, stockage et sécurité des comptes.",
+      ar: "تركيب كاميرات IP، تحديد الأماكن، إعداد NVR، الوصول عن بعد، تخطيط التخزين، وأمان الحسابات."
+    },
+    "Indoor and outdoor camera coverage": {
+      fr: "Couverture intérieure et extérieure",
+      ar: "تغطية كاميرات داخلية وخارجية"
+    },
+    "NVR recording and mobile access": {
+      fr: "Enregistrement NVR et accès mobile",
+      ar: "تسجيل NVR ووصول من الهاتف"
+    },
+    "Camera network separation when possible": {
+      fr: "Séparation du réseau caméras si possible",
+      ar: "فصل شبكة الكاميرات عند الإمكان"
+    },
+    "Signal checks, channel planning, access point placement, mesh tuning, and better roaming for busy rooms.": {
+      fr: "Contrôle du signal, choix des canaux, placement des points d'accès, réglage mesh et meilleur roaming.",
+      ar: "فحص الإشارة، تخطيط القنوات، وضع نقاط الوصول، ضبط Mesh، وتحسين التنقل بين النقاط."
+    },
+    "Dead-zone and interference checks": {
+      fr: "Vérification des zones mortes et interférences",
+      ar: "فحص المناطق الضعيفة والتداخل"
+    },
+    "Guest Wi-Fi setup": {
+      fr: "Configuration Wi-Fi invité",
+      ar: "إعداد واي فاي للضيوف"
+    },
+    "Performance testing after changes": {
+      fr: "Tests de performance après modification",
+      ar: "اختبار الأداء بعد التغييرات"
+    },
+    "IT Maintenance": {
+      fr: "Maintenance informatique",
+      ar: "صيانة تقنية المعلومات"
+    },
+    "Routine checks for network devices, computers, cameras, printers, updates, passwords, and performance issues.": {
+      fr: "Contrôles réguliers des équipements réseau, ordinateurs, caméras, imprimantes, mises à jour, mots de passe et performances.",
+      ar: "فحوصات دورية لأجهزة الشبكة والحواسيب والكاميرات والطابعات والتحديثات وكلمات المرور ومشاكل الأداء."
+    },
+    "Monthly or on-demand support": {
+      fr: "Support mensuel ou à la demande",
+      ar: "دعم شهري أو عند الطلب"
+    },
+    "Device inventory and health checks": {
+      fr: "Inventaire et contrôle de santé des appareils",
+      ar: "جرد الأجهزة وفحص حالتها"
+    },
+    "Troubleshooting for slow or unstable systems": {
+      fr: "Dépannage des systèmes lents ou instables",
+      ar: "تشخيص الأنظمة البطيئة أو غير المستقرة"
+    },
+    "Backup Solutions": {
+      fr: "Solutions de sauvegarde",
+      ar: "حلول النسخ الاحتياطي"
+    },
+    "Simple backup planning for documents, camera retention, NAS devices, external drives, and cloud sync workflows.": {
+      fr: "Planification simple des sauvegardes pour documents, rétention vidéo, NAS, disques externes et synchronisation cloud.",
+      ar: "تخطيط بسيط للنسخ الاحتياطي للملفات وتسجيلات الكاميرات وأجهزة NAS والأقراص الخارجية والمزامنة السحابية."
+    },
+    "Backup schedule recommendations": {
+      fr: "Recommandations de calendrier de sauvegarde",
+      ar: "توصيات جدول النسخ الاحتياطي"
+    },
+    "Local and cloud backup options": {
+      fr: "Options de sauvegarde locale et cloud",
+      ar: "خيارات نسخ احتياطي محلية وسحابية"
+    },
+    "Restore checks for critical files": {
+      fr: "Vérification de restauration des fichiers critiques",
+      ar: "اختبار استرجاع الملفات المهمة"
+    },
+    "Basic Cybersecurity Audit": {
+      fr: "Audit cybersécurité de base",
+      ar: "تدقيق أمن سيبراني أساسي"
+    },
+    "A practical review of passwords, router exposure, firmware, Wi-Fi security, backups, user accounts, remote access, and risky habits.": {
+      fr: "Revue pratique des mots de passe, exposition routeur, firmware, sécurité Wi-Fi, sauvegardes, comptes, accès distant et habitudes risquées.",
+      ar: "مراجعة عملية لكلمات المرور وانكشاف الراوتر والتحديثات وأمان الواي فاي والنسخ الاحتياطي وحسابات المستخدمين والوصول عن بعد والعادات الخطرة."
+    },
+    "Clear findings with priority levels": {
+      fr: "Constats clairs avec niveaux de priorité",
+      ar: "نتائج واضحة مع مستويات أولوية"
+    },
+    "Fast fixes for common weaknesses": {
+      fr: "Corrections rapides des faiblesses courantes",
+      ar: "إصلاحات سريعة للثغرات الشائعة"
+    },
+    "Recommendations in English, French, or Arabic": {
+      fr: "Recommandations en anglais, français ou arabe",
+      ar: "توصيات بالإنجليزية أو الفرنسية أو العربية"
+    },
+    "Need a service plan?": {
+      fr: "Besoin d'un plan de service ?",
+      ar: "هل تحتاج خطة خدمة؟"
+    },
+    "Send a few details and AshTech will prepare the right next step.": {
+      fr: "Envoyez quelques détails et AshTech préparera la prochaine étape adaptée.",
+      ar: "أرسل بعض التفاصيل وستجهز AshTech الخطوة المناسبة."
+    },
+    "Reliable networks, cameras, Wi-Fi, maintenance, and cybersecurity basics.": {
+      fr: "Réseaux fiables, caméras, Wi-Fi, maintenance et bases de cybersécurité.",
+      ar: "شبكات موثوقة، كاميرات، واي فاي، صيانة، وأساسيات الأمن السيبراني."
+    },
+    "Technology plans for real environments": {
+      fr: "Plans technologiques pour des environnements réels",
+      ar: "خطط تقنية لبيئات حقيقية"
+    },
+    "Every space has different traffic, risk, budget, and support needs. AshTech adapts the design to the place.": {
+      fr: "Chaque espace a son trafic, ses risques, son budget et ses besoins de support. AshTech adapte la conception au lieu.",
+      ar: "لكل مكان حركة استخدام ومخاطر وميزانية واحتياجات دعم مختلفة. AshTech تصمم الحل حسب المكان."
+    },
+    "For Small Businesses": {
+      fr: "Pour les petites entreprises",
+      ar: "للشركات الصغيرة"
+    },
+    "Reliable office LAN, secure guest Wi-Fi, printer sharing, backups, camera visibility, and simple maintenance routines.": {
+      fr: "LAN de bureau fiable, Wi-Fi invité sécurisé, partage imprimante, sauvegardes, caméras visibles et maintenance simple.",
+      ar: "شبكة مكتبية موثوقة، واي فاي ضيوف آمن، مشاركة الطابعات، نسخ احتياطي، رؤية الكاميرات، وصيانة بسيطة."
+    },
+    "Infrastructure propre pour travailler sans interruptions.": {
+      fr: "Infrastructure propre pour travailler sans interruptions.",
+      ar: "بنية تحتية منظمة للعمل دون انقطاع."
+    },
+    "For Shops": {
+      fr: "Pour les commerces",
+      ar: "للمتاجر"
+    },
+    "POS-ready networks, CCTV coverage, stable Wi-Fi for staff and customers, and isolated camera or payment devices.": {
+      fr: "Réseaux prêts pour caisse, couverture CCTV, Wi-Fi stable pour équipe et clients, caméras ou paiements isolés.",
+      ar: "شبكات جاهزة لنقاط البيع، تغطية كاميرات، واي فاي مستقر للموظفين والزبائن، وعزل أجهزة الكاميرات أو الدفع."
+    },
+    "شبكة مستقرة للمحل وكاميرات واضحة للمتابعة اليومية.": {
+      fr: "Réseau stable pour le magasin et caméras claires pour le suivi quotidien.",
+      ar: "شبكة مستقرة للمحل وكاميرات واضحة للمتابعة اليومية."
+    },
+    "For Schools": {
+      fr: "Pour les écoles",
+      ar: "للمدارس"
+    },
+    "Lab networks, access point planning, content-safe basics, administrative device separation, and documented support.": {
+      fr: "Réseaux de laboratoire, points d'accès, bases de filtrage, séparation administrative et support documenté.",
+      ar: "شبكات المختبر، تخطيط نقاط الوصول، أساسيات أمان المحتوى، فصل أجهزة الإدارة، ودعم موثق."
+    },
+    "Connexion fiable pour les classes, l'administration et les invités.": {
+      fr: "Connexion fiable pour les classes, l'administration et les invités.",
+      ar: "اتصال موثوق للفصول والإدارة والضيوف."
+    },
+    "For Homes": {
+      fr: "Pour les maisons",
+      ar: "للمنازل"
+    },
+    "Whole-home Wi-Fi, smart camera setup, parental control basics, backups, and help with everyday device issues.": {
+      fr: "Wi-Fi dans toute la maison, caméras intelligentes, contrôle parental de base, sauvegardes et aide quotidienne.",
+      ar: "واي فاي لكل المنزل، إعداد كاميرات ذكية، أساسيات الرقابة الأبوية، نسخ احتياطي، ومساعدة لمشاكل الأجهزة اليومية."
+    },
+    "واي فاي قوي في البيت، كاميرات، وحماية أساسية للعائلة.": {
+      fr: "Wi-Fi puissant à la maison, caméras et protection de base pour la famille.",
+      ar: "واي فاي قوي في البيت، كاميرات، وحماية أساسية للعائلة."
+    },
+    "For Offices": {
+      fr: "Pour les bureaux",
+      ar: "للمكاتب"
+    },
+    "Structured cabling, conference room connectivity, shared resources, secure remote access, and proactive maintenance.": {
+      fr: "Câblage structuré, connectivité salle de réunion, ressources partagées, accès distant sécurisé et maintenance proactive.",
+      ar: "كابلات منظمة، اتصال غرف الاجتماعات، موارد مشتركة، وصول آمن عن بعد، وصيانة استباقية."
+    },
+    "Un bureau connecté, organisé et prêt pour la croissance.": {
+      fr: "Un bureau connecté, organisé et prêt pour la croissance.",
+      ar: "مكتب متصل ومنظم وجاهز للنمو."
+    },
+    "Solution Packages": {
+      fr: "Packs de solutions",
+      ar: "باقات الحلول"
+    },
+    "Common starting points": {
+      fr: "Points de départ fréquents",
+      ar: "نقاط بداية شائعة"
+    },
+    "Stability Check": {
+      fr: "Contrôle de stabilité",
+      ar: "فحص الاستقرار"
+    },
+    "Audit the router, Wi-Fi coverage, cable quality, switch ports, passwords, and visible network risks.": {
+      fr: "Audit du routeur, couverture Wi-Fi, qualité du câble, ports switch, mots de passe et risques visibles.",
+      ar: "فحص الراوتر وتغطية الواي فاي وجودة الكابلات ومنافذ السويتش وكلمات المرور والمخاطر الظاهرة."
+    },
+    "Secure Camera Setup": {
+      fr: "Installation caméra sécurisée",
+      ar: "إعداد كاميرات آمن"
+    },
+    "Install IP cameras, configure recording, enable remote access, and secure user accounts.": {
+      fr: "Installer les caméras IP, configurer l'enregistrement, activer l'accès distant et sécuriser les comptes.",
+      ar: "تركيب كاميرات IP، إعداد التسجيل، تفعيل الوصول عن بعد، وتأمين حسابات المستخدمين."
+    },
+    "Growth Network": {
+      fr: "Réseau évolutif",
+      ar: "شبكة قابلة للنمو"
+    },
+    "Plan cabling, VLANs, access points, rack layout, backups, and maintenance notes for expanding teams.": {
+      fr: "Planifier câblage, VLAN, points d'accès, baie, sauvegardes et notes de maintenance pour équipes en croissance.",
+      ar: "تخطيط الكابلات وVLAN ونقاط الوصول وترتيب الراك والنسخ الاحتياطي وملاحظات الصيانة للفرق المتوسعة."
+    },
+    "Tell us your space": {
+      fr: "Décrivez votre espace",
+      ar: "صف لنا مكانك"
+    },
+    "We will match the setup to your users, building, and budget.": {
+      fr: "Nous adapterons l'installation à vos utilisateurs, votre bâtiment et votre budget.",
+      ar: "سنطابق الإعداد مع المستخدمين والمبنى والميزانية."
+    },
+    "Start a conversation": {
+      fr: "Commencer la discussion",
+      ar: "ابدأ التواصل"
+    },
+    "IT solutions for businesses, shops, schools, homes, and offices.": {
+      fr: "Solutions IT pour entreprises, commerces, écoles, maisons et bureaux.",
+      ar: "حلول تقنية للشركات والمتاجر والمدارس والمنازل والمكاتب."
+    },
+    "Example deployments with measurable improvements": {
+      fr: "Exemples de déploiements avec améliorations mesurables",
+      ar: "نماذج مشاريع بتحسينات قابلة للقياس"
+    },
+    "Realistic scenarios showing how AshTech upgrades weak networks, camera systems, and IT maintenance habits.": {
+      fr: "Scénarios réalistes montrant comment AshTech améliore réseaux faibles, caméras et habitudes de maintenance.",
+      ar: "سيناريوهات واقعية توضح كيف تطور AshTech الشبكات الضعيفة وأنظمة الكاميرات وعادات الصيانة."
+    },
+    "Retail": {
+      fr: "Commerce",
+      ar: "متجر"
+    },
+    "2 days": {
+      fr: "2 jours",
+      ar: "يومان"
+    },
+    "Shop POS, CCTV, and Guest Wi-Fi Upgrade": {
+      fr: "Amélioration caisse, CCTV et Wi-Fi invité d'un magasin",
+      ar: "ترقية نقاط البيع والكاميرات وواي فاي الضيوف لمتجر"
+    },
+    "A small retail shop had unstable payment terminals, weak Wi-Fi near the entrance, and cameras sharing the same unmanaged network.": {
+      fr: "Un petit commerce avait des terminaux de paiement instables, un Wi-Fi faible à l'entrée et des caméras sur le même réseau non géré.",
+      ar: "كان لدى متجر صغير أجهزة دفع غير مستقرة، وواي فاي ضعيف قرب المدخل، وكاميرات على نفس الشبكة غير المدارة."
+    },
+    "Separated POS, guest Wi-Fi, and CCTV traffic": {
+      fr: "Séparation du trafic caisse, Wi-Fi invité et CCTV",
+      ar: "فصل حركة نقاط البيع وواي فاي الضيوف والكاميرات"
+    },
+    "Installed two access points and a managed switch": {
+      fr: "Installation de deux points d'accès et d'un switch administrable",
+      ar: "تركيب نقطتي وصول وسويتش مدار"
+    },
+    "Configured secure remote camera access": {
+      fr: "Configuration d'un accès caméra distant sécurisé",
+      ar: "إعداد وصول آمن للكاميرات عن بعد"
+    },
+    "Result": {
+      fr: "Résultat",
+      ar: "النتيجة"
+    },
+    "Fewer outages during peak hours": {
+      fr: "Moins de coupures aux heures de pointe",
+      ar: "انقطاعات أقل في أوقات الذروة"
+    },
+    "Education": {
+      fr: "Éducation",
+      ar: "تعليم"
+    },
+    "4 days": {
+      fr: "4 jours",
+      ar: "4 أيام"
+    },
+    "School Lab Network Cleanup": {
+      fr: "Réorganisation du réseau d'un laboratoire scolaire",
+      ar: "تنظيم شبكة مختبر مدرسة"
+    },
+    "A school computer room needed organized cabling, stable internet for lessons, and a separate admin network.": {
+      fr: "Une salle informatique scolaire avait besoin de câblage organisé, d'Internet stable pour les cours et d'un réseau admin séparé.",
+      ar: "احتاجت قاعة حواسيب مدرسية إلى كابلات منظمة وإنترنت مستقر للدروس وشبكة إدارية منفصلة."
+    },
+    "Rebuilt patching and labeled all ports": {
+      fr: "Reprise du brassage et étiquetage de tous les ports",
+      ar: "إعادة تنظيم التوصيلات وتسمية كل المنافذ"
+    },
+    "Added staff, student, and guest network separation": {
+      fr: "Séparation des réseaux personnel, étudiants et invités",
+      ar: "إضافة فصل بين شبكات الموظفين والطلاب والضيوف"
+    },
+    "Delivered a clear network diagram": {
+      fr: "Livraison d'un schéma réseau clair",
+      ar: "تسليم مخطط شبكة واضح"
+    },
+    "Cleaner support and faster troubleshooting": {
+      fr: "Support plus propre et dépannage plus rapide",
+      ar: "دعم أوضح وتشخيص أسرع"
+    },
+    "Home Wi-Fi and Camera Reliability": {
+      fr: "Fiabilité Wi-Fi et caméras à domicile",
+      ar: "استقرار واي فاي وكاميرات المنزل"
+    },
+    "A family had dead zones upstairs, buffering video calls, and camera notifications that stopped when the router restarted.": {
+      fr: "Une famille avait des zones mortes à l'étage, des appels vidéo qui bloquaient et des notifications caméra instables.",
+      ar: "كانت لدى عائلة مناطق بلا تغطية في الطابق العلوي، وتقطيع في مكالمات الفيديو، وتنبيهات كاميرا تتوقف عند إعادة تشغيل الراوتر."
+    },
+    "Repositioned access points after signal checks": {
+      fr: "Repositionnement des points d'accès après contrôle du signal",
+      ar: "إعادة وضع نقاط الوصول بعد فحص الإشارة"
+    },
+    "Updated router settings and strong passwords": {
+      fr: "Mise à jour des réglages routeur et mots de passe forts",
+      ar: "تحديث إعدادات الراوتر وكلمات مرور قوية"
+    },
+    "Configured camera app access and backup notes": {
+      fr: "Configuration de l'accès application caméra et notes de sauvegarde",
+      ar: "إعداد تطبيق الكاميرات وملاحظات النسخ الاحتياطي"
+    },
+    "Full-home coverage and simpler support": {
+      fr: "Couverture complète de la maison et support simplifié",
+      ar: "تغطية كاملة للمنزل ودعم أبسط"
+    },
+    "Before / After": {
+      fr: "Avant / Après",
+      ar: "قبل / بعد"
+    },
+    "Network improvement examples": {
+      fr: "Exemples d'amélioration réseau",
+      ar: "أمثلة لتحسين الشبكة"
+    },
+    "Wi-Fi coverage": {
+      fr: "Couverture Wi-Fi",
+      ar: "تغطية الواي فاي"
+    },
+    "Before": {
+      fr: "Avant",
+      ar: "قبل"
+    },
+    "Dead zones in meeting room and entrance.": {
+      fr: "Zones mortes dans la salle de réunion et l'entrée.",
+      ar: "مناطق ضعيفة في غرفة الاجتماعات والمدخل."
+    },
+    "After": {
+      fr: "Après",
+      ar: "بعد"
+    },
+    "Access point placement improved roaming and speed.": {
+      fr: "Le placement des points d'accès a amélioré le roaming et la vitesse.",
+      ar: "تحسن التنقل والسرعة بعد ضبط أماكن نقاط الوصول."
+    },
+    "Cable organization": {
+      fr: "Organisation des câbles",
+      ar: "تنظيم الكابلات"
+    },
+    "Unlabeled cables made outages hard to diagnose.": {
+      fr: "Les câbles non étiquetés rendaient les pannes difficiles à diagnostiquer.",
+      ar: "الكابلات غير المسماة جعلت تشخيص الأعطال صعبا."
+    },
+    "Ports labeled, patched cleanly, and documented.": {
+      fr: "Ports étiquetés, brassage propre et documentation prête.",
+      ar: "منافذ مسماة، توصيلات منظمة، وتوثيق واضح."
+    },
+    "Security basics": {
+      fr: "Bases de sécurité",
+      ar: "أساسيات الأمان"
+    },
+    "Default passwords, exposed remote access, no backup check.": {
+      fr: "Mots de passe par défaut, accès distant exposé, aucune vérification de sauvegarde.",
+      ar: "كلمات مرور افتراضية، وصول عن بعد مكشوف، وعدم فحص النسخ الاحتياطي."
+    },
+    "Passwords changed, updates checked, remote access tightened.": {
+      fr: "Mots de passe changés, mises à jour vérifiées, accès distant renforcé.",
+      ar: "تم تغيير كلمات المرور وفحص التحديثات وتشديد الوصول عن بعد."
+    },
+    "Your project next": {
+      fr: "Votre projet ensuite",
+      ar: "مشروعك هو التالي"
+    },
+    "Share a short description and AshTech will recommend a clean path forward.": {
+      fr: "Partagez une courte description et AshTech recommandera une voie claire.",
+      ar: "شارك وصفا قصيرا وستقترح AshTech مسارا واضحا."
+    },
+    "Example projects for networks, cameras, Wi-Fi, and security basics.": {
+      fr: "Exemples de projets pour réseaux, caméras, Wi-Fi et bases de sécurité.",
+      ar: "أمثلة مشاريع للشبكات والكاميرات والواي فاي وأساسيات الأمان."
+    },
+    "Plan your network, cameras, Wi-Fi, or IT support": {
+      fr: "Planifiez votre réseau, vos caméras, votre Wi-Fi ou votre support IT",
+      ar: "خطط لشبكتك أو كاميراتك أو الواي فاي أو الدعم التقني"
+    },
+    "Send a message or request a quote. AshTech will respond with a practical next step.": {
+      fr: "Envoyez un message ou demandez un devis. AshTech répondra avec une prochaine étape pratique.",
+      ar: "أرسل رسالة أو اطلب عرض سعر. سترد AshTech بخطوة عملية مناسبة."
+    },
+    "Reach AshTech": {
+      fr: "Joindre AshTech",
+      ar: "تواصل مع AshTech"
+    },
+    "Direct contact": {
+      fr: "Contact direct",
+      ar: "تواصل مباشر"
+    },
+    "WhatsApp": {
+      fr: "WhatsApp",
+      ar: "واتساب"
+    },
+    "Email": {
+      fr: "Email",
+      ar: "البريد الإلكتروني"
+    },
+    "Phone": {
+      fr: "Téléphone",
+      ar: "الهاتف"
+    },
+    "Casablanca • Rabat • Remote support": {
+      fr: "Casablanca • Rabat • Support à distance",
+      ar: "الدار البيضاء • الرباط • دعم عن بعد"
+    },
+    "Contact Form": {
+      fr: "Formulaire de contact",
+      ar: "نموذج التواصل"
+    },
+    "Send a message": {
+      fr: "Envoyer un message",
+      ar: "أرسل رسالة"
+    },
+    "Name": {
+      fr: "Nom",
+      ar: "الاسم"
+    },
+    "Preferred language": {
+      fr: "Langue préférée",
+      ar: "اللغة المفضلة"
+    },
+    "English": {
+      fr: "Anglais",
+      ar: "الإنجليزية"
+    },
+    "French": {
+      fr: "Français",
+      ar: "الفرنسية"
+    },
+    "Arabic": {
+      fr: "Arabe",
+      ar: "العربية"
+    },
+    "Subject": {
+      fr: "Sujet",
+      ar: "الموضوع"
+    },
+    "Message": {
+      fr: "Message",
+      ar: "الرسالة"
+    },
+    "Email or phone is required.": {
+      fr: "Email ou téléphone requis.",
+      ar: "البريد الإلكتروني أو الهاتف مطلوب."
+    },
+    "Send Message": {
+      fr: "Envoyer le message",
+      ar: "إرسال الرسالة"
+    },
+    "Quote Request": {
+      fr: "Demande de devis",
+      ar: "طلب عرض سعر"
+    },
+    "Get a practical estimate": {
+      fr: "Recevoir une estimation pratique",
+      ar: "احصل على تقدير عملي"
+    },
+    "Tell us about your site, the service you need, and the current problem. Clear details help AshTech prepare faster.": {
+      fr: "Décrivez votre site, le service souhaité et le problème actuel. Des détails clairs aident AshTech à préparer plus vite.",
+      ar: "أخبرنا عن موقعك والخدمة المطلوبة والمشكلة الحالية. التفاصيل الواضحة تساعد AshTech على التحضير بسرعة."
+    },
+    "Company or place": {
+      fr: "Entreprise ou lieu",
+      ar: "الشركة أو المكان"
+    },
+    "Space type": {
+      fr: "Type d'espace",
+      ar: "نوع المكان"
+    },
+    "Select one": {
+      fr: "Choisir",
+      ar: "اختر"
+    },
+    "Small business": {
+      fr: "Petite entreprise",
+      ar: "شركة صغيرة"
+    },
+    "Shop": {
+      fr: "Commerce",
+      ar: "متجر"
+    },
+    "School": {
+      fr: "École",
+      ar: "مدرسة"
+    },
+    "Office": {
+      fr: "Bureau",
+      ar: "مكتب"
+    },
+    "Service": {
+      fr: "Service",
+      ar: "الخدمة"
+    },
+    "Select a service": {
+      fr: "Choisir un service",
+      ar: "اختر خدمة"
+    },
+    "Router and switch configuration": {
+      fr: "Configuration routeur et switch",
+      ar: "إعداد الراوتر والسويتش"
+    },
+    "Budget range": {
+      fr: "Fourchette de budget",
+      ar: "نطاق الميزانية"
+    },
+    "Not sure yet": {
+      fr: "Pas encore sûr",
+      ar: "غير متأكد بعد"
+    },
+    "Starter": {
+      fr: "Démarrage",
+      ar: "بداية"
+    },
+    "Standard": {
+      fr: "Standard",
+      ar: "قياسي"
+    },
+    "Advanced": {
+      fr: "Avancé",
+      ar: "متقدم"
+    },
+    "Maintenance plan": {
+      fr: "Plan de maintenance",
+      ar: "خطة صيانة"
+    },
+    "Timeline": {
+      fr: "Délai",
+      ar: "المدة"
+    },
+    "Flexible": {
+      fr: "Flexible",
+      ar: "مرن"
+    },
+    "Urgent": {
+      fr: "Urgent",
+      ar: "عاجل"
+    },
+    "This week": {
+      fr: "Cette semaine",
+      ar: "هذا الأسبوع"
+    },
+    "This month": {
+      fr: "Ce mois-ci",
+      ar: "هذا الشهر"
+    },
+    "Planning ahead": {
+      fr: "Planification future",
+      ar: "تخطيط مسبق"
+    },
+    "Location": {
+      fr: "Localisation",
+      ar: "الموقع"
+    },
+    "Project details": {
+      fr: "Détails du projet",
+      ar: "تفاصيل المشروع"
+    },
+    "Contact AshTech for installations, upgrades, maintenance, and practical security support.": {
+      fr: "Contactez AshTech pour installations, améliorations, maintenance et support sécurité pratique.",
+      ar: "تواصل مع AshTech للتركيب والترقية والصيانة والدعم الأمني العملي."
+    },
+    "Protected Area": {
+      fr: "Zone protégée",
+      ar: "منطقة محمية"
+    },
+    "AshTech dashboard": {
+      fr: "Tableau de bord AshTech",
+      ar: "لوحة تحكم AshTech"
+    },
+    "Review contact messages and quote requests stored in Supabase PostgreSQL.": {
+      fr: "Consultez les messages de contact et demandes de devis stockés dans Supabase PostgreSQL.",
+      ar: "راجع رسائل التواصل وطلبات عروض الأسعار المخزنة في Supabase PostgreSQL."
+    },
+    "Admin login": {
+      fr: "Connexion admin",
+      ar: "تسجيل دخول الإدارة"
+    },
+    "Password": {
+      fr: "Mot de passe",
+      ar: "كلمة المرور"
+    },
+    "Open Dashboard": {
+      fr: "Ouvrir le tableau de bord",
+      ar: "فتح لوحة التحكم"
+    },
+    "Inbox": {
+      fr: "Boîte de réception",
+      ar: "الوارد"
+    },
+    "Submissions": {
+      fr: "Soumissions",
+      ar: "الإرسالات"
+    },
+    "Refresh": {
+      fr: "Actualiser",
+      ar: "تحديث"
+    },
+    "Logout": {
+      fr: "Déconnexion",
+      ar: "تسجيل الخروج"
+    },
+    "Messages": {
+      fr: "Messages",
+      ar: "الرسائل"
+    },
+    "Quote requests": {
+      fr: "Demandes de devis",
+      ar: "طلبات عروض السعر"
+    },
+    "Contact messages": {
+      fr: "Messages de contact",
+      ar: "رسائل التواصل"
+    },
+    "© 2026 AshTech. Admin dashboard.": {
+      fr: "© 2026 AshTech. Tableau de bord admin.",
+      ar: "© 2026 AshTech. لوحة الإدارة."
+    },
+    "Dashboard refreshed.": {
+      fr: "Tableau de bord actualisé.",
+      ar: "تم تحديث لوحة التحكم."
+    },
+    "Deleted.": {
+      fr: "Supprimé.",
+      ar: "تم الحذف."
+    },
+    "Password is required.": {
+      fr: "Le mot de passe est requis.",
+      ar: "كلمة المرور مطلوبة."
+    },
+    "Please complete the required fields.": {
+      fr: "Veuillez compléter les champs requis.",
+      ar: "يرجى إكمال الحقول المطلوبة."
+    },
+    "Please add details before submitting.": {
+      fr: "Veuillez ajouter des détails avant l'envoi.",
+      ar: "يرجى إضافة التفاصيل قبل الإرسال."
+    },
+    "Sending...": {
+      fr: "Envoi...",
+      ar: "جار الإرسال..."
+    },
+    "Submission received.": {
+      fr: "Soumission reçue.",
+      ar: "تم استلام الإرسال."
+    },
+    "Request failed.": {
+      fr: "La requête a échoué.",
+      ar: "فشل الطلب."
+    },
+    "Delete failed.": {
+      fr: "La suppression a échoué.",
+      ar: "فشل الحذف."
+    },
+    "Server returned an invalid response.": {
+      fr: "Le serveur a renvoyé une réponse invalide.",
+      ar: "أعاد الخادم استجابة غير صالحة."
+    },
+    "Your message was received. AshTech will contact you soon.": {
+      fr: "Votre message a été reçu. AshTech vous contactera bientôt.",
+      ar: "تم استلام رسالتك. ستتواصل معك AshTech قريبا."
+    },
+    "Your quote request was received. AshTech will prepare a response soon.": {
+      fr: "Votre demande de devis a été reçue. AshTech préparera une réponse bientôt.",
+      ar: "تم استلام طلب عرض السعر. ستجهز AshTech الرد قريبا."
+    },
+    "Contact submission failed validation.": {
+      fr: "La soumission du contact n'a pas passé la validation.",
+      ar: "فشل التحقق من رسالة التواصل."
+    },
+    "Quote request failed validation.": {
+      fr: "La demande de devis n'a pas passé la validation.",
+      ar: "فشل التحقق من طلب عرض السعر."
+    },
+    "Name is required.": {
+      fr: "Le nom est requis.",
+      ar: "الاسم مطلوب."
+    },
+    "Email or phone is required.": {
+      fr: "Email ou téléphone requis.",
+      ar: "البريد الإلكتروني أو الهاتف مطلوب."
+    },
+    "Message is required.": {
+      fr: "Le message est requis.",
+      ar: "الرسالة مطلوبة."
+    },
+    "Project details are required.": {
+      fr: "Les détails du projet sont requis.",
+      ar: "تفاصيل المشروع مطلوبة."
+    },
+    "Service is required.": {
+      fr: "Le service est requis.",
+      ar: "الخدمة مطلوبة."
+    },
+    "Email format is invalid.": {
+      fr: "Le format de l'email est invalide.",
+      ar: "صيغة البريد الإلكتروني غير صحيحة."
+    },
+    "Phone format is invalid.": {
+      fr: "Le format du téléphone est invalide.",
+      ar: "صيغة رقم الهاتف غير صحيحة."
+    },
+    "Admin password is required or invalid.": {
+      fr: "Le mot de passe admin est requis ou invalide.",
+      ar: "كلمة مرور الإدارة مطلوبة أو غير صحيحة."
+    },
+    "No quote requests yet.": {
+      fr: "Aucune demande de devis pour le moment.",
+      ar: "لا توجد طلبات عروض سعر بعد."
+    },
+    "No contact messages yet.": {
+      fr: "Aucun message de contact pour le moment.",
+      ar: "لا توجد رسائل تواصل بعد."
+    },
+    "Unknown": {
+      fr: "Inconnu",
+      ar: "غير معروف"
+    },
+    "No date": {
+      fr: "Aucune date",
+      ar: "لا يوجد تاريخ"
+    },
+    "Invalid date": {
+      fr: "Date invalide",
+      ar: "تاريخ غير صالح"
+    },
+    "Company": {
+      fr: "Entreprise",
+      ar: "الشركة"
+    },
+    "Budget": {
+      fr: "Budget",
+      ar: "الميزانية"
+    },
+    "Details": {
+      fr: "Détails",
+      ar: "التفاصيل"
+    },
+    "Language": {
+      fr: "Langue",
+      ar: "اللغة"
+    },
+    "Delete Quote": {
+      fr: "Supprimer le devis",
+      ar: "حذف طلب السعر"
+    },
+    "Delete Message": {
+      fr: "Supprimer le message",
+      ar: "حذف الرسالة"
+    },
+    "Message deleted successfully.": {
+      fr: "Message supprimé avec succès.",
+      ar: "تم حذف الرسالة بنجاح."
+    },
+    "Quote request deleted successfully.": {
+      fr: "Demande de devis supprimée avec succès.",
+      ar: "تم حذف طلب عرض السعر بنجاح."
+    }
+  };
+
+  document.addEventListener("DOMContentLoaded", () => {
+    originalDocumentTitle = document.title;
+    initLanguage();
+    initTheme();
+    initNavigation();
+    markActiveNav();
+    bindForm("#contact-form", "/api/contact");
+    bindForm("#quote-request-form", "/api/quote");
+    initAdmin();
+    applyLanguage(currentLanguage);
+  });
+
+  function normalizeLanguage(language) {
+    return supportedLanguages.includes(language) ? language : "en";
+  }
+
+  function initLanguage() {
+    const header = document.querySelector(".site-header");
+    const themeToggle = document.querySelector("[data-theme-toggle]");
+
+    if (header && !document.querySelector("[data-language-select]")) {
+      const control = document.createElement("label");
+      control.className = "language-control";
+      control.dataset.noTranslate = "true";
+
+      const text = document.createElement("span");
+      text.className = "sr-only";
+      text.textContent = "Language";
+
+      const select = document.createElement("select");
+      select.setAttribute("aria-label", "Language");
+      select.dataset.languageSelect = "true";
+
+      supportedLanguages.forEach((language) => {
+        const option = document.createElement("option");
+        option.value = language;
+        option.textContent = languageLabels[language];
+        select.appendChild(option);
+      });
+
+      select.value = currentLanguage;
+      control.append(text, select);
+      header.insertBefore(control, themeToggle || null);
+    }
+
+    const selector = document.querySelector("[data-language-select]");
+
+    if (selector) {
+      selector.value = currentLanguage;
+      selector.addEventListener("change", () => {
+        applyLanguage(normalizeLanguage(selector.value));
+      });
+    }
+  }
+
+  function applyLanguage(language) {
+    currentLanguage = normalizeLanguage(language);
+    localStorage.setItem(languageKey, currentLanguage);
+    document.documentElement.lang = currentLanguage;
+    document.documentElement.dir = currentLanguage === "ar" ? "rtl" : "ltr";
+    document.title = translatePhrase(originalDocumentTitle);
+
+    const selector = document.querySelector("[data-language-select]");
+
+    if (selector) {
+      selector.value = currentLanguage;
+    }
+
+    applyTranslations(document.body);
+    applyTheme(document.documentElement.dataset.theme || "light");
+  }
+
+  function applyTranslations(root) {
+    if (!root) {
+      return;
+    }
+
+    translateAttributes(root);
+
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode(node) {
+        const parent = node.parentElement;
+
+        if (!parent || shouldSkipTranslation(parent) || !node.nodeValue.trim()) {
+          return NodeFilter.FILTER_REJECT;
+        }
+
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+
+    const nodes = [];
+    let node = walker.nextNode();
+
+    while (node) {
+      nodes.push(node);
+      node = walker.nextNode();
+    }
+
+    nodes.forEach(translateTextNode);
+  }
+
+  function translateAttributes(root) {
+    const elements = [];
+
+    if (root.nodeType === Node.ELEMENT_NODE) {
+      elements.push(root);
+    }
+
+    elements.push(...root.querySelectorAll("[aria-label], [title]"));
+
+    elements.forEach((element) => {
+      if (shouldSkipTranslation(element)) {
+        return;
+      }
+
+      ["aria-label", "title"].forEach((attribute) => {
+        if (!element.hasAttribute(attribute)) {
+          return;
+        }
+
+        let originals = originalAttributes.get(element);
+
+        if (!originals) {
+          originals = {};
+          originalAttributes.set(element, originals);
+        }
+
+        if (!originals[attribute]) {
+          originals[attribute] = element.getAttribute(attribute);
+        }
+
+        element.setAttribute(attribute, translatePhrase(originals[attribute]));
+      });
+    });
+  }
+
+  function translateTextNode(node) {
+    if (!originalTextNodes.has(node)) {
+      const raw = node.nodeValue;
+      const match = raw.match(/^(\s*)(.*?)(\s*)$/s);
+      originalTextNodes.set(node, {
+        prefix: match ? match[1] : "",
+        text: match ? match[2] : raw.trim(),
+        suffix: match ? match[3] : ""
+      });
+    }
+
+    const original = originalTextNodes.get(node);
+    node.nodeValue = `${original.prefix}${translatePhrase(original.text)}${original.suffix}`;
+  }
+
+  function shouldSkipTranslation(element) {
+    return Boolean(element.closest("[data-no-translate], script, style, code, pre, .brand-mark, .card-icon, .security-score"));
+  }
+
+  function translatePhrase(value) {
+    const text = String(value || "").trim();
+
+    if (!text || currentLanguage === "en") {
+      return text;
+    }
+
+    return translations[text]?.[currentLanguage] || text;
+  }
+
+  function initTheme() {
+    const toggle = document.querySelector("[data-theme-toggle]");
+    const savedTheme = localStorage.getItem("ashtech-theme");
+    const preferredTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    const initialTheme = savedTheme || preferredTheme;
+
+    applyTheme(initialTheme);
+
+    if (toggle) {
+      toggle.addEventListener("click", () => {
+        const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+        localStorage.setItem("ashtech-theme", nextTheme);
+        applyTheme(nextTheme);
+      });
+    }
+  }
+
+  function applyTheme(theme) {
+    document.documentElement.dataset.theme = theme;
+    const label = document.querySelector("[data-theme-label]");
+
+    if (label) {
+      label.dataset.noTranslate = "true";
+      label.textContent = translatePhrase(theme === "dark" ? "Light" : "Dark");
+    }
+  }
+
+  function initNavigation() {
+    const toggle = document.querySelector("[data-nav-toggle]");
+    const nav = document.querySelector("[data-nav]");
+
+    if (!toggle || !nav) {
+      return;
+    }
+
+    toggle.addEventListener("click", () => {
+      const isOpen = nav.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    nav.addEventListener("click", (event) => {
+      if (event.target.closest("a")) {
+        nav.classList.remove("open");
+        toggle.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+
+  function markActiveNav() {
+    const page = window.location.pathname.split("/").pop() || "index.html";
+
+    document.querySelectorAll(".site-nav a").forEach((link) => {
+      const linkPage = link.getAttribute("href");
+
+      if (linkPage === page) {
+        link.classList.add("active");
+      }
+    });
+  }
+
+  function bindForm(selector, endpoint) {
+    const form = document.querySelector(selector);
+
+    if (!form) {
+      return;
+    }
+
+    const status = form.querySelector("[data-form-status]");
+    const submitButton = form.querySelector("button[type='submit']");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      clearStatus(status);
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        setStatus(status, "Please complete the required fields.", "error");
+        return;
+      }
+
+      const payload = formToObject(form);
+
+      if (!hasMeaningfulValue(payload)) {
+        setStatus(status, "Please add details before submitting.", "error");
+        return;
+      }
+
+      setLoading(submitButton, true);
+
+      try {
+        const result = await sendJson(endpoint, payload);
+        setStatus(status, result.message || "Submission received.", "success");
+        notify(result.message || "Submission received.", "success");
+        form.reset();
+      } catch (error) {
+        setStatus(status, error.message, "error");
+        notify(error.message, "error");
+      } finally {
+        setLoading(submitButton, false);
+      }
+    });
+  }
+
+  function formToObject(form) {
+    return Array.from(new FormData(form).entries()).reduce((data, entry) => {
+      const [key, value] = entry;
+      data[key] = typeof value === "string" ? value.trim() : value;
+      return data;
+    }, {});
+  }
+
+  function hasMeaningfulValue(payload) {
+    return Object.values(payload).some((value) => String(value || "").trim().length > 0);
+  }
+
+  async function sendJson(url, payload, options = {}) {
+    const response = await safeFetch(url, {
+      method: options.method || "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(options.headers || {})
+      },
+      body: payload ? JSON.stringify(payload) : undefined
+    });
+
+    const data = await parseJsonResponse(response);
+
+    if (!response.ok) {
+      const message = translatePhrase(data.message || "Request failed.");
+      const details = Array.isArray(data.errors)
+        ? data.errors.map(translatePhrase).filter((error) => !message.includes(error))
+        : [];
+      const detail = details.length ? ` ${details.join(" ")}` : "";
+      throw new Error(`${message}${detail}`);
+    }
+
+    return data;
+  }
+
+  async function getJson(url, token) {
+    const response = await safeFetch(url, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    const data = await parseJsonResponse(response);
+
+    if (!response.ok) {
+      throw new Error(translatePhrase(data.message || "Request failed."));
+    }
+
+    return data;
+  }
+
+  async function deleteJson(url, token) {
+    const response = await safeFetch(url, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    const data = await parseJsonResponse(response);
+
+    if (!response.ok) {
+      throw new Error(translatePhrase(data.message || "Delete failed."));
+    }
+
+    return data;
+  }
+
+  async function safeFetch(url, options) {
+    try {
+      return await fetch(url, options);
+    } catch {
+      throw new Error(`Cannot reach backend ${url}. Make sure npm start is running.`);
+    }
+  }
+
+  async function parseJsonResponse(response) {
+    try {
+      return await response.json();
+    } catch {
+      return {
+        success: false,
+        message: "Server returned an invalid response."
+      };
+    }
+  }
+
+  function setLoading(button, isLoading) {
+    if (!button) {
+      return;
+    }
+
+    if (isLoading) {
+      button.dataset.originalText = button.textContent;
+      button.textContent = translatePhrase("Sending...");
+      button.disabled = true;
+    } else {
+      button.textContent = button.dataset.originalText || button.textContent;
+      button.disabled = false;
+    }
+  }
+
+  function clearStatus(element) {
+    if (!element) {
+      return;
+    }
+
+    element.textContent = "";
+    element.classList.remove("success", "error");
+  }
+
+  function setStatus(element, message, type) {
+    if (!element) {
+      return;
+    }
+
+    element.textContent = translatePhrase(message);
+    element.classList.remove("success", "error");
+
+    if (type) {
+      element.classList.add(type);
+    }
+  }
+
+  function notify(message, type = "success") {
+    let root = document.querySelector("#toast-root");
+
+    if (!root) {
+      root = document.createElement("div");
+      root.id = "toast-root";
+      root.className = "toast-root";
+      root.setAttribute("aria-live", "polite");
+      document.body.appendChild(root);
+    }
+
+    const toast = document.createElement("div");
+    toast.className = `toast ${type}`;
+    toast.textContent = translatePhrase(message);
+    root.appendChild(toast);
+    window.setTimeout(() => {
+      toast.remove();
+    }, 4200);
+  }
+
+  function initAdmin() {
+    const loginForm = document.querySelector("#admin-login-form");
+    const dashboard = document.querySelector("#admin-dashboard");
+
+    if (!loginForm || !dashboard) {
+      return;
+    }
+
+    const loginStatus = document.querySelector("[data-admin-login-status]");
+    const adminStatus = document.querySelector("#admin-status");
+    const refreshButton = document.querySelector("#admin-refresh");
+    const logoutButton = document.querySelector("#admin-logout");
+    const loginButton = loginForm.querySelector("button[type='submit']");
+    const controlsForm = document.querySelector("#admin-controls-form");
+    const clearFiltersButton = document.querySelector("#admin-clear-filters");
+    const exportMessagesButton = document.querySelector("#export-messages");
+    const exportQuotesButton = document.querySelector("#export-quotes");
+    const savedToken = sessionStorage.getItem(adminTokenKey);
+
+    if (savedToken) {
+      showDashboard(loginForm, dashboard);
+      loadAdminData(savedToken).catch((error) => {
+        sessionStorage.removeItem(adminTokenKey);
+        dashboard.classList.add("hidden");
+        loginForm.classList.remove("hidden");
+        setStatus(loginStatus, error.message, "error");
+      });
+    }
+
+    loginForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const email = String(new FormData(loginForm).get("email") || "").trim();
+      const password = String(new FormData(loginForm).get("password") || "").trim();
+      clearStatus(loginStatus);
+
+      if (!email) {
+        setStatus(loginStatus, "Email is required.", "error");
+        return;
+      }
+
+      if (!password) {
+        setStatus(loginStatus, "Password is required.", "error");
+        return;
+      }
+
+      setLoading(loginButton, true);
+
+      try {
+        const result = await sendJson("/api/admin/login", { email, password }, { method: "POST" });
+        const token = result.token;
+
+        if (!token) {
+          throw new Error("Server returned an invalid response.");
+        }
+
+        sessionStorage.setItem(adminTokenKey, token);
+        await loadAdminData(token);
+        showDashboard(loginForm, dashboard);
+        loginForm.reset();
+        notify("Admin login successful.", "success");
+      } catch (error) {
+        setStatus(loginStatus, error.message, "error");
+        notify(error.message, "error");
+      } finally {
+        setLoading(loginButton, false);
+      }
+    });
+
+    if (controlsForm) {
+      controlsForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const token = sessionStorage.getItem(adminTokenKey) || "";
+        const data = new FormData(controlsForm);
+        adminState.search = String(data.get("search") || "").trim();
+        adminState.preferredLanguage = String(data.get("preferredLanguage") || "").trim();
+        adminState.service = String(data.get("service") || "").trim();
+        adminState.messagesPage = 1;
+        adminState.quotesPage = 1;
+        clearStatus(adminStatus);
+
+        try {
+          await loadAdminData(token);
+          setStatus(adminStatus, "Filters applied.", "success");
+        } catch (error) {
+          setStatus(adminStatus, error.message, "error");
+          notify(error.message, "error");
+        }
+      });
+    }
+
+    if (clearFiltersButton && controlsForm) {
+      clearFiltersButton.addEventListener("click", async () => {
+        const token = sessionStorage.getItem(adminTokenKey) || "";
+        controlsForm.reset();
+        adminState.search = "";
+        adminState.preferredLanguage = "";
+        adminState.service = "";
+        adminState.messagesPage = 1;
+        adminState.quotesPage = 1;
+        clearStatus(adminStatus);
+
+        try {
+          await loadAdminData(token);
+          setStatus(adminStatus, "Filters cleared.", "success");
+        } catch (error) {
+          setStatus(adminStatus, error.message, "error");
+          notify(error.message, "error");
+        }
+      });
+    }
+
+    if (refreshButton) {
+      refreshButton.addEventListener("click", async () => {
+        const token = sessionStorage.getItem(adminTokenKey) || "";
+        clearStatus(adminStatus);
+        setLoading(refreshButton, true);
+
+        try {
+          await loadAdminData(token);
+          setStatus(adminStatus, "Dashboard refreshed.", "success");
+        } catch (error) {
+          setStatus(adminStatus, error.message, "error");
+          notify(error.message, "error");
+        } finally {
+          setLoading(refreshButton, false);
+        }
+      });
+    }
+
+    if (exportMessagesButton) {
+      exportMessagesButton.addEventListener("click", async () => {
+        const token = sessionStorage.getItem(adminTokenKey) || "";
+        setLoading(exportMessagesButton, true);
+        clearStatus(adminStatus);
+
+        try {
+          await downloadCsv(`/api/messages/export${buildQueryString(buildMessageQuery(false))}`, token, "ashtech-contact-messages.csv");
+          setStatus(adminStatus, "Messages CSV exported.", "success");
+          notify("Messages CSV exported.", "success");
+        } catch (error) {
+          setStatus(adminStatus, error.message, "error");
+          notify(error.message, "error");
+        } finally {
+          setLoading(exportMessagesButton, false);
+        }
+      });
+    }
+
+    if (exportQuotesButton) {
+      exportQuotesButton.addEventListener("click", async () => {
+        const token = sessionStorage.getItem(adminTokenKey) || "";
+        setLoading(exportQuotesButton, true);
+        clearStatus(adminStatus);
+
+        try {
+          await downloadCsv(`/api/quotes/export${buildQueryString(buildQuoteQuery(false))}`, token, "ashtech-quote-requests.csv");
+          setStatus(adminStatus, "Quote requests CSV exported.", "success");
+          notify("Quote requests CSV exported.", "success");
+        } catch (error) {
+          setStatus(adminStatus, error.message, "error");
+          notify(error.message, "error");
+        } finally {
+          setLoading(exportQuotesButton, false);
+        }
+      });
+    }
+
+    if (logoutButton) {
+      logoutButton.addEventListener("click", () => {
+        sessionStorage.removeItem(adminTokenKey);
+        dashboard.classList.add("hidden");
+        loginForm.classList.remove("hidden");
+        clearStatus(adminStatus);
+      });
+    }
+
+    dashboard.addEventListener("click", async (event) => {
+      const pageButton = event.target.closest("[data-page-target]");
+
+      if (pageButton) {
+        const token = sessionStorage.getItem(adminTokenKey) || "";
+        const target = pageButton.dataset.pageTarget;
+        const direction = Number(pageButton.dataset.pageDirection) || 0;
+        const key = target === "messages" ? "messagesPage" : "quotesPage";
+        const maxKey = target === "messages" ? "messagesTotalPages" : "quotesTotalPages";
+        adminState[key] = Math.min(Math.max(1, adminState[key] + direction), adminState[maxKey]);
+        clearStatus(adminStatus);
+        setLoading(pageButton, true);
+
+        try {
+          await loadAdminData(token);
+        } catch (error) {
+          setStatus(adminStatus, error.message, "error");
+          notify(error.message, "error");
+        } finally {
+          setLoading(pageButton, false);
+        }
+        return;
+      }
+
+      const button = event.target.closest("[data-delete-type]");
+
+      if (!button) {
+        return;
+      }
+
+      const token = sessionStorage.getItem(adminTokenKey) || "";
+      const type = button.dataset.deleteType;
+      const id = button.dataset.deleteId;
+      const endpoint = type === "quote" ? `/api/quotes/${id}` : `/api/messages/${id}`;
+
+      button.disabled = true;
+      clearStatus(adminStatus);
+
+      try {
+        const result = await deleteJson(endpoint, token);
+        setStatus(adminStatus, result.message || "Deleted.", "success");
+        notify(result.message || "Deleted.", "success");
+        await loadAdminData(token);
+      } catch (error) {
+        setStatus(adminStatus, error.message, "error");
+        notify(error.message, "error");
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
+
+  function showDashboard(loginForm, dashboard) {
+    loginForm.classList.add("hidden");
+    dashboard.classList.remove("hidden");
+  }
+
+  async function loadAdminData(token) {
+    const [statsResponse, messagesResponse, quotesResponse, activityResponse] = await Promise.all([
+      getJson("/api/admin/stats", token),
+      getJson(`/api/messages${buildQueryString(buildMessageQuery(true))}`, token),
+      getJson(`/api/quotes${buildQueryString(buildQuoteQuery(true))}`, token),
+      getJson("/api/admin/activity?page=1&limit=6", token)
+    ]);
+
+    renderAdminList("#messages-list", messagesResponse.data || [], "message");
+    renderAdminList("#quotes-list", quotesResponse.data || [], "quote");
+    renderActivity(activityResponse.data || []);
+    setCount("#message-count", statsResponse.data?.totalMessages || 0);
+    setCount("#quote-count", statsResponse.data?.totalQuotes || 0);
+    setCount("#today-count", statsResponse.data?.todaySubmissions || 0);
+    setCount("#last-login", formatDate(statsResponse.data?.lastLoginAt), true);
+    adminState.messagesTotalPages = messagesResponse.totalPages || 1;
+    adminState.quotesTotalPages = quotesResponse.totalPages || 1;
+    updatePagination("messages", messagesResponse);
+    updatePagination("quotes", quotesResponse);
+    applyTranslations(document.querySelector("#admin-dashboard"));
+  }
+
+  function buildMessageQuery(includePagination) {
+    return {
+      search: adminState.search,
+      preferredLanguage: adminState.preferredLanguage,
+      page: includePagination ? adminState.messagesPage : "",
+      limit: includePagination ? adminState.limit : ""
+    };
+  }
+
+  function buildQuoteQuery(includePagination) {
+    return {
+      search: adminState.search,
+      service: adminState.service,
+      page: includePagination ? adminState.quotesPage : "",
+      limit: includePagination ? adminState.limit : ""
+    };
+  }
+
+  function buildQueryString(params) {
+    const query = new URLSearchParams();
+
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && String(value).trim()) {
+        query.set(key, String(value).trim());
+      }
+    });
+
+    const text = query.toString();
+    return text ? `?${text}` : "";
+  }
+
+  function setCount(selector, value, noTranslate = false) {
+    const element = document.querySelector(selector);
+
+    if (element) {
+      element.textContent = String(value);
+      if (noTranslate) {
+        element.dataset.noTranslate = "true";
+      }
+    }
+  }
+
+  function updatePagination(type, response) {
+    const page = response.page || 1;
+    const totalPages = response.totalPages || 1;
+    const label = document.querySelector(`[data-page-label="${type}"]`);
+    const previous = document.querySelector(`[data-page-target="${type}"][data-page-direction="-1"]`);
+    const next = document.querySelector(`[data-page-target="${type}"][data-page-direction="1"]`);
+
+    if (label) {
+      label.textContent = `Page ${page} of ${totalPages}`;
+    }
+
+    if (previous) {
+      previous.disabled = page <= 1;
+    }
+
+    if (next) {
+      next.disabled = page >= totalPages;
+    }
+  }
+
+  async function downloadCsv(url, token, filename) {
+    const response = await safeFetch(url, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      const data = await parseJsonResponse(response);
+      throw new Error(translatePhrase(data.message || "Export failed."));
+    }
+
+    const blob = await response.blob();
+    const downloadUrl = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = downloadUrl;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(downloadUrl);
+  }
+
+  function renderAdminList(selector, items, type) {
+    const container = document.querySelector(selector);
+
+    if (!container) {
+      return;
+    }
+
+    container.textContent = "";
+
+    if (!items.length) {
+      const empty = document.createElement("p");
+      empty.className = "empty-state";
+      empty.textContent = type === "quote" ? "No quote requests yet." : "No contact messages yet.";
+      container.appendChild(empty);
+      return;
+    }
+
+    items.forEach((item) => {
+      container.appendChild(createAdminItem(item, type));
+    });
+  }
+
+  function renderActivity(items) {
+    const container = document.querySelector("#activity-list");
+
+    if (!container) {
+      return;
+    }
+
+    container.textContent = "";
+
+    if (!items.length) {
+      const empty = document.createElement("p");
+      empty.className = "empty-state";
+      empty.textContent = "No activity yet.";
+      container.appendChild(empty);
+      return;
+    }
+
+    items.forEach((item) => {
+      const article = document.createElement("article");
+      article.className = "admin-item compact";
+
+      const title = document.createElement("strong");
+      title.textContent = item.event || "Activity";
+
+      const time = document.createElement("time");
+      time.dateTime = item.createdAt || "";
+      time.textContent = formatDate(item.createdAt);
+      time.dataset.noTranslate = "true";
+
+      const meta = document.createElement("p");
+      meta.textContent = item.ipAddress || "Unknown";
+      meta.dataset.noTranslate = "true";
+
+      article.append(title, time, meta);
+      container.appendChild(article);
+    });
+  }
+
+  function createAdminItem(item, type) {
+    const article = document.createElement("article");
+    article.className = "admin-item";
+
+    const header = document.createElement("div");
+    header.className = "admin-item-header";
+
+    const title = document.createElement("strong");
+    title.textContent = item.name || "Unknown";
+    title.dataset.noTranslate = "true";
+
+    const time = document.createElement("time");
+    time.dateTime = item.createdAt || "";
+    time.textContent = formatDate(item.createdAt);
+    time.dataset.noTranslate = "true";
+
+    header.append(title, time);
+    article.appendChild(header);
+
+    const fields = document.createElement("div");
+    fields.className = "admin-fields";
+
+    if (type === "quote") {
+      appendField(fields, "Email", item.email);
+      appendField(fields, "Phone", item.phone);
+      appendField(fields, "Company", item.company);
+      appendField(fields, "Location", item.location);
+      appendField(fields, "Space type", item.businessType);
+      appendField(fields, "Service", item.service);
+      appendField(fields, "Budget", item.budget);
+      appendField(fields, "Timeline", item.timeline);
+      appendField(fields, "Details", item.details);
+    } else {
+      appendField(fields, "Email", item.email);
+      appendField(fields, "Phone", item.phone);
+      appendField(fields, "Subject", item.subject);
+      appendField(fields, "Language", item.preferredLanguage);
+      appendField(fields, "Message", item.message);
+    }
+
+    article.appendChild(fields);
+
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "button button-danger";
+    deleteButton.type = "button";
+    deleteButton.dataset.deleteType = type;
+    deleteButton.dataset.deleteId = item.id;
+    deleteButton.textContent = type === "quote" ? "Delete Quote" : "Delete Message";
+    article.appendChild(deleteButton);
+
+    return article;
+  }
+
+  function appendField(container, label, value) {
+    if (!value) {
+      return;
+    }
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "admin-field";
+
+    const labelElement = document.createElement("span");
+    labelElement.textContent = label;
+
+    const valueElement = document.createElement("p");
+    valueElement.textContent = value;
+    valueElement.dataset.noTranslate = "true";
+
+    wrapper.append(labelElement, valueElement);
+    container.appendChild(wrapper);
+  }
+
+  function formatDate(value) {
+    if (!value) {
+      return "No date";
+    }
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+      return "Invalid date";
+    }
+
+    return new Intl.DateTimeFormat(dateLocales[currentLanguage], {
+      dateStyle: "medium",
+      timeStyle: "short"
+    }).format(date);
+  }
+})();

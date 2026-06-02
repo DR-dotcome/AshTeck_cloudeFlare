@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model ContactMessage {
+  id                String   @id @default(uuid()) @db.Uuid
+  name              String   @db.VarChar(80)
+  email             String?  @db.VarChar(120)
+  phone             String?  @db.VarChar(40)
+  subject           String?  @db.VarChar(120)
+  message           String   @db.VarChar(1600)
+  preferredLanguage String?  @map("preferred_language") @db.VarChar(40)
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  @@index([createdAt])
+  @@map("contact_messages")
+}
+
+model QuoteRequest {
+  id           String   @id @default(uuid()) @db.Uuid
+  name         String   @db.VarChar(80)
+  email        String?  @db.VarChar(120)
+  phone        String?  @db.VarChar(40)
+  company      String?  @db.VarChar(120)
+  location     String?  @db.VarChar(120)
+  businessType String?  @map("business_type") @db.VarChar(80)
+  service      String   @db.VarChar(120)
+  budget       String?  @db.VarChar(80)
+  timeline     String?  @db.VarChar(80)
+  details      String   @db.VarChar(1800)
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@index([createdAt])
+  @@map("quote_requests")
+}
+
+model Admin {
+  id           String        @id @default(uuid()) @db.Uuid
+  email        String        @unique @db.VarChar(120)
+  passwordHash String        @map("password_hash") @db.VarChar(255)
+  name         String?       @db.VarChar(80)
+  role         String        @default("ADMIN") @db.VarChar(40)
+  isActive     Boolean       @default(true) @map("is_active")
+  lastLoginAt  DateTime?     @map("last_login_at")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+  activityLogs ActivityLog[]
+
+  @@map("admins")
+}
+
+model ActivityLog {
+  id        String   @id @default(uuid()) @db.Uuid
+  adminId   String?  @map("admin_id") @db.Uuid
+  event     String   @db.VarChar(120)
+  ipAddress String?  @map("ip_address") @db.VarChar(80)
+  userAgent String?  @map("user_agent") @db.VarChar(255)
+  metadata  Json?
+  createdAt DateTime @default(now()) @map("created_at")
+  admin     Admin?   @relation(fields: [adminId], references: [id], onDelete: SetNull)
+
+  @@index([adminId])
+  @@index([event])
+  @@index([createdAt])
+  @@map("activity_logs")
+}
