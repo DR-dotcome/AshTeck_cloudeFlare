@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin.html
 
-Sitemap: https://your-render-service.onrender.com/sitemap.xml
+Sitemap: https://your-cloudflare-pages-domain.pages.dev/sitemap.xml

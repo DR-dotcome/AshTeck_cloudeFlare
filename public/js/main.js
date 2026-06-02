@@ -1024,9 +1024,9 @@
       fr: "Tableau de bord AshTech",
       ar: "لوحة تحكم AshTech"
     },
-    "Review contact messages and quote requests stored in Supabase PostgreSQL.": {
-      fr: "Consultez les messages de contact et demandes de devis stockés dans Supabase PostgreSQL.",
-      ar: "راجع رسائل التواصل وطلبات عروض الأسعار المخزنة في Supabase PostgreSQL."
+    "Review contact messages and quote requests stored in Cloudflare D1.": {
+      fr: "Consultez les messages de contact et demandes de devis stockés dans Cloudflare D1.",
+      ar: "راجع رسائل التواصل وطلبات عروض الأسعار المخزنة في Cloudflare D1."
     },
     "Admin login": {
       fr: "Connexion admin",
@@ -1211,6 +1211,206 @@
     "Quote request deleted successfully.": {
       fr: "Demande de devis supprimée avec succès.",
       ar: "تم حذف طلب عرض السعر بنجاح."
+    },
+    "Page Not Found | AshTech": {
+      fr: "Page introuvable | AshTech",
+      ar: "الصفحة غير موجودة | AshTech"
+    },
+    "Server Error | AshTech": {
+      fr: "Erreur serveur | AshTech",
+      ar: "خطأ في الخادم | AshTech"
+    },
+    "Page not found": {
+      fr: "Page introuvable",
+      ar: "الصفحة غير موجودة"
+    },
+    "The page may have moved, or the address may be incorrect.": {
+      fr: "La page a peut-être été déplacée, ou l'adresse est incorrecte.",
+      ar: "ربما تم نقل الصفحة أو أن العنوان غير صحيح."
+    },
+    "Something went wrong": {
+      fr: "Une erreur s'est produite",
+      ar: "حدث خطأ ما"
+    },
+    "Error": {
+      fr: "Erreur",
+      ar: "خطأ"
+    },
+    "Please try again later, or contact AshTech if the issue continues.": {
+      fr: "Veuillez réessayer plus tard ou contacter AshTech si le problème continue.",
+      ar: "يرجى المحاولة لاحقا أو التواصل مع AshTech إذا استمرت المشكلة."
+    },
+    "Go Home": {
+      fr: "Retour à l'accueil",
+      ar: "العودة للرئيسية"
+    },
+    "Contact AshTech": {
+      fr: "Contacter AshTech",
+      ar: "تواصل مع AshTech"
+    },
+    "Export Messages CSV": {
+      fr: "Exporter les messages CSV",
+      ar: "تصدير الرسائل CSV"
+    },
+    "Export Quotes CSV": {
+      fr: "Exporter les devis CSV",
+      ar: "تصدير طلبات السعر CSV"
+    },
+    "Search submissions": {
+      fr: "Rechercher dans les soumissions",
+      ar: "البحث في الطلبات"
+    },
+    "Name, email, phone, service, or message": {
+      fr: "Nom, email, téléphone, service ou message",
+      ar: "الاسم أو البريد أو الهاتف أو الخدمة أو الرسالة"
+    },
+    "Message language": {
+      fr: "Langue du message",
+      ar: "لغة الرسالة"
+    },
+    "All languages": {
+      fr: "Toutes les langues",
+      ar: "كل اللغات"
+    },
+    "Quote service": {
+      fr: "Service du devis",
+      ar: "خدمة طلب السعر"
+    },
+    "All services": {
+      fr: "Tous les services",
+      ar: "كل الخدمات"
+    },
+    "Network installation": {
+      fr: "Installation réseau",
+      ar: "تركيب الشبكات"
+    },
+    "Router and switch configuration": {
+      fr: "Configuration routeur et switch",
+      ar: "إعداد الراوتر والسويتش"
+    },
+    "CCTV/IP cameras": {
+      fr: "Caméras CCTV/IP",
+      ar: "كاميرات CCTV/IP"
+    },
+    "Wi-Fi optimization": {
+      fr: "Optimisation Wi-Fi",
+      ar: "تحسين Wi-Fi"
+    },
+    "IT maintenance": {
+      fr: "Maintenance informatique",
+      ar: "صيانة تقنية المعلومات"
+    },
+    "Backup solutions": {
+      fr: "Solutions de sauvegarde",
+      ar: "حلول النسخ الاحتياطي"
+    },
+    "Basic cybersecurity audit": {
+      fr: "Audit cybersécurité de base",
+      ar: "تدقيق الأمن السيبراني الأساسي"
+    },
+    "Apply Filters": {
+      fr: "Appliquer les filtres",
+      ar: "تطبيق الفلاتر"
+    },
+    "Clear": {
+      fr: "Effacer",
+      ar: "مسح"
+    },
+    "Quote requests": {
+      fr: "Demandes de devis",
+      ar: "طلبات عروض السعر"
+    },
+    "Today": {
+      fr: "Aujourd'hui",
+      ar: "اليوم"
+    },
+    "Never": {
+      fr: "Jamais",
+      ar: "أبدا"
+    },
+    "Last login": {
+      fr: "Dernière connexion",
+      ar: "آخر تسجيل دخول"
+    },
+    "Previous": {
+      fr: "Précédent",
+      ar: "السابق"
+    },
+    "Next": {
+      fr: "Suivant",
+      ar: "التالي"
+    },
+    "Recent activity": {
+      fr: "Activité récente",
+      ar: "النشاط الأخير"
+    },
+    "Page 1 of 1": {
+      fr: "Page 1 sur 1",
+      ar: "الصفحة 1 من 1"
+    },
+    "Filters applied.": {
+      fr: "Filtres appliqués.",
+      ar: "تم تطبيق الفلاتر."
+    },
+    "Filters cleared.": {
+      fr: "Filtres effacés.",
+      ar: "تم مسح الفلاتر."
+    },
+    "Messages CSV exported.": {
+      fr: "Messages CSV exportés.",
+      ar: "تم تصدير الرسائل CSV."
+    },
+    "Quote requests CSV exported.": {
+      fr: "Demandes de devis CSV exportées.",
+      ar: "تم تصدير طلبات السعر CSV."
+    },
+    "Email is required.": {
+      fr: "L'email est requis.",
+      ar: "البريد الإلكتروني مطلوب."
+    },
+    "Admin login successful.": {
+      fr: "Connexion admin réussie.",
+      ar: "تم تسجيل دخول الإدارة بنجاح."
+    },
+    "No activity yet.": {
+      fr: "Aucune activité pour le moment.",
+      ar: "لا يوجد نشاط حاليا."
+    },
+    "Activity": {
+      fr: "Activité",
+      ar: "نشاط"
+    },
+    "Phone": {
+      fr: "Téléphone",
+      ar: "الهاتف"
+    },
+    "Location": {
+      fr: "Localisation",
+      ar: "الموقع"
+    },
+    "Space type": {
+      fr: "Type d'espace",
+      ar: "نوع المكان"
+    },
+    "Timeline": {
+      fr: "Délai",
+      ar: "المدة"
+    },
+    "Map placeholder": {
+      fr: "Emplacement de la carte",
+      ar: "مكان الخريطة"
+    },
+    "Cannot reach backend. Make sure Wrangler Pages dev is running.": {
+      fr: "Impossible de joindre le backend. Vérifiez que Wrangler Pages dev est lancé.",
+      ar: "تعذر الاتصال بالخلفية. تأكد من تشغيل Wrangler Pages dev."
+    },
+    "Export failed.": {
+      fr: "L'export a échoué.",
+      ar: "فشل التصدير."
+    },
+    "Delete failed.": {
+      fr: "La suppression a échoué.",
+      ar: "فشل الحذف."
     }
   };
 
@@ -1556,7 +1756,7 @@
     try {
       return await fetch(url, options);
     } catch {
-      throw new Error(`Cannot reach backend ${url}. Make sure npm start is running.`);
+      throw new Error("Cannot reach backend. Make sure Wrangler Pages dev is running.");
     }
   }
 
@@ -1933,7 +2133,8 @@
     const next = document.querySelector(`[data-page-target="${type}"][data-page-direction="1"]`);
 
     if (label) {
-      label.textContent = `Page ${page} of ${totalPages}`;
+      label.textContent = formatPageLabel(page, totalPages);
+      label.dataset.noTranslate = "true";
     }
 
     if (previous) {
@@ -1943,6 +2144,18 @@
     if (next) {
       next.disabled = page >= totalPages;
     }
+  }
+
+  function formatPageLabel(page, totalPages) {
+    if (currentLanguage === "fr") {
+      return `Page ${page} sur ${totalPages}`;
+    }
+
+    if (currentLanguage === "ar") {
+      return `الصفحة ${page} من ${totalPages}`;
+    }
+
+    return `Page ${page} of ${totalPages}`;
   }
 
   async function downloadCsv(url, token, filename) {
