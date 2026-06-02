@@ -5,4 +5,4 @@ pages_build_output_dir = "public"
 [[d1_databases]]
 binding = "DB"
 database_name = "ashtech-db"
-database_id = "replace-with-your-d1-database-id"
+database_id = "a8cd072f-3e50-4947-9115-ace5336e4805"
