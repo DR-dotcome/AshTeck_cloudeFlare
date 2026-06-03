@@ -65,15 +65,13 @@ export async function onRequest(context) {
 
   try {
     return await routeApi(request, env, url);
-  } catch (error) {
-    if (error instanceof HttpError) {
-      return jsonResponse(error.status, { success: false, message: error.message });
-    }
-
+   } catch (error) {
     console.error("API error:", error);
+
     return jsonResponse(500, {
       success: false,
-      message: "Something went wrong. Please try again later."
+      message: error?.message || "Unknown API error",
+      stack: String(error?.stack || "")
     });
   }
 }
