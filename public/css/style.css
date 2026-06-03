@@ -733,6 +733,10 @@ h3 {
   font-weight: 750;
 }
 
+[data-language-hidden="true"] {
+  display: none !important;
+}
+
 .package-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
@@ -1328,6 +1332,7 @@ textarea:focus {
 
 :root[dir="rtl"] body {
   direction: rtl;
+  text-align: right;
 }
 
 :root[dir="rtl"] .site-nav,
@@ -1357,6 +1362,39 @@ textarea:focus {
 
 :root[dir="rtl"] .language-control select {
   padding: 8px 12px 8px 32px;
+}
+
+:root[dir="ltr"] body {
+  direction: ltr;
+  text-align: left;
+}
+
+:root[dir="rtl"] .section-heading,
+:root[dir="rtl"] .section-heading.align-left,
+:root[dir="rtl"] .contact-panel,
+:root[dir="rtl"] .form-card,
+:root[dir="rtl"] .admin-dashboard,
+:root[dir="rtl"] .footer-grid {
+  text-align: right;
+}
+
+:root[dir="rtl"] .section-heading:not(.align-left),
+:root[dir="rtl"] .error-panel {
+  text-align: center;
+}
+
+:root[dir="rtl"] input,
+:root[dir="rtl"] select,
+:root[dir="rtl"] textarea {
+  direction: rtl;
+  text-align: right;
+}
+
+:root[dir="rtl"] input[type="email"],
+:root[dir="rtl"] input[type="tel"],
+:root[dir="rtl"] input[type="url"] {
+  direction: ltr;
+  text-align: right;
 }
 
 .site-nav.open,

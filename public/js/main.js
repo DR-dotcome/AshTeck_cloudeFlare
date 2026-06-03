@@ -116,6 +116,10 @@
       fr: "Réseaux fiables, sécurité claire, support rapide.",
       ar: "شبكات موثوقة، أمان واضح، ودعم سريع."
     },
+    "Reliable networks, clear security, fast support.": {
+      fr: "Réseaux fiables, sécurité claire, support rapide.",
+      ar: "شبكات موثوقة، أمان واضح، ودعم سريع."
+    },
     "شبكات مستقرة، كاميرات مراقبة، وحماية أساسية باحتراف.": {
       fr: "Réseaux stables, caméras de surveillance et protection de base avec professionnalisme.",
       ar: "شبكات مستقرة، كاميرات مراقبة، وحماية أساسية باحتراف."
@@ -227,6 +231,10 @@
     "English, français, والعربية for smoother planning, support, and handover.": {
       fr: "English, français et العربية pour une planification, un support et une remise plus fluides.",
       ar: "English وfrançais والعربية لتخطيط ودعم وتسليم أكثر سلاسة."
+    },
+    "English, French, and Arabic for smoother planning, support, and handover.": {
+      fr: "Anglais, français et arabe pour une planification, un support et une remise plus fluides.",
+      ar: "الإنجليزية والفرنسية والعربية لتخطيط ودعم وتسليم أكثر سلاسة."
     },
     "Security by default": {
       fr: "Sécurité par défaut",
@@ -399,6 +407,10 @@
     "Installation, configuration, maintenance, and practical security support across homes and organizations.": {
       fr: "Installation, configuration, maintenance et support de sécurité pratique pour maisons et organisations.",
       ar: "تركيب وإعداد وصيانة ودعم أمني عملي للمنازل والمؤسسات."
+    },
+    "Network installation and simple security.": {
+      fr: "Installation réseau et sécurité simple.",
+      ar: "تركيب الشبكات وأمان بسيط."
     },
     "Installation réseau et sécurité simple.": {
       fr: "Installation réseau et sécurité simple.",
@@ -884,7 +896,15 @@
       fr: "Français",
       ar: "الفرنسية"
     },
+    "Français": {
+      fr: "Français",
+      ar: "الفرنسية"
+    },
     "Arabic": {
+      fr: "Arabe",
+      ar: "العربية"
+    },
+    "العربية": {
       fr: "Arabe",
       ar: "العربية"
     },
@@ -1483,6 +1503,7 @@
     }
 
     applyTranslations(document.body);
+    updateLocalizedVisibility(document.body);
     applyTheme(document.documentElement.dataset.theme || "light");
   }
 
@@ -1523,14 +1544,14 @@
       elements.push(root);
     }
 
-    elements.push(...root.querySelectorAll("[aria-label], [title]"));
+    elements.push(...root.querySelectorAll("[aria-label], [title], [placeholder]"));
 
     elements.forEach((element) => {
       if (shouldSkipTranslation(element)) {
         return;
       }
 
-      ["aria-label", "title"].forEach((attribute) => {
+      ["aria-label", "title", "placeholder"].forEach((attribute) => {
         if (!element.hasAttribute(attribute)) {
           return;
         }
@@ -1564,6 +1585,36 @@
 
     const original = originalTextNodes.get(node);
     node.nodeValue = `${original.prefix}${translatePhrase(original.text)}${original.suffix}`;
+  }
+
+  function updateLocalizedVisibility(root) {
+    if (!root) {
+      return;
+    }
+
+    const elements = [];
+
+    if (root.nodeType === Node.ELEMENT_NODE && root.matches("[lang]:not(html)")) {
+      elements.push(root);
+    }
+
+    elements.push(...root.querySelectorAll("[lang]:not(html)"));
+
+    elements.forEach((element) => {
+      if (element.closest("[data-no-translate]")) {
+        return;
+      }
+
+      const elementLanguage = normalizeLanguage(element.getAttribute("lang"));
+      const shouldShow = elementLanguage === currentLanguage;
+
+      element.hidden = !shouldShow;
+      element.dataset.languageHidden = shouldShow ? "false" : "true";
+
+      if (shouldShow) {
+        element.setAttribute("dir", elementLanguage === "ar" ? "rtl" : "ltr");
+      }
+    });
   }
 
   function shouldSkipTranslation(element) {
@@ -2127,6 +2178,7 @@
     updatePagination("messages", messagesResponse);
     updatePagination("quotes", quotesResponse);
     applyTranslations(document.querySelector("#admin-dashboard"));
+    updateLocalizedVisibility(document.querySelector("#admin-dashboard"));
   }
 
   function buildMessageQuery(includePagination) {
