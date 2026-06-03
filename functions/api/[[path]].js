@@ -692,8 +692,8 @@ function checkRateLimit(request, bucket) {
   return null;
 }
 
-async function verifyPassword(password, saltHex, expectedHash, iterations = 210000) {
-  const actualHash = await derivePasswordHash(password, saltHex, Number(iterations) || 210000);
+async function verifyPassword(password, saltHex, expectedHash, iterations = 100000) {
+  const actualHash = await derivePasswordHash(password, saltHex, Number(iterations) || 100000);
   return constantTimeEqual(actualHash, expectedHash);
 }
 
