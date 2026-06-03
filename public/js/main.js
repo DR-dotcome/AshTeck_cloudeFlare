@@ -1615,15 +1615,61 @@
       return;
     }
 
+    const setOpenStyles = (isOpen) => {
+      if (isOpen) {
+        nav.style.setProperty("max-height", "440px", "important");
+        nav.style.setProperty("opacity", "1", "important");
+        nav.style.setProperty("pointer-events", "auto", "important");
+        nav.style.setProperty("transform", "translateY(0)", "important");
+        nav.style.setProperty("visibility", "visible", "important");
+      } else {
+        nav.style.removeProperty("max-height");
+        nav.style.removeProperty("opacity");
+        nav.style.removeProperty("pointer-events");
+        nav.style.removeProperty("transform");
+        nav.style.removeProperty("visibility");
+      }
+    };
+
+    const closeNavigation = () => {
+      nav.classList.remove("open");
+      toggle.classList.remove("is-open");
+      toggle.setAttribute("aria-expanded", "false");
+      setOpenStyles(false);
+    };
+
     toggle.addEventListener("click", () => {
       const isOpen = nav.classList.toggle("open");
+      toggle.classList.toggle("is-open", isOpen);
       toggle.setAttribute("aria-expanded", String(isOpen));
+      setOpenStyles(isOpen);
     });
 
     nav.addEventListener("click", (event) => {
       if (event.target.closest("a")) {
-        nav.classList.remove("open");
-        toggle.setAttribute("aria-expanded", "false");
+        closeNavigation();
+      }
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!nav.classList.contains("open")) {
+        return;
+      }
+
+      if (!event.target.closest("[data-nav]") && !event.target.closest("[data-nav-toggle]")) {
+        closeNavigation();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeNavigation();
+      }
+    });
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 1024) {
+        closeNavigation();
       }
     });
   }

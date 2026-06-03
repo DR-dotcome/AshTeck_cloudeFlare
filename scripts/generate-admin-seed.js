@@ -10,7 +10,7 @@ const env = {
 const email = clean(env.ADMIN_EMAIL).toLowerCase();
 const name = clean(env.ADMIN_NAME);
 const password = clean(env.ADMIN_PASSWORD);
-const iterations = Number(env.ADMIN_PASSWORD_ITERATIONS || 210000);
+const iterations = Number(env.ADMIN_PASSWORD_ITERATIONS || 100000);
 
 if (!email) {
   fail("ADMIN_EMAIL is required.");
