@@ -64,7 +64,7 @@ export async function onRequest(context) {
   }
 
   try {
-    return await routeApi(request, env, url, context);
+    return await routeApi(request, env, url);
   } catch (error) {
     if (error instanceof HttpError) {
       return jsonResponse(error.status, { success: false, message: error.message });
@@ -78,32 +78,19 @@ export async function onRequest(context) {
   }
 }
 
-async function routeApi(request, env, url, context) {
-  const path = normalizeApiPath(url.pathname, context.params?.path);
+async function routeApi(request, env, url) {
+  const path = url.pathname.replace(/\/+$/, "") || "/";
   const method = request.method.toUpperCase();
-function normalizeApiPath(pathname, paramPath) {
-  let path = String(pathname || "").replace(/\/+$/, "") || "/";
 
-  if (path.startsWith("/api/") || path === "/api") {
-    return path;
-  }
-
-  const param = Array.isArray(paramPath)
-    ? paramPath.join("/")
-    : String(paramPath || "").replace(/^\/+/, "");
-
-  if (param) {
-    return `/api/${param}`.replace(/\/+$/, "");
-  }
-
-  return `/api${path}`.replace(/\/+$/, "");
-}
   if (method === "GET" && path === "/api/health") {
     return jsonResponse(200, { success: true, message: "API is running" });
   }
 
   if (!env.DB) {
-    return jsonResponse(503, { success: false, message: "D1 database binding DB is missing." });
+    return jsonResponse(503, {
+      success: false,
+      message: "D1 database binding DB is missing."
+    });
   }
 
   if (method === "POST" && path === "/api/contact") {
@@ -167,7 +154,10 @@ function normalizeApiPath(pathname, paramPath) {
     return handleDeleteQuote(request, env, path.split("/").pop(), admin);
   }
 
-  return jsonResponse(404, { success: false, message: "API route was not found." });
+  return jsonResponse(404, {
+    success: false,
+    message: "API route was not found."
+  });
 }
 
 async function handleContact(request, env) {
