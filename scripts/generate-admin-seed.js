@@ -51,7 +51,7 @@ ON CONFLICT(email) DO UPDATE SET
 `;
 
 fs.writeFileSync(path.join(process.cwd(), "seed-admin.sql"), sql);
-console.log("Generated seed-admin.sql. Run: npx wrangler d1 execute ashtech-db --file=./seed-admin.sql");
+console.log("Generated seed-admin.sql. Run: npx wrangler d1 execute straitsec-db --file=./seed-admin.sql");
 
 function loadEnv(filePath) {
   if (!fs.existsSync(filePath)) {

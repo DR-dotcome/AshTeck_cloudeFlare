@@ -1,15 +1,15 @@
 {
-  "name": "ashtech-cloudflare-d1",
+  "name": "straitsec-cloudflare-d1",
   "version": "1.0.0",
-  "description": "AshTech full-stack website for Cloudflare Pages, Pages Functions, and Cloudflare D1.",
+  "description": "StraitSec full-stack website for Cloudflare Pages, Pages Functions, and Cloudflare D1.",
   "main": "functions/api/[[path]].js",
   "scripts": {
     "dev": "wrangler pages dev public",
     "start": "wrangler pages dev public",
     "deploy": "wrangler pages deploy public",
-    "db:schema": "wrangler d1 execute ashtech-db --file=./schema.sql",
+    "db:schema": "wrangler d1 execute straitsec-db --file=./schema.sql",
     "seed:admin": "node scripts/generate-admin-seed.js",
-    "db:seed": "wrangler d1 execute ashtech-db --file=./seed-admin.sql",
+    "db:seed": "wrangler d1 execute straitsec-db --file=./seed-admin.sql",
     "audit": "npm audit"
   },
   "keywords": [
@@ -17,9 +17,9 @@
     "cloudflare-workers",
     "cloudflare-d1",
     "it-services",
-    "ashtech"
+    "straitsec"
   ],
-  "author": "AshTech",
+  "author": "StraitSec",
   "license": "MIT",
   "devDependencies": {
     "wrangler": "^4.49.0"

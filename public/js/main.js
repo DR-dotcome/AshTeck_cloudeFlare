@@ -1,6 +1,6 @@
 (function () {
-  const adminTokenKey = "ashtech-admin-token";
-  const languageKey = "ashtech-language";
+  const adminTokenKey = "straitsec-admin-token";
+  const languageKey = "straitsec-language";
   const supportedLanguages = ["en", "fr", "ar"];
   const languageLabels = {
     en: "English",
@@ -28,32 +28,40 @@
   };
 
   const translations = {
-    "AshTech | IT Services, Networks, CCTV and Cybersecurity": {
-      fr: "AshTech | Services informatiques, réseaux, CCTV et cybersécurité",
-      ar: "AshTech | خدمات تقنية المعلومات والشبكات والكاميرات والأمن السيبراني"
+    "StraitSec | IT Services, Digital Infrastructure & Cybersecurity": {
+      fr: "StraitSec | Services IT, infrastructure digitale et cybersécurité",
+      ar: "StraitSec | خدمات تقنية المعلومات والبنية الرقمية والأمن السيبراني"
     },
-    "Services | AshTech": {
-      fr: "Services | AshTech",
-      ar: "الخدمات | AshTech"
+    "StraitSec | IT Services, Networks, CCTV and Cybersecurity": {
+      fr: "StraitSec | Services IT, réseaux, CCTV et cybersécurité",
+      ar: "StraitSec | خدمات تقنية المعلومات والشبكات والكاميرات والأمن السيبراني"
     },
-    "Solutions | AshTech": {
-      fr: "Solutions | AshTech",
-      ar: "الحلول | AshTech"
+    "Services | StraitSec": {
+      fr: "Services | StraitSec",
+      ar: "الخدمات | StraitSec"
     },
-    "Projects | AshTech": {
-      fr: "Projets | AshTech",
-      ar: "المشاريع | AshTech"
+    "Solutions | StraitSec": {
+      fr: "Solutions | StraitSec",
+      ar: "الحلول | StraitSec"
     },
-    "Contact | AshTech": {
-      fr: "Contact | AshTech",
-      ar: "اتصل بنا | AshTech"
+    "Projects | StraitSec": {
+      fr: "Projets | StraitSec",
+      ar: "المشاريع | StraitSec"
     },
-    "Admin | AshTech": {
-      fr: "Administration | AshTech",
-      ar: "الإدارة | AshTech"
+    "Contact | StraitSec": {
+      fr: "Contact | StraitSec",
+      ar: "اتصل بنا | StraitSec"
+    },
+    "Admin | StraitSec": {
+      fr: "Administration | StraitSec",
+      ar: "الإدارة | StraitSec"
+    },
+    "IT Services, Digital Infrastructure & Cybersecurity": {
+      fr: "Services IT, infrastructure digitale et cybersécurité",
+      ar: "خدمات تقنية المعلومات والبنية الرقمية والأمن السيبراني"
     },
     "IT Services": {
-      fr: "Services informatiques",
+      fr: "Services IT",
       ar: "خدمات تقنية المعلومات"
     },
     "Home": {
@@ -96,17 +104,21 @@
       fr: "Changer le mode clair ou sombre",
       ar: "تبديل الوضع الفاتح والداكن"
     },
-    "AshTech home": {
-      fr: "Accueil AshTech",
-      ar: "الرئيسية AshTech"
+    "StraitSec home": {
+      fr: "Accueil StraitSec",
+      ar: "الرئيسية StraitSec"
     },
     "Networks • CCTV • Cybersecurity • Maintenance": {
       fr: "Réseaux • CCTV • Cybersécurité • Maintenance",
       ar: "الشبكات • كاميرات المراقبة • الأمن السيبراني • الصيانة"
     },
-    "AshTech IT Services": {
-      fr: "Services informatiques AshTech",
-      ar: "خدمات AshTech لتقنية المعلومات"
+    "StraitSec": {
+      fr: "StraitSec",
+      ar: "StraitSec"
+    },
+    "IT Services, Digital Infrastructure & Cybersecurity for businesses, shops, schools, offices, and homes.": {
+      fr: "Services IT, infrastructure digitale et cybersécurité pour entreprises, commerces, écoles, bureaux et maisons.",
+      ar: "خدمات تقنية المعلومات والبنية الرقمية والأمن السيبراني للشركات والمتاجر والمدارس والمكاتب والمنازل."
     },
     "Reliable infrastructure, secure cameras, optimized Wi-Fi, and practical IT support for businesses, shops, schools, offices, and homes.": {
       fr: "Infrastructure fiable, caméras sécurisées, Wi-Fi optimisé et support informatique pratique pour entreprises, commerces, écoles, bureaux et maisons.",
@@ -140,6 +152,10 @@
       fr: "Langues",
       ar: "اللغات"
     },
+    "8": {
+      fr: "8",
+      ar: "8"
+    },
     "7+": {
       fr: "7+",
       ar: "+7"
@@ -160,13 +176,21 @@
       fr: "Services principaux",
       ar: "الخدمات الرئيسية"
     },
+    "Clean installations for connected, protected spaces": {
+      fr: "Installations propres pour espaces connectés et protégés",
+      ar: "تركيبات منظمة لمساحات متصلة ومحمية"
+    },
     "Clean installations for connected spaces": {
       fr: "Installations propres pour espaces connectés",
       ar: "تركيبات منظمة للمساحات المتصلة"
     },
-    "AshTech builds and maintains practical IT systems that stay organized, secure, and easy to support.": {
-      fr: "AshTech installe et maintient des systèmes informatiques pratiques, organisés, sécurisés et faciles à supporter.",
-      ar: "تقوم AshTech ببناء وصيانة أنظمة تقنية عملية تبقى منظمة وآمنة وسهلة الدعم."
+    "StraitSec builds and maintains practical IT systems that stay organized, secure, documented, and easy to support.": {
+      fr: "StraitSec installe et maintient des systèmes IT pratiques, organisés, sécurisés, documentés et faciles à supporter.",
+      ar: "تقوم StraitSec ببناء وصيانة أنظمة تقنية عملية تبقى منظمة وآمنة وموثقة وسهلة الدعم."
+    },
+    "StraitSec builds and maintains practical IT systems that stay organized, secure, and easy to support.": {
+      fr: "StraitSec installe et maintient des systèmes IT pratiques, organisés, sécurisés et faciles à supporter.",
+      ar: "تقوم StraitSec ببناء وصيانة أنظمة تقنية عملية تبقى منظمة وآمنة وسهلة الدعم."
     },
     "Network Installation": {
       fr: "Installation réseau",
@@ -180,6 +204,14 @@
       fr: "Caméras CCTV/IP",
       ar: "كاميرات CCTV/IP"
     },
+    "CCTV / IP Camera Systems": {
+      fr: "Systèmes de caméras CCTV / IP",
+      ar: "أنظمة كاميرات CCTV / IP"
+    },
+    "Indoor and outdoor camera coverage, NVR recording, mobile access, and separation from business traffic when possible.": {
+      fr: "Couverture intérieure et extérieure, enregistrement NVR, accès mobile et séparation du trafic métier lorsque c'est possible.",
+      ar: "تغطية كاميرات داخلية وخارجية وتسجيل NVR ووصول عبر الهاتف وفصلها عن حركة العمل عند الإمكان."
+    },
     "Camera placement, NVR setup, remote viewing, and coverage designed for real security needs.": {
       fr: "Positionnement des caméras, configuration NVR, consultation à distance et couverture pensée pour les besoins réels de sécurité.",
       ar: "تحديد أماكن الكاميرات، إعداد NVR، المشاهدة عن بعد، وتغطية مناسبة لاحتياجات الأمان الحقيقية."
@@ -187,6 +219,14 @@
     "Wi-Fi Optimization": {
       fr: "Optimisation Wi-Fi",
       ar: "تحسين الواي فاي"
+    },
+    "Router & Switch Configuration": {
+      fr: "Configuration routeur et switch",
+      ar: "إعداد الراوتر والسويتش"
+    },
+    "Router hardening, VLAN planning, firmware updates, port labeling, and clean switch documentation.": {
+      fr: "Renforcement du routeur, planification VLAN, mises à jour firmware, étiquetage des ports et documentation claire des switchs.",
+      ar: "تقوية الراوتر وتخطيط VLAN وتحديثات البرامج الثابتة وتسمية المنافذ وتوثيق السويتش بوضوح."
     },
     "Signal mapping, access point placement, guest networks, and better performance in busy environments.": {
       fr: "Analyse du signal, placement des points d'accès, réseaux invités et meilleure performance dans les environnements chargés.",
@@ -196,6 +236,14 @@
       fr: "Cybersécurité de base",
       ar: "أمن سيبراني أساسي"
     },
+    "Basic Cybersecurity Audit & Recommendations": {
+      fr: "Audit cybersécurité de base et recommandations",
+      ar: "تدقيق أمن سيبراني أساسي وتوصيات"
+    },
+    "Practical checks for networks, devices, accounts, Wi-Fi, backups, and common risks with clear next steps.": {
+      fr: "Vérifications pratiques des réseaux, appareils, comptes, Wi-Fi, sauvegardes et risques courants avec prochaines étapes claires.",
+      ar: "فحوصات عملية للشبكات والأجهزة والحسابات والواي فاي والنسخ الاحتياطي والمخاطر الشائعة مع خطوات واضحة."
+    },
     "Router hardening, password review, updates, backups, and clear recommendations for safer daily operations.": {
       fr: "Renforcement du routeur, vérification des mots de passe, mises à jour, sauvegardes et recommandations claires pour un usage quotidien plus sûr.",
       ar: "تقوية إعدادات الراوتر، مراجعة كلمات المرور، التحديثات، النسخ الاحتياطي، وتوصيات واضحة لاستخدام يومي أكثر أمانا."
@@ -204,17 +252,69 @@
       fr: "Voir tous les services",
       ar: "استكشف كل الخدمات"
     },
-    "Why Choose AshTech": {
-      fr: "Pourquoi choisir AshTech",
-      ar: "لماذا AshTech"
+    "Why choose StraitSec?": {
+      fr: "Pourquoi choisir StraitSec ?",
+      ar: "لماذا تختار StraitSec؟"
+    },
+    "Why Choose StraitSec": {
+      fr: "Pourquoi choisir StraitSec",
+      ar: "لماذا StraitSec"
+    },
+    "Built for small businesses that need reliable IT, secure networks, and practical cybersecurity guidance.": {
+      fr: "Conçu pour les petites entreprises qui ont besoin d'un IT fiable, de réseaux sécurisés et de conseils cybersécurité pratiques.",
+      ar: "مصمم للشركات الصغيرة التي تحتاج إلى تقنية موثوقة وشبكات آمنة وإرشادات أمن سيبراني عملية."
     },
     "Premium service without enterprise complexity": {
       fr: "Service premium sans complexité d'entreprise",
       ar: "خدمة احترافية بدون تعقيد المؤسسات الكبيرة"
     },
+    "We focus on clean diagnostics, careful installation, clear documentation, and recommendations you can actually use.": {
+      fr: "Nous privilégions un diagnostic propre, une installation soignée, une documentation claire et des recommandations réellement utiles.",
+      ar: "نركز على تشخيص واضح وتركيب دقيق وتوثيق مفهوم وتوصيات عملية قابلة للتطبيق."
+    },
     "We focus on clear diagnostics, careful installation, and documentation that makes future maintenance simpler.": {
       fr: "Nous misons sur un diagnostic clair, une installation soignée et une documentation qui simplifie la maintenance future.",
       ar: "نركز على تشخيص واضح، تركيب دقيق، وتوثيق يجعل الصيانة المستقبلية أسهل."
+    },
+    "Reliable IT support": {
+      fr: "Support IT fiable",
+      ar: "دعم تقني موثوق"
+    },
+    "Monthly or on-demand support for slow systems, unstable networks, and practical everyday issues.": {
+      fr: "Support mensuel ou à la demande pour systèmes lents, réseaux instables et problèmes pratiques du quotidien.",
+      ar: "دعم شهري أو عند الطلب للأنظمة البطيئة والشبكات غير المستقرة والمشاكل اليومية العملية."
+    },
+    "Secure network setup": {
+      fr: "Configuration réseau sécurisée",
+      ar: "إعداد شبكة آمنة"
+    },
+    "Router hardening, VLAN planning, camera separation, guest Wi-Fi, and safer access habits.": {
+      fr: "Renforcement routeur, planification VLAN, séparation caméras, Wi-Fi invité et habitudes d'accès plus sûres.",
+      ar: "تقوية الراوتر وتخطيط VLAN وفصل الكاميرات وواي فاي الضيوف وعادات وصول أكثر أمانا."
+    },
+    "Clear documentation": {
+      fr: "Documentation claire",
+      ar: "توثيق واضح"
+    },
+    "Network maps, port labels, handover notes, and practical records for future maintenance.": {
+      fr: "Cartes réseau, étiquettes de ports, notes de livraison et dossiers pratiques pour la maintenance future.",
+      ar: "خرائط شبكة وتسميات منافذ وملاحظات تسليم وسجلات عملية للصيانة المستقبلية."
+    },
+    "Practical cybersecurity recommendations": {
+      fr: "Recommandations cybersécurité pratiques",
+      ar: "توصيات أمن سيبراني عملية"
+    },
+    "Simple, prioritized guidance for passwords, updates, backups, phishing risks, and safer workflows.": {
+      fr: "Conseils simples et priorisés pour mots de passe, mises à jour, sauvegardes, phishing et processus plus sûrs.",
+      ar: "إرشادات بسيطة ومرتبة للأولويات حول كلمات المرور والتحديثات والنسخ الاحتياطي ومخاطر التصيد وسير عمل أكثر أمانا."
+    },
+    "Cloud-ready and backup-aware solutions": {
+      fr: "Solutions prêtes pour le cloud et conscientes des sauvegardes",
+      ar: "حلول جاهزة للسحابة ومراعية للنسخ الاحتياطي"
+    },
+    "Backup planning, file organization, restore checks, and sensible cloud options for critical data.": {
+      fr: "Planification des sauvegardes, organisation des fichiers, tests de restauration et options cloud raisonnables pour les données critiques.",
+      ar: "تخطيط النسخ الاحتياطي وتنظيم الملفات وفحوصات الاسترجاع وخيارات سحابية مناسبة للبيانات المهمة."
     },
     "Clean physical work": {
       fr: "Travail physique propre",
@@ -312,9 +412,9 @@
       fr: "Propriétaire de commerce",
       ar: "صاحب متجر"
     },
-    "“AshTech organized the school lab network, separated guest access, and gave us clear documentation.”": {
-      fr: "« AshTech a organisé le réseau du laboratoire, séparé l'accès invité et fourni une documentation claire. »",
-      ar: "« نظمت AshTech شبكة مختبر المدرسة، وفصلت وصول الضيوف، وقدمت توثيقا واضحا. »"
+    "“StraitSec organized the school lab network, separated guest access, and gave us clear documentation.”": {
+      fr: "« StraitSec a organisé le réseau du laboratoire, séparé l'accès invité et fourni une documentation claire. »",
+      ar: "« نظمت StraitSec شبكة مختبر المدرسة، وفصلت وصول الضيوف، وقدمت توثيقا واضحا. »"
     },
     "School administrator": {
       fr: "Administrateur scolaire",
@@ -340,9 +440,9 @@
       fr: "Travaillez-vous avec les maisons et les entreprises ?",
       ar: "هل تعملون مع المنازل والشركات؟"
     },
-    "Yes. AshTech supports small businesses, shops, schools, offices, and homes with scaled solutions.": {
-      fr: "Oui. AshTech accompagne petites entreprises, commerces, écoles, bureaux et maisons avec des solutions adaptées.",
-      ar: "نعم. تدعم AshTech الشركات الصغيرة والمتاجر والمدارس والمكاتب والمنازل بحلول مناسبة للحجم."
+    "Yes. StraitSec supports small businesses, shops, schools, offices, and homes with scaled solutions.": {
+      fr: "Oui. StraitSec accompagne petites entreprises, commerces, écoles, bureaux et maisons avec des solutions adaptées.",
+      ar: "نعم. تدعم StraitSec الشركات الصغيرة والمتاجر والمدارس والمكاتب والمنازل بحلول مناسبة للحجم."
     },
     "Can you improve an existing network?": {
       fr: "Pouvez-vous améliorer un réseau existant ?",
@@ -372,13 +472,17 @@
       fr: "Prêt à améliorer votre installation ?",
       ar: "جاهز للتطوير؟"
     },
-    "Tell AshTech what you need connected, protected, or repaired.": {
-      fr: "Dites à AshTech ce que vous voulez connecter, protéger ou réparer.",
-      ar: "أخبر AshTech بما تحتاج إلى ربطه أو حمايته أو إصلاحه."
+    "Tell StraitSec what you need connected, protected, or repaired.": {
+      fr: "Dites à StraitSec ce que vous voulez connecter, protéger ou réparer.",
+      ar: "أخبر StraitSec بما تحتاج إلى ربطه أو حمايته أو إصلاحه."
     },
     "Network installation, CCTV, Wi-Fi, maintenance, and basic cybersecurity for practical daily operations.": {
       fr: "Installation réseau, CCTV, Wi-Fi, maintenance et cybersécurité de base pour les opérations quotidiennes.",
       ar: "تركيب الشبكات والكاميرات والواي فاي والصيانة والأمن السيبراني الأساسي للعمل اليومي."
+    },
+    "IT services, digital infrastructure, camera systems, backups, training, and practical cybersecurity guidance.": {
+      fr: "Services IT, infrastructure digitale, systemes de cameras, sauvegardes, formation et conseils cybersecurite pratiques.",
+      ar: "\u062e\u062f\u0645\u0627\u062a \u062a\u0642\u0646\u064a\u0629 \u0648\u0628\u0646\u064a\u0629 \u0631\u0642\u0645\u064a\u0629 \u0648\u0623\u0646\u0638\u0645\u0629 \u0643\u0627\u0645\u064a\u0631\u0627\u062a \u0648\u0646\u0633\u062e \u0627\u062d\u062a\u064a\u0627\u0637\u064a \u0648\u062a\u062f\u0631\u064a\u0628 \u0648\u0625\u0631\u0634\u0627\u062f\u0627\u062a \u0623\u0645\u0646 \u0633\u064a\u0628\u0631\u0627\u0646\u064a \u0639\u0645\u0644\u064a\u0629."
     },
     "Pages": {
       fr: "Pages",
@@ -388,17 +492,17 @@
       fr: "Téléphone : +212 600 000 000",
       ar: "الهاتف: +212 600 000 000"
     },
-    "Email: contact@ashtech.example": {
-      fr: "Email : contact@ashtech.example",
-      ar: "البريد: contact@ashtech.example"
+    "Email: contact@straitsec.example": {
+      fr: "Email : contact@straitsec.example",
+      ar: "البريد: contact@straitsec.example"
     },
     "خدمة محلية ودعم عن بعد": {
       fr: "Service local et support à distance",
       ar: "خدمة محلية ودعم عن بعد"
     },
-    "© 2026 AshTech. All rights reserved.": {
-      fr: "© 2026 AshTech. Tous droits réservés.",
-      ar: "© 2026 AshTech. جميع الحقوق محفوظة."
+    "© 2026 StraitSec. All rights reserved.": {
+      fr: "© 2026 StraitSec. Tous droits réservés.",
+      ar: "© 2026 StraitSec. جميع الحقوق محفوظة."
     },
     "IT infrastructure services built for reliability": {
       fr: "Services d'infrastructure informatique conçus pour la fiabilité",
@@ -552,9 +656,57 @@
       fr: "Besoin d'un plan de service ?",
       ar: "هل تحتاج خطة خدمة؟"
     },
-    "Send a few details and AshTech will prepare the right next step.": {
-      fr: "Envoyez quelques détails et AshTech préparera la prochaine étape adaptée.",
-      ar: "أرسل بعض التفاصيل وستجهز AshTech الخطوة المناسبة."
+    "Send a few details and StraitSec will prepare the right next step.": {
+      fr: "Envoyez quelques détails et StraitSec préparera la prochaine étape adaptée.",
+      ar: "أرسل بعض التفاصيل وستجهز StraitSec الخطوة المناسبة."
+    },
+    "Installation, configuration, maintenance, training, and practical security support across homes and organizations.": {
+      fr: "Installation, configuration, maintenance, formation et support securite pratique pour maisons et organisations.",
+      ar: "\u062a\u0631\u0643\u064a\u0628 \u0648\u0625\u0639\u062f\u0627\u062f \u0648\u0635\u064a\u0627\u0646\u0629 \u0648\u062a\u062f\u0631\u064a\u0628 \u0648\u062f\u0639\u0645 \u0623\u0645\u0646\u064a \u0639\u0645\u0644\u064a \u0644\u0644\u0645\u0646\u0627\u0632\u0644 \u0648\u0627\u0644\u0645\u0624\u0633\u0633\u0627\u062a."
+    },
+    "Ethernet cabling, wall outlets, small rack setup, cabinet organization, network mapping, and handover documentation.": {
+      fr: "Cablage Ethernet, prises murales, petite baie, organisation d'armoire, cartographie reseau et documentation de livraison.",
+      ar: "\u0643\u0627\u0628\u0644\u0627\u062a Ethernet \u0648\u0645\u062e\u0627\u0631\u062c \u062d\u0627\u0626\u0637 \u0648\u0625\u0639\u062f\u0627\u062f \u0631\u0627\u0643 \u0635\u063a\u064a\u0631 \u0648\u062a\u0646\u0638\u064a\u0645 \u0627\u0644\u062e\u0632\u0627\u0646\u0629 \u0648\u062e\u0631\u064a\u0637\u0629 \u0627\u0644\u0634\u0628\u0643\u0629 \u0648\u062a\u0648\u062b\u064a\u0642 \u0627\u0644\u062a\u0633\u0644\u064a\u0645."
+    },
+    "Network mapping and handover documentation": {
+      fr: "Cartographie reseau et documentation de livraison",
+      ar: "\u062e\u0631\u064a\u0637\u0629 \u0627\u0644\u0634\u0628\u0643\u0629 \u0648\u062a\u0648\u062b\u064a\u0642 \u0627\u0644\u062a\u0633\u0644\u064a\u0645"
+    },
+    "Router hardening, firmware updates, VLAN planning for staff, guests, cameras, and POS, port labeling, and switch documentation.": {
+      fr: "Renforcement routeur, mises a jour firmware, VLAN pour equipe, invites, cameras et POS, etiquetage des ports et documentation switch.",
+      ar: "\u062a\u0642\u0648\u064a\u0629 \u0627\u0644\u0631\u0627\u0648\u062a\u0631 \u0648\u062a\u062d\u062f\u064a\u062b\u0627\u062a \u0627\u0644\u0628\u0631\u0627\u0645\u062c \u0648\u062a\u062e\u0637\u064a\u0637 VLAN \u0644\u0644\u0645\u0648\u0638\u0641\u064a\u0646 \u0648\u0627\u0644\u0636\u064a\u0648\u0641 \u0648\u0627\u0644\u0643\u0627\u0645\u064a\u0631\u0627\u062a \u0648POS \u0648\u062a\u0633\u0645\u064a\u0629 \u0627\u0644\u0645\u0646\u0627\u0641\u0630 \u0648\u062a\u0648\u062b\u064a\u0642 \u0627\u0644\u0633\u0648\u064a\u062a\u0634."
+    },
+    "IT Maintenance & Support": {
+      fr: "Maintenance et support IT",
+      ar: "\u0635\u064a\u0627\u0646\u0629 \u0648\u062f\u0639\u0645 \u062a\u0642\u0646\u064a"
+    },
+    "Monthly or on-demand support, device inventory, health checks, and troubleshooting for slow or unstable systems.": {
+      fr: "Support mensuel ou a la demande, inventaire des appareils, controles de sante et depannage des systemes lents ou instables.",
+      ar: "\u062f\u0639\u0645 \u0634\u0647\u0631\u064a \u0623\u0648 \u0639\u0646\u062f \u0627\u0644\u0637\u0644\u0628 \u0648\u062c\u0631\u062f \u0627\u0644\u0623\u062c\u0647\u0632\u0629 \u0648\u0641\u062d\u0648\u0635\u0627\u062a \u0627\u0644\u062d\u0627\u0644\u0629 \u0648\u0625\u0635\u0644\u0627\u062d \u0627\u0644\u0623\u0646\u0638\u0645\u0629 \u0627\u0644\u0628\u0637\u064a\u0626\u0629 \u0623\u0648 \u063a\u064a\u0631 \u0627\u0644\u0645\u0633\u062a\u0642\u0631\u0629."
+    },
+    "Digitization & Backup Solutions": {
+      fr: "Digitalisation et solutions de sauvegarde",
+      ar: "\u0627\u0644\u0631\u0642\u0645\u0646\u0629 \u0648\u062d\u0644\u0648\u0644 \u0627\u0644\u0646\u0633\u062e \u0627\u0644\u0627\u062d\u062a\u064a\u0627\u0637\u064a"
+    },
+    "Backup schedule recommendations, local and cloud backup options, file organization, and restore checks for critical files.": {
+      fr: "Recommandations de planning de sauvegarde, options locales et cloud, organisation des fichiers et controles de restauration.",
+      ar: "\u062a\u0648\u0635\u064a\u0627\u062a \u062c\u062f\u0648\u0644\u0629 \u0627\u0644\u0646\u0633\u062e \u0627\u0644\u0627\u062d\u062a\u064a\u0627\u0637\u064a \u0648\u062e\u064a\u0627\u0631\u0627\u062a \u0645\u062d\u0644\u064a\u0629 \u0648\u0633\u062d\u0627\u0628\u064a\u0629 \u0648\u062a\u0646\u0638\u064a\u0645 \u0627\u0644\u0645\u0644\u0641\u0627\u062a \u0648\u0641\u062d\u0648\u0635\u0627\u062a \u0627\u0644\u0627\u0633\u062a\u0631\u062c\u0627\u0639."
+    },
+    "Cybersecurity Awareness & Training": {
+      fr: "Sensibilisation et formation cybersécurite",
+      ar: "\u0627\u0644\u062a\u0648\u0639\u064a\u0629 \u0648\u0627\u0644\u062a\u062f\u0631\u064a\u0628 \u0641\u064a \u0627\u0644\u0623\u0645\u0646 \u0627\u0644\u0633\u064a\u0628\u0631\u0627\u0646\u064a"
+    },
+    "Training sessions for employees about phishing, social engineering, password safety, safe browsing, new cyber threats, and basic security tools.": {
+      fr: "Sessions pour employes sur phishing, ingenierie sociale, mots de passe, navigation sure, nouvelles menaces et outils de securite de base.",
+      ar: "\u062d\u0635\u0635 \u062a\u062f\u0631\u064a\u0628\u064a\u0629 \u0644\u0644\u0645\u0648\u0638\u0641\u064a\u0646 \u062d\u0648\u0644 \u0627\u0644\u062a\u0635\u064a\u062f \u0648\u0627\u0644\u0647\u0646\u062f\u0633\u0629 \u0627\u0644\u0627\u062c\u062a\u0645\u0627\u0639\u064a\u0629 \u0648\u0623\u0645\u0627\u0646 \u0643\u0644\u0645\u0627\u062a \u0627\u0644\u0645\u0631\u0648\u0631 \u0648\u0627\u0644\u062a\u0635\u0641\u062d \u0627\u0644\u0622\u0645\u0646 \u0648\u0627\u0644\u062a\u0647\u062f\u064a\u062f\u0627\u062a \u0627\u0644\u062c\u062f\u064a\u062f\u0629."
+    },
+    "Workshops & Practical Training": {
+      fr: "Ateliers et formation pratique",
+      ar: "\u0648\u0631\u0634\u0627\u062a \u0648\u062a\u062f\u0631\u064a\u0628 \u0639\u0645\u0644\u064a"
+    },
+    "Practical workshops for small teams, students, and businesses about networking, cybersecurity basics, digital tools, and safe IT practices.": {
+      fr: "Ateliers pratiques pour petites equipes, etudiants et entreprises sur reseaux, bases cybersécurite, outils digitaux et bonnes pratiques IT.",
+      ar: "\u0648\u0631\u0634\u0627\u062a \u0639\u0645\u0644\u064a\u0629 \u0644\u0644\u0641\u0631\u0642 \u0627\u0644\u0635\u063a\u064a\u0631\u0629 \u0648\u0627\u0644\u0637\u0644\u0627\u0628 \u0648\u0627\u0644\u0634\u0631\u0643\u0627\u062a \u062d\u0648\u0644 \u0627\u0644\u0634\u0628\u0643\u0627\u062a \u0648\u0623\u0633\u0627\u0633\u064a\u0627\u062a \u0627\u0644\u0623\u0645\u0646 \u0627\u0644\u0633\u064a\u0628\u0631\u0627\u0646\u064a \u0648\u0627\u0644\u0623\u062f\u0648\u0627\u062a \u0627\u0644\u0631\u0642\u0645\u064a\u0629."
     },
     "Reliable networks, cameras, Wi-Fi, maintenance, and cybersecurity basics.": {
       fr: "Réseaux fiables, caméras, Wi-Fi, maintenance et bases de cybersécurité.",
@@ -564,9 +716,9 @@
       fr: "Plans technologiques pour des environnements réels",
       ar: "خطط تقنية لبيئات حقيقية"
     },
-    "Every space has different traffic, risk, budget, and support needs. AshTech adapts the design to the place.": {
-      fr: "Chaque espace a son trafic, ses risques, son budget et ses besoins de support. AshTech adapte la conception au lieu.",
-      ar: "لكل مكان حركة استخدام ومخاطر وميزانية واحتياجات دعم مختلفة. AshTech تصمم الحل حسب المكان."
+    "Every space has different traffic, risk, budget, and support needs. StraitSec adapts the design to the place.": {
+      fr: "Chaque espace a son trafic, ses risques, son budget et ses besoins de support. StraitSec adapte la conception au lieu.",
+      ar: "لكل مكان حركة استخدام ومخاطر وميزانية واحتياجات دعم مختلفة. StraitSec تصمم الحل حسب المكان."
     },
     "For Small Businesses": {
       fr: "Pour les petites entreprises",
@@ -680,9 +832,13 @@
       fr: "Exemples de déploiements avec améliorations mesurables",
       ar: "نماذج مشاريع بتحسينات قابلة للقياس"
     },
-    "Realistic scenarios showing how AshTech upgrades weak networks, camera systems, and IT maintenance habits.": {
-      fr: "Scénarios réalistes montrant comment AshTech améliore réseaux faibles, caméras et habitudes de maintenance.",
-      ar: "سيناريوهات واقعية توضح كيف تطور AshTech الشبكات الضعيفة وأنظمة الكاميرات وعادات الصيانة."
+    "Realistic scenarios showing how StraitSec upgrades weak networks, camera systems, and support routines.": {
+      fr: "Scenarios realistes montrant comment StraitSec ameliore les reseaux faibles, les systemes de cameras et les routines de support.",
+      ar: "\u0633\u064a\u0646\u0627\u0631\u064a\u0648\u0647\u0627\u062a \u0648\u0627\u0642\u0639\u064a\u0629 \u062a\u0648\u0636\u062d \u0643\u064a\u0641 \u062a\u0637\u0648\u0631 StraitSec \u0627\u0644\u0634\u0628\u0643\u0627\u062a \u0627\u0644\u0636\u0639\u064a\u0641\u0629 \u0648\u0623\u0646\u0638\u0645\u0629 \u0627\u0644\u0643\u0627\u0645\u064a\u0631\u0627\u062a \u0648\u0631\u0648\u062a\u064a\u0646\u0627\u062a \u0627\u0644\u062f\u0639\u0645."
+    },
+    "Realistic scenarios showing how StraitSec upgrades weak networks, camera systems, and IT maintenance habits.": {
+      fr: "Scénarios réalistes montrant comment StraitSec améliore réseaux faibles, caméras et habitudes de maintenance.",
+      ar: "سيناريوهات واقعية توضح كيف تطور StraitSec الشبكات الضعيفة وأنظمة الكاميرات وعادات الصيانة."
     },
     "Retail": {
       fr: "Commerce",
@@ -832,9 +988,9 @@
       fr: "Votre projet ensuite",
       ar: "مشروعك هو التالي"
     },
-    "Share a short description and AshTech will recommend a clean path forward.": {
-      fr: "Partagez une courte description et AshTech recommandera une voie claire.",
-      ar: "شارك وصفا قصيرا وستقترح AshTech مسارا واضحا."
+    "Share a short description and StraitSec will recommend a clean path forward.": {
+      fr: "Partagez une courte description et StraitSec recommandera une voie claire.",
+      ar: "شارك وصفا قصيرا وستقترح StraitSec مسارا واضحا."
     },
     "Example projects for networks, cameras, Wi-Fi, and security basics.": {
       fr: "Exemples de projets pour réseaux, caméras, Wi-Fi et bases de sécurité.",
@@ -844,13 +1000,13 @@
       fr: "Planifiez votre réseau, vos caméras, votre Wi-Fi ou votre support IT",
       ar: "خطط لشبكتك أو كاميراتك أو الواي فاي أو الدعم التقني"
     },
-    "Send a message or request a quote. AshTech will respond with a practical next step.": {
-      fr: "Envoyez un message ou demandez un devis. AshTech répondra avec une prochaine étape pratique.",
-      ar: "أرسل رسالة أو اطلب عرض سعر. سترد AshTech بخطوة عملية مناسبة."
+    "Send a message or request a quote. StraitSec will respond with a practical next step.": {
+      fr: "Envoyez un message ou demandez un devis. StraitSec répondra avec une prochaine étape pratique.",
+      ar: "أرسل رسالة أو اطلب عرض سعر. سترد StraitSec بخطوة عملية مناسبة."
     },
-    "Reach AshTech": {
-      fr: "Joindre AshTech",
-      ar: "تواصل مع AshTech"
+    "Reach StraitSec": {
+      fr: "Joindre StraitSec",
+      ar: "تواصل مع StraitSec"
     },
     "Direct contact": {
       fr: "Contact direct",
@@ -932,9 +1088,9 @@
       fr: "Recevoir une estimation pratique",
       ar: "احصل على تقدير عملي"
     },
-    "Tell us about your site, the service you need, and the current problem. Clear details help AshTech prepare faster.": {
-      fr: "Décrivez votre site, le service souhaité et le problème actuel. Des détails clairs aident AshTech à préparer plus vite.",
-      ar: "أخبرنا عن موقعك والخدمة المطلوبة والمشكلة الحالية. التفاصيل الواضحة تساعد AshTech على التحضير بسرعة."
+    "Tell us about your site, the service you need, and the current problem. Clear details help StraitSec prepare faster.": {
+      fr: "Décrivez votre site, le service souhaité et le problème actuel. Des détails clairs aident StraitSec à préparer plus vite.",
+      ar: "أخبرنا عن موقعك والخدمة المطلوبة والمشكلة الحالية. التفاصيل الواضحة تساعد StraitSec على التحضير بسرعة."
     },
     "Company or place": {
       fr: "Entreprise ou lieu",
@@ -1032,17 +1188,29 @@
       fr: "Détails du projet",
       ar: "تفاصيل المشروع"
     },
-    "Contact AshTech for installations, upgrades, maintenance, and practical security support.": {
-      fr: "Contactez AshTech pour installations, améliorations, maintenance et support sécurité pratique.",
-      ar: "تواصل مع AshTech للتركيب والترقية والصيانة والدعم الأمني العملي."
+    "Contact StraitSec for installations, upgrades, maintenance, and practical security support.": {
+      fr: "Contactez StraitSec pour installations, améliorations, maintenance et support sécurité pratique.",
+      ar: "تواصل مع StraitSec للتركيب والترقية والصيانة والدعم الأمني العملي."
     },
     "Protected Area": {
       fr: "Zone protégée",
       ar: "منطقة محمية"
     },
-    "AshTech dashboard": {
-      fr: "Tableau de bord AshTech",
-      ar: "لوحة تحكم AshTech"
+    "Secure portal": {
+      fr: "Portail securise",
+      ar: "\u0628\u0648\u0627\u0628\u0629 \u0622\u0645\u0646\u0629"
+    },
+    "StraitSec Admin Dashboard": {
+      fr: "Tableau de bord admin StraitSec",
+      ar: "\u0644\u0648\u062d\u0629 \u0625\u062f\u0627\u0631\u0629 StraitSec"
+    },
+    "StraitSec dashboard": {
+      fr: "Tableau de bord StraitSec",
+      ar: "لوحة تحكم StraitSec"
+    },
+    "Review contact messages, quote requests, and client service requests securely stored in Cloudflare D1.": {
+      fr: "Consultez les messages de contact, demandes de devis et demandes de service client stockes de facon securisee dans Cloudflare D1.",
+      ar: "\u0631\u0627\u062c\u0639 \u0631\u0633\u0627\u0626\u0644 \u0627\u0644\u062a\u0648\u0627\u0635\u0644 \u0648\u0637\u0644\u0628\u0627\u062a \u0627\u0644\u0623\u0633\u0639\u0627\u0631 \u0648\u0637\u0644\u0628\u0627\u062a \u062e\u062f\u0645\u0629 \u0627\u0644\u0639\u0645\u0644\u0627\u0621 \u0627\u0644\u0645\u062e\u0632\u0646\u0629 \u0628\u0623\u0645\u0627\u0646 \u0641\u064a Cloudflare D1."
     },
     "Review contact messages and quote requests stored in Cloudflare D1.": {
       fr: "Consultez les messages de contact et demandes de devis stockés dans Cloudflare D1.",
@@ -1088,9 +1256,9 @@
       fr: "Messages de contact",
       ar: "رسائل التواصل"
     },
-    "© 2026 AshTech. Admin dashboard.": {
-      fr: "© 2026 AshTech. Tableau de bord admin.",
-      ar: "© 2026 AshTech. لوحة الإدارة."
+    "© 2026 StraitSec. Admin dashboard.": {
+      fr: "© 2026 StraitSec. Tableau de bord admin.",
+      ar: "© 2026 StraitSec. لوحة الإدارة."
     },
     "Dashboard refreshed.": {
       fr: "Tableau de bord actualisé.",
@@ -1132,13 +1300,13 @@
       fr: "Le serveur a renvoyé une réponse invalide.",
       ar: "أعاد الخادم استجابة غير صالحة."
     },
-    "Your message was received. AshTech will contact you soon.": {
-      fr: "Votre message a été reçu. AshTech vous contactera bientôt.",
-      ar: "تم استلام رسالتك. ستتواصل معك AshTech قريبا."
+    "Your message was received. StraitSec will contact you soon.": {
+      fr: "Votre message a été reçu. StraitSec vous contactera bientôt.",
+      ar: "تم استلام رسالتك. ستتواصل معك StraitSec قريبا."
     },
-    "Your quote request was received. AshTech will prepare a response soon.": {
-      fr: "Votre demande de devis a été reçue. AshTech préparera une réponse bientôt.",
-      ar: "تم استلام طلب عرض السعر. ستجهز AshTech الرد قريبا."
+    "Your quote request was received. StraitSec will prepare a response soon.": {
+      fr: "Votre demande de devis a été reçue. StraitSec préparera une réponse bientôt.",
+      ar: "تم استلام طلب عرض السعر. ستجهز StraitSec الرد قريبا."
     },
     "Contact submission failed validation.": {
       fr: "La soumission du contact n'a pas passé la validation.",
@@ -1232,13 +1400,13 @@
       fr: "Demande de devis supprimée avec succès.",
       ar: "تم حذف طلب عرض السعر بنجاح."
     },
-    "Page Not Found | AshTech": {
-      fr: "Page introuvable | AshTech",
-      ar: "الصفحة غير موجودة | AshTech"
+    "Page Not Found | StraitSec": {
+      fr: "Page introuvable | StraitSec",
+      ar: "الصفحة غير موجودة | StraitSec"
     },
-    "Server Error | AshTech": {
-      fr: "Erreur serveur | AshTech",
-      ar: "خطأ في الخادم | AshTech"
+    "Server Error | StraitSec": {
+      fr: "Erreur serveur | StraitSec",
+      ar: "خطأ في الخادم | StraitSec"
     },
     "Page not found": {
       fr: "Page introuvable",
@@ -1256,17 +1424,17 @@
       fr: "Erreur",
       ar: "خطأ"
     },
-    "Please try again later, or contact AshTech if the issue continues.": {
-      fr: "Veuillez réessayer plus tard ou contacter AshTech si le problème continue.",
-      ar: "يرجى المحاولة لاحقا أو التواصل مع AshTech إذا استمرت المشكلة."
+    "Please try again later, or contact StraitSec if the issue continues.": {
+      fr: "Veuillez réessayer plus tard ou contacter StraitSec si le problème continue.",
+      ar: "يرجى المحاولة لاحقا أو التواصل مع StraitSec إذا استمرت المشكلة."
     },
     "Go Home": {
       fr: "Retour à l'accueil",
       ar: "العودة للرئيسية"
     },
-    "Contact AshTech": {
-      fr: "Contacter AshTech",
-      ar: "تواصل مع AshTech"
+    "Contact StraitSec": {
+      fr: "Contacter StraitSec",
+      ar: "تواصل مع StraitSec"
     },
     "Export Messages CSV": {
       fr: "Exporter les messages CSV",
@@ -1304,13 +1472,25 @@
       fr: "Installation réseau",
       ar: "تركيب الشبكات"
     },
+    "Network Installation": {
+      fr: "Installation réseau",
+      ar: "تركيب الشبكات"
+    },
     "Router and switch configuration": {
+      fr: "Configuration routeur et switch",
+      ar: "إعداد الراوتر والسويتش"
+    },
+    "Router & Switch Configuration": {
       fr: "Configuration routeur et switch",
       ar: "إعداد الراوتر والسويتش"
     },
     "CCTV/IP cameras": {
       fr: "Caméras CCTV/IP",
       ar: "كاميرات CCTV/IP"
+    },
+    "CCTV / IP Camera Systems": {
+      fr: "Systèmes de caméras CCTV / IP",
+      ar: "أنظمة كاميرات CCTV / IP"
     },
     "Wi-Fi optimization": {
       fr: "Optimisation Wi-Fi",
@@ -1320,13 +1500,33 @@
       fr: "Maintenance informatique",
       ar: "صيانة تقنية المعلومات"
     },
+    "IT Maintenance & Support": {
+      fr: "Maintenance et support IT",
+      ar: "صيانة ودعم تقنية المعلومات"
+    },
     "Backup solutions": {
       fr: "Solutions de sauvegarde",
       ar: "حلول النسخ الاحتياطي"
     },
+    "Digitization & Backup Solutions": {
+      fr: "Digitalisation et solutions de sauvegarde",
+      ar: "الرقمنة وحلول النسخ الاحتياطي"
+    },
+    "Cybersecurity Awareness & Training": {
+      fr: "Sensibilisation et formation cybersécurité",
+      ar: "التوعية والتدريب في الأمن السيبراني"
+    },
     "Basic cybersecurity audit": {
       fr: "Audit cybersécurité de base",
       ar: "تدقيق الأمن السيبراني الأساسي"
+    },
+    "Basic Cybersecurity Audit & Recommendations": {
+      fr: "Audit cybersécurité de base et recommandations",
+      ar: "تدقيق أمن سيبراني أساسي وتوصيات"
+    },
+    "Workshops & Practical Training": {
+      fr: "Ateliers et formation pratique",
+      ar: "ورشات وتدريب عملي"
     },
     "Apply Filters": {
       fr: "Appliquer les filtres",
@@ -1391,6 +1591,10 @@
     "Admin login successful.": {
       fr: "Connexion admin réussie.",
       ar: "تم تسجيل دخول الإدارة بنجاح."
+    },
+    "Admin logout successful.": {
+      fr: "Deconnexion admin reussie.",
+      ar: "\u062a\u0645 \u062a\u0633\u062c\u064a\u0644 \u062e\u0631\u0648\u062c \u0627\u0644\u0625\u062f\u0627\u0631\u0629 \u0628\u0646\u062c\u0627\u062d."
     },
     "No activity yet.": {
       fr: "Aucune activité pour le moment.",
@@ -1633,7 +1837,7 @@
 
   function initTheme() {
     const toggle = document.querySelector("[data-theme-toggle]");
-    const savedTheme = localStorage.getItem("ashtech-theme");
+    const savedTheme = localStorage.getItem("straitsec-theme");
     const preferredTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
     const initialTheme = savedTheme || preferredTheme;
 
@@ -1642,7 +1846,7 @@
     if (toggle) {
       toggle.addEventListener("click", () => {
         const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-        localStorage.setItem("ashtech-theme", nextTheme);
+        localStorage.setItem("straitsec-theme", nextTheme);
         applyTheme(nextTheme);
       });
     }
@@ -1948,6 +2152,7 @@
       showDashboard(loginForm, dashboard);
       loadAdminData(savedToken).catch((error) => {
         sessionStorage.removeItem(adminTokenKey);
+        document.body.classList.remove("admin-authenticated");
         dashboard.classList.add("hidden");
         loginForm.classList.remove("hidden");
         setStatus(loginStatus, error.message, "error");
@@ -2061,7 +2266,7 @@
         clearStatus(adminStatus);
 
         try {
-          await downloadCsv(`/api/messages/export${buildQueryString(buildMessageQuery(false))}`, token, "ashtech-contact-messages.csv");
+          await downloadCsv(`/api/messages/export${buildQueryString(buildMessageQuery(false))}`, token, "straitsec-contact-messages.csv");
           setStatus(adminStatus, "Messages CSV exported.", "success");
           notify("Messages CSV exported.", "success");
         } catch (error) {
@@ -2080,7 +2285,7 @@
         clearStatus(adminStatus);
 
         try {
-          await downloadCsv(`/api/quotes/export${buildQueryString(buildQuoteQuery(false))}`, token, "ashtech-quote-requests.csv");
+          await downloadCsv(`/api/quotes/export${buildQueryString(buildQuoteQuery(false))}`, token, "straitsec-quote-requests.csv");
           setStatus(adminStatus, "Quote requests CSV exported.", "success");
           notify("Quote requests CSV exported.", "success");
         } catch (error) {
@@ -2093,11 +2298,26 @@
     }
 
     if (logoutButton) {
-      logoutButton.addEventListener("click", () => {
+      logoutButton.addEventListener("click", async () => {
+        const token = sessionStorage.getItem(adminTokenKey) || "";
+        if (token) {
+          try {
+            await sendJson("/api/admin/logout", null, {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            });
+          } catch {
+            // Local logout should still complete if the token is already expired.
+          }
+        }
         sessionStorage.removeItem(adminTokenKey);
+        document.body.classList.remove("admin-authenticated");
         dashboard.classList.add("hidden");
         loginForm.classList.remove("hidden");
         clearStatus(adminStatus);
+        notify("Admin logout successful.", "success");
       });
     }
 
@@ -2154,6 +2374,7 @@
   }
 
   function showDashboard(loginForm, dashboard) {
+    document.body.classList.add("admin-authenticated");
     loginForm.classList.add("hidden");
     dashboard.classList.remove("hidden");
   }

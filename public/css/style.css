@@ -170,7 +170,8 @@ li {
 
 .brand-text small {
   color: var(--muted);
-  font-size: 0.74rem;
+  max-width: 260px;
+  font-size: 0.68rem;
   line-height: 1.1;
 }
 
@@ -279,7 +280,7 @@ li {
   align-items: center;
   min-height: 78svh;
   overflow: hidden;
-  background-image: url("../assets/ashtech-hero.png");
+  background-image: url("../assets/straitsec-hero.png");
   background-position: center;
   background-size: cover;
 }
@@ -305,9 +306,19 @@ li {
     linear-gradient(180deg, rgba(5, 12, 22, 0.10), rgba(5, 12, 22, 0.78));
 }
 
+:root:not([data-theme="dark"]) .hero-overlay {
+  background:
+    linear-gradient(90deg, rgba(247, 249, 252, 0.96), rgba(247, 249, 252, 0.86) 46%, rgba(247, 249, 252, 0.52) 100%),
+    linear-gradient(180deg, rgba(247, 249, 252, 0.48), rgba(247, 249, 252, 0.94));
+}
+
 .hero-content {
   padding: clamp(64px, 11vw, 130px) 0 clamp(52px, 8vw, 90px);
   color: #ffffff;
+}
+
+:root:not([data-theme="dark"]) .hero-content {
+  color: var(--text);
 }
 
 .hero-content > * {
@@ -325,6 +336,10 @@ li {
 .hero-content .eyebrow,
 .cta-section .eyebrow {
   color: #7dd3fc;
+}
+
+:root:not([data-theme="dark"]) .hero-content .eyebrow {
+  color: var(--primary);
 }
 
 h1,
@@ -358,12 +373,20 @@ h3 {
   max-width: 680px;
 }
 
+:root:not([data-theme="dark"]) .hero-lede {
+  color: color-mix(in srgb, var(--text) 82%, var(--muted));
+}
+
 .language-line {
   display: flex;
   flex-wrap: wrap;
   gap: 10px 18px;
   margin-top: 18px;
   color: rgba(255, 255, 255, 0.78);
+}
+
+:root:not([data-theme="dark"]) .language-line {
+  color: var(--muted);
 }
 
 .hero-actions {
@@ -410,6 +433,12 @@ h3 {
   backdrop-filter: blur(10px);
 }
 
+:root:not([data-theme="dark"]) .hero-content .button-secondary {
+  border-color: color-mix(in srgb, var(--primary) 28%, var(--line));
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  color: var(--text);
+}
+
 .button-outline {
   border-color: var(--line);
   background: var(--surface);
@@ -437,9 +466,19 @@ h3 {
   backdrop-filter: blur(14px);
 }
 
+:root:not([data-theme="dark"]) .hero-metrics div {
+  border-color: color-mix(in srgb, var(--line) 85%, transparent);
+  background: color-mix(in srgb, var(--surface) 78%, transparent);
+  box-shadow: 0 14px 38px rgba(16, 24, 39, 0.08);
+}
+
 .hero-metrics strong,
 .hero-metrics span {
   display: block;
+}
+
+:root:not([data-theme="dark"]) .hero-metrics span {
+  color: var(--muted);
 }
 
 .hero-metrics strong {
@@ -514,6 +553,22 @@ h3 {
   border-radius: var(--radius);
   background: var(--surface);
   box-shadow: 0 1px 0 color-mix(in srgb, var(--line) 60%, transparent);
+}
+
+.service-card,
+.detail-card,
+.solution-card,
+.package-card,
+.case-card,
+.improvement-card,
+.testimonial-card,
+.process-step,
+.form-card,
+.contact-panel,
+.admin-item,
+.admin-stats div,
+.admin-controls {
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--line) 70%, transparent), 0 18px 42px color-mix(in srgb, var(--text) 5%, transparent);
 }
 
 .service-card,
@@ -677,7 +732,7 @@ h3 {
   color: #ffffff;
   background:
     linear-gradient(135deg, rgba(15, 118, 110, 0.96), rgba(37, 99, 235, 0.94)),
-    url("../assets/ashtech-hero.png") center / cover;
+    url("../assets/straitsec-hero.png") center / cover;
 }
 
 .cta-content {
@@ -1060,6 +1115,10 @@ textarea:focus {
   max-width: 520px;
   margin: 0 auto;
   width: 100%;
+}
+
+.admin-page.admin-authenticated .admin-hero {
+  display: none;
 }
 
 .admin-dashboard {

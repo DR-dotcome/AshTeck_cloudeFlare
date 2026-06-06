@@ -32,13 +32,14 @@ const allowedValues = {
   preferredLanguage: ["English", "French", "Arabic"],
   businessType: ["Small business", "Shop", "School", "Home", "Office"],
   service: [
-    "Network installation",
-    "Router and switch configuration",
-    "CCTV/IP cameras",
-    "Wi-Fi optimization",
-    "IT maintenance",
-    "Backup solutions",
-    "Basic cybersecurity audit"
+    "Network Installation",
+    "Router & Switch Configuration",
+    "CCTV / IP Camera Systems",
+    "IT Maintenance & Support",
+    "Digitization & Backup Solutions",
+    "Cybersecurity Awareness & Training",
+    "Basic Cybersecurity Audit & Recommendations",
+    "Workshops & Practical Training"
   ],
   budget: ["Starter", "Standard", "Advanced", "Maintenance plan"],
   timeline: ["Urgent", "This week", "This month", "Planning ahead"]
@@ -65,13 +66,19 @@ export async function onRequest(context) {
 
   try {
     return await routeApi(request, env, url);
-   } catch (error) {
+  } catch (error) {
     console.error("API error:", error);
+
+    if (error instanceof HttpError) {
+      return jsonResponse(error.status, {
+        success: false,
+        message: error.message
+      });
+    }
 
     return jsonResponse(500, {
       success: false,
-      message: error?.message || "Unknown API error",
-      stack: String(error?.stack || "")
+      message: "Something went wrong. Please try again later."
     });
   }
 }
@@ -109,6 +116,15 @@ async function routeApi(request, env, url) {
       success: true,
       message: "Admin session is active.",
       data: publicAdmin(admin)
+    });
+  }
+
+  if (method === "POST" && path === "/api/admin/logout") {
+    const admin = await requireAdmin(request, env);
+    await logActivity(env, request, "admin_logout", { email: admin.email }, admin.id);
+    return jsonResponse(200, {
+      success: true,
+      message: "Admin logout successful."
     });
   }
 
@@ -179,7 +195,7 @@ async function handleContact(request, env) {
 
   return jsonResponse(201, {
     success: true,
-    message: "Your message was received. AshTech will contact you soon.",
+    message: "Your message was received. StraitSec will contact you soon.",
     data: mapContact(saved)
   });
 }
@@ -218,7 +234,7 @@ async function handleQuote(request, env) {
 
   return jsonResponse(201, {
     success: true,
-    message: "Your quote request was received. AshTech will prepare a response soon.",
+    message: "Your quote request was received. StraitSec will prepare a response soon.",
     data: mapQuote(saved)
   });
 }
@@ -347,7 +363,7 @@ async function handleMessagesExport(request, env, url, admin) {
   const messages = (rows.results || []).map(mapContact);
 
   await logActivity(env, request, "contact_messages_exported", { count: messages.length }, admin.id);
-  return csvResponse("ashtech-contact-messages.csv", messagesToCsv(messages));
+  return csvResponse("straitsec-contact-messages.csv", messagesToCsv(messages));
 }
 
 async function handleDeleteMessage(request, env, id, admin) {
@@ -404,7 +420,7 @@ async function handleQuotesExport(request, env, url, admin) {
   const quotes = (rows.results || []).map(mapQuote);
 
   await logActivity(env, request, "quote_requests_exported", { count: quotes.length }, admin.id);
-  return csvResponse("ashtech-quote-requests.csv", quotesToCsv(quotes));
+  return csvResponse("straitsec-quote-requests.csv", quotesToCsv(quotes));
 }
 
 async function handleDeleteQuote(request, env, id, admin) {
@@ -716,7 +732,7 @@ async function signJwt(payload, env) {
   const now = Math.floor(Date.now() / 1000);
   const tokenPayload = {
     ...payload,
-    iss: "ashtech",
+    iss: "straitsec",
     iat: now,
     exp: now + parseExpirySeconds(env.JWT_EXPIRES_IN || "1h")
   };
@@ -749,7 +765,7 @@ async function verifyJwt(token, env) {
     throw new HttpError(401, "Admin session is invalid or expired.");
   }
 
-  if (payload.iss !== "ashtech" || !payload.sub || Number(payload.exp) <= Math.floor(Date.now() / 1000)) {
+  if (payload.iss !== "straitsec" || !payload.sub || Number(payload.exp) <= Math.floor(Date.now() / 1000)) {
     throw new HttpError(401, "Admin session is invalid or expired.");
   }
 
@@ -826,7 +842,7 @@ function csvResponse(filename, csv) {
 
 function securityHeaders() {
   return {
-    "Content-Security-Policy": "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'",
+    "Content-Security-Policy": "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data:; script-src 'self'; style-src 'self'; connect-src 'self'",
     "Referrer-Policy": "strict-origin-when-cross-origin",
     "X-Content-Type-Options": "nosniff",
     "X-Frame-Options": "DENY",

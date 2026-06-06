@@ -1,6 +1,6 @@
-# AshTech Cloudflare Pages + D1 Website
+# StraitSec Cloudflare Pages + D1 Website
 
-Premium full-stack website for AshTech IT services: network installation, IT infrastructure, CCTV/IP cameras, router and switch configuration, Wi-Fi optimization, maintenance, backups, and basic cybersecurity.
+Premium full-stack website for StraitSec: IT Services, Digital Infrastructure & Cybersecurity. Services include Network Installation, Router & Switch Configuration, CCTV / IP Camera Systems, IT Maintenance & Support, Digitization & Backup Solutions, Cybersecurity Awareness & Training, Basic Cybersecurity Audit & Recommendations, and Workshops & Practical Training.
 
 ## Stack
 
@@ -44,7 +44,7 @@ npm install -D wrangler
 Create D1 database:
 
 ```bash
-npx wrangler d1 create ashtech-db
+npx wrangler d1 create straitsec-db
 ```
 
 Copy the returned database id into `wrangler.toml`:
@@ -52,21 +52,21 @@ Copy the returned database id into `wrangler.toml`:
 ```toml
 [[d1_databases]]
 binding = "DB"
-database_name = "ashtech-db"
+database_name = "straitsec-db"
 database_id = "replace-with-your-d1-database-id"
 ```
 
 Create D1 tables:
 
 ```bash
-npx wrangler d1 execute ashtech-db --file=./schema.sql
+npx wrangler d1 execute straitsec-db --file=./schema.sql
 ```
 
 Create the first admin:
 
 ```bash
 npm run seed:admin
-npx wrangler d1 execute ashtech-db --file=./seed-admin.sql
+npx wrangler d1 execute straitsec-db --file=./seed-admin.sql
 ```
 
 Deploy to Cloudflare Pages:
@@ -83,16 +83,16 @@ Create `.dev.vars`:
 JWT_SECRET=replace-with-at-least-32-random-characters
 JWT_EXPIRES_IN=1h
 ADMIN_EMAIL=admin@example.com
-ADMIN_NAME=AshTech Admin
+ADMIN_NAME=StraitSec Admin
 ADMIN_PASSWORD=change-this-secure-password
 ```
 
 Initialize local D1 and seed:
 
 ```bash
-npx wrangler d1 execute ashtech-db --local --file=./schema.sql
+npx wrangler d1 execute straitsec-db --local --file=./schema.sql
 npm run seed:admin
-npx wrangler d1 execute ashtech-db --local --file=./seed-admin.sql
+npx wrangler d1 execute straitsec-db --local --file=./seed-admin.sql
 ```
 
 Run locally:
@@ -166,7 +166,7 @@ D1 tables from `schema.sql`:
 Before production changes, export D1 data from Cloudflare:
 
 ```bash
-npx wrangler d1 export ashtech-db --output=backup.sql
+npx wrangler d1 export straitsec-db --output=backup.sql
 ```
 
 You can also export data from the Cloudflare dashboard under D1. Keep backups and environment variables in a secure password manager, not in Git.
