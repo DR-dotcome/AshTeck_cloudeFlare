@@ -172,6 +172,26 @@
       fr: "Support prêt",
       ar: "دعم جاهز"
     },
+    "StraitSec trust commitments": {
+      fr: "Engagements de confiance StraitSec",
+      ar: "\u0627\u0644\u062a\u0632\u0627\u0645\u0627\u062a \u0627\u0644\u062b\u0642\u0629 \u0645\u0646 StraitSec"
+    },
+    "Documented handover": {
+      fr: "Livraison documentee",
+      ar: "\u062a\u0633\u0644\u064a\u0645 \u0645\u0648\u062b\u0642"
+    },
+    "Secure network design": {
+      fr: "Conception reseau securisee",
+      ar: "\u062a\u0635\u0645\u064a\u0645 \u0634\u0628\u0643\u0629 \u0622\u0645\u0646"
+    },
+    "Backup-aware planning": {
+      fr: "Planification orientee sauvegarde",
+      ar: "\u062a\u062e\u0637\u064a\u0637 \u064a\u0631\u0627\u0639\u064a \u0627\u0644\u0646\u0633\u062e \u0627\u0644\u0627\u062d\u062a\u064a\u0627\u0637\u064a"
+    },
+    "Practical cyber guidance": {
+      fr: "Conseils cyber pratiques",
+      ar: "\u0625\u0631\u0634\u0627\u062f\u0627\u062a \u0633\u064a\u0628\u0631\u0627\u0646\u064a\u0629 \u0639\u0645\u0644\u064a\u0629"
+    },
     "Core Services": {
       fr: "Services principaux",
       ar: "الخدمات الرئيسية"
@@ -1352,6 +1372,10 @@
       fr: "Email ou mot de passe invalide.",
       ar: "\u0627\u0644\u0628\u0631\u064a\u062f \u0623\u0648 \u0643\u0644\u0645\u0629 \u0627\u0644\u0645\u0631\u0648\u0631 \u063a\u064a\u0631 \u0635\u062d\u064a\u062d\u0629."
     },
+    "Please log in again.": {
+      fr: "Veuillez vous reconnecter.",
+      ar: "\u064a\u0631\u062c\u0649 \u062a\u0633\u062c\u064a\u0644 \u0627\u0644\u062f\u062e\u0648\u0644 \u0645\u0646 \u062c\u062f\u064a\u062f."
+    },
     "No quote requests yet.": {
       fr: "Aucune demande de devis pour le moment.",
       ar: "لا توجد طلبات عروض سعر بعد."
@@ -2150,19 +2174,8 @@
     const clearFiltersButton = document.querySelector("#admin-clear-filters");
     const exportMessagesButton = document.querySelector("#export-messages");
     const exportQuotesButton = document.querySelector("#export-quotes");
-    const savedToken = sessionStorage.getItem(adminTokenKey);
-
-    if (savedToken) {
-      loadAdminData(savedToken).then(() => {
-        showDashboard(loginForm, dashboard);
-      }).catch((error) => {
-        sessionStorage.removeItem(adminTokenKey);
-        document.body.classList.remove("admin-authenticated");
-        dashboard.classList.add("hidden");
-        loginForm.classList.remove("hidden");
-        setStatus(loginStatus, error.message, "error");
-      });
-    }
+    sessionStorage.removeItem(adminTokenKey);
+    showLogin(loginForm, dashboard);
 
     loginForm.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -2196,6 +2209,7 @@
         loginForm.reset();
         notify("Admin login successful.", "success");
       } catch (error) {
+        showLogin(loginForm, dashboard);
         setStatus(loginStatus, error.message, "error");
         notify(error.message, "error");
       } finally {
@@ -2219,8 +2233,10 @@
           await loadAdminData(token);
           setStatus(adminStatus, "Filters applied.", "success");
         } catch (error) {
-          setStatus(adminStatus, error.message, "error");
-          notify(error.message, "error");
+          if (!handleAdminAuthError(error, loginForm, dashboard, adminStatus)) {
+            setStatus(adminStatus, error.message, "error");
+            notify(error.message, "error");
+          }
         }
       });
     }
@@ -2240,8 +2256,10 @@
           await loadAdminData(token);
           setStatus(adminStatus, "Filters cleared.", "success");
         } catch (error) {
-          setStatus(adminStatus, error.message, "error");
-          notify(error.message, "error");
+          if (!handleAdminAuthError(error, loginForm, dashboard, adminStatus)) {
+            setStatus(adminStatus, error.message, "error");
+            notify(error.message, "error");
+          }
         }
       });
     }
@@ -2256,8 +2274,10 @@
           await loadAdminData(token);
           setStatus(adminStatus, "Dashboard refreshed.", "success");
         } catch (error) {
-          setStatus(adminStatus, error.message, "error");
-          notify(error.message, "error");
+          if (!handleAdminAuthError(error, loginForm, dashboard, adminStatus)) {
+            setStatus(adminStatus, error.message, "error");
+            notify(error.message, "error");
+          }
         } finally {
           setLoading(refreshButton, false);
         }
@@ -2275,8 +2295,10 @@
           setStatus(adminStatus, "Messages CSV exported.", "success");
           notify("Messages CSV exported.", "success");
         } catch (error) {
-          setStatus(adminStatus, error.message, "error");
-          notify(error.message, "error");
+          if (!handleAdminAuthError(error, loginForm, dashboard, adminStatus)) {
+            setStatus(adminStatus, error.message, "error");
+            notify(error.message, "error");
+          }
         } finally {
           setLoading(exportMessagesButton, false);
         }
@@ -2294,8 +2316,10 @@
           setStatus(adminStatus, "Quote requests CSV exported.", "success");
           notify("Quote requests CSV exported.", "success");
         } catch (error) {
-          setStatus(adminStatus, error.message, "error");
-          notify(error.message, "error");
+          if (!handleAdminAuthError(error, loginForm, dashboard, adminStatus)) {
+            setStatus(adminStatus, error.message, "error");
+            notify(error.message, "error");
+          }
         } finally {
           setLoading(exportQuotesButton, false);
         }
@@ -2342,8 +2366,10 @@
         try {
           await loadAdminData(token);
         } catch (error) {
-          setStatus(adminStatus, error.message, "error");
-          notify(error.message, "error");
+          if (!handleAdminAuthError(error, loginForm, dashboard, adminStatus)) {
+            setStatus(adminStatus, error.message, "error");
+            notify(error.message, "error");
+          }
         } finally {
           setLoading(pageButton, false);
         }
@@ -2370,8 +2396,10 @@
         notify(result.message || "Deleted.", "success");
         await loadAdminData(token);
       } catch (error) {
-        setStatus(adminStatus, error.message, "error");
-        notify(error.message, "error");
+        if (!handleAdminAuthError(error, loginForm, dashboard, adminStatus)) {
+          setStatus(adminStatus, error.message, "error");
+          notify(error.message, "error");
+        }
       } finally {
         button.disabled = false;
       }
@@ -2382,6 +2410,29 @@
     document.body.classList.add("admin-authenticated");
     loginForm.classList.add("hidden");
     dashboard.classList.remove("hidden");
+  }
+
+  function showLogin(loginForm, dashboard) {
+    sessionStorage.removeItem(adminTokenKey);
+    document.body.classList.remove("admin-authenticated");
+    dashboard.classList.add("hidden");
+    loginForm.classList.remove("hidden");
+  }
+
+  function handleAdminAuthError(error, loginForm, dashboard, statusElement) {
+    if (!isAdminAuthError(error)) {
+      return false;
+    }
+
+    showLogin(loginForm, dashboard);
+    const message = "Please log in again.";
+    setStatus(statusElement, message, "error");
+    notify(message, "error");
+    return true;
+  }
+
+  function isAdminAuthError(error) {
+    return /admin login|admin session|invalid or expired|please log in/i.test(String(error?.message || ""));
   }
 
   async function loadAdminData(token) {
