@@ -1348,6 +1348,10 @@
       fr: "Le mot de passe admin est requis ou invalide.",
       ar: "كلمة مرور الإدارة مطلوبة أو غير صحيحة."
     },
+    "Invalid email or password.": {
+      fr: "Email ou mot de passe invalide.",
+      ar: "\u0627\u0644\u0628\u0631\u064a\u062f \u0623\u0648 \u0643\u0644\u0645\u0629 \u0627\u0644\u0645\u0631\u0648\u0631 \u063a\u064a\u0631 \u0635\u062d\u064a\u062d\u0629."
+    },
     "No quote requests yet.": {
       fr: "Aucune demande de devis pour le moment.",
       ar: "لا توجد طلبات عروض سعر بعد."
@@ -2149,8 +2153,9 @@
     const savedToken = sessionStorage.getItem(adminTokenKey);
 
     if (savedToken) {
-      showDashboard(loginForm, dashboard);
-      loadAdminData(savedToken).catch((error) => {
+      loadAdminData(savedToken).then(() => {
+        showDashboard(loginForm, dashboard);
+      }).catch((error) => {
         sessionStorage.removeItem(adminTokenKey);
         document.body.classList.remove("admin-authenticated");
         dashboard.classList.add("hidden");

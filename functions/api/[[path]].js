@@ -249,7 +249,7 @@ async function handleAdminLogin(request, env) {
 
   if (errors.length) {
     await logActivity(env, request, "admin_login_failed", { reason: "validation", email: payload.email || null });
-    return validationResponse("Admin login failed.", errors);
+    return jsonResponse(400, { success: false, message: "Invalid email or password." });
   }
 
   if (jwtErrors.length) {
@@ -261,14 +261,14 @@ async function handleAdminLogin(request, env) {
 
   if (!admin || !admin.is_active) {
     await logActivity(env, request, "admin_login_failed", { reason: "unknown_or_inactive_admin", email: payload.email });
-    return jsonResponse(401, { success: false, message: "Admin login failed." });
+    return jsonResponse(401, { success: false, message: "Invalid email or password." });
   }
 
   const isValidPassword = await verifyPassword(password, admin.password_salt, admin.password_hash, admin.password_iterations);
 
   if (!isValidPassword) {
     await logActivity(env, request, "admin_login_failed", { reason: "invalid_password", email: payload.email }, admin.id);
-    return jsonResponse(401, { success: false, message: "Admin login failed." });
+    return jsonResponse(401, { success: false, message: "Invalid email or password." });
   }
 
   const now = new Date().toISOString();
