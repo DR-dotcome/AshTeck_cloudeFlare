@@ -39,6 +39,7 @@ html {
 }
 
 body {
+  position: relative;
   margin: 0;
   overflow-x: clip;
   background: var(--bg);
@@ -53,11 +54,38 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: -2;
+  z-index: 0;
   pointer-events: none;
   background:
     radial-gradient(circle at 12% 8%, color-mix(in srgb, var(--primary) 8%, transparent), transparent 30%),
     linear-gradient(180deg, color-mix(in srgb, var(--surface-soft) 35%, transparent), transparent 520px);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.38;
+  background-image:
+    radial-gradient(circle at 18% 24%, color-mix(in srgb, var(--primary) 16%, transparent) 0 1px, transparent 2px),
+    radial-gradient(circle at 78% 34%, color-mix(in srgb, #ffffff 10%, transparent) 0 1px, transparent 2px),
+    linear-gradient(color-mix(in srgb, #ffffff 5%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, #ffffff 5%, transparent) 1px, transparent 1px);
+  background-size: 360px 360px, 420px 420px, 84px 84px, 84px 84px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.88), transparent 78%);
+  animation: ambientNetwork 28s ease-in-out infinite alternate;
+}
+
+body.motion-ready {
+  animation: pageFadeIn 420ms ease both;
+}
+
+main,
+.site-footer {
+  position: relative;
+  z-index: 1;
 }
 
 body,
@@ -194,6 +222,7 @@ li {
 
 .site-nav a {
   display: inline-flex;
+  position: relative;
   align-items: center;
   min-height: 48px;
   padding: 10px 12px;
@@ -201,7 +230,23 @@ li {
   color: var(--muted);
   font-size: 0.94rem;
   font-weight: 700;
-  transition: color 180ms ease, background 180ms ease, transform 180ms ease;
+  overflow: hidden;
+  transition: color 220ms ease, background 220ms ease, transform 220ms ease;
+}
+
+.site-nav a::after {
+  content: "";
+  position: absolute;
+  right: 12px;
+  bottom: 8px;
+  left: 12px;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--primary);
+  opacity: 0;
+  transform: scaleX(0.35);
+  transform-origin: center;
+  transition: opacity 220ms ease, transform 220ms ease;
 }
 
 .site-nav a:hover,
@@ -214,6 +259,13 @@ li {
 
 .site-nav a:hover {
   transform: translateY(-1px);
+}
+
+.site-nav a:hover::after,
+.site-nav a:focus-visible::after,
+.site-nav a.active::after {
+  opacity: 1;
+  transform: scaleX(1);
 }
 
 .nav-toggle,
@@ -283,6 +335,23 @@ li {
   background-size: cover;
 }
 
+.hero::before,
+.page-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.34;
+  background:
+    radial-gradient(circle at 78% 24%, color-mix(in srgb, var(--primary) 18%, transparent), transparent 18%),
+    linear-gradient(115deg, transparent 0 32%, color-mix(in srgb, #ffffff 9%, transparent) 32.2% 32.6%, transparent 32.8% 100%),
+    linear-gradient(145deg, transparent 0 56%, color-mix(in srgb, var(--primary) 12%, transparent) 56.2% 56.6%, transparent 56.8% 100%);
+  background-size: 100% 100%, 220% 220%, 180% 180%;
+  mix-blend-mode: screen;
+  animation: heroSignal 22s ease-in-out infinite alternate;
+}
+
 .page-hero {
   min-height: 430px;
 }
@@ -298,11 +367,13 @@ li {
 .hero-overlay {
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   background: var(--hero-overlay);
 }
 
 .hero-content {
+  position: relative;
+  z-index: 2;
   padding: clamp(72px, 12vw, 150px) 0 clamp(56px, 9vw, 96px);
   color: #ffffff;
 }
@@ -372,8 +443,10 @@ h3 {
 
 .button {
   display: inline-flex;
+  position: relative;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   min-height: 48px;
   padding: 12px 18px;
   border: 1px solid transparent;
@@ -382,7 +455,24 @@ h3 {
   font-weight: 850;
   line-height: 1.1;
   text-align: center;
-  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, border-color 180ms ease;
+  overflow: hidden;
+  transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease, border-color 220ms ease, opacity 220ms ease;
+}
+
+.button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 0 30%, color-mix(in srgb, #ffffff 22%, transparent) 45%, transparent 62% 100%);
+  opacity: 0;
+  transform: translateX(-120%);
+  transition: opacity 240ms ease, transform 520ms ease;
+}
+
+.button:hover::before,
+.button:focus-visible::before {
+  opacity: 1;
+  transform: translateX(120%);
 }
 
 .button:hover {
@@ -419,6 +509,22 @@ h3 {
   color: var(--danger);
 }
 
+.button:disabled,
+.button.is-loading {
+  cursor: wait;
+  opacity: 0.82;
+}
+
+.button.is-loading::after {
+  content: "";
+  width: 1em;
+  height: 1em;
+  border: 2px solid color-mix(in srgb, currentColor 30%, transparent);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 780ms linear infinite;
+}
+
 .hero-metrics {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 168px));
@@ -432,6 +538,13 @@ h3 {
   border-radius: var(--radius);
   background: color-mix(in srgb, #ffffff 8%, transparent);
   backdrop-filter: blur(16px);
+  transition: transform 220ms ease, border-color 220ms ease, background 220ms ease;
+}
+
+.hero-metrics div:hover {
+  border-color: color-mix(in srgb, var(--primary) 34%, transparent);
+  background: color-mix(in srgb, #ffffff 11%, transparent);
+  transform: translateY(-3px);
 }
 
 .hero-metrics strong,
@@ -479,6 +592,7 @@ h3 {
   min-height: 112px;
   padding: 24px;
   border-left: 1px solid var(--line);
+  transition: background 220ms ease, transform 220ms ease;
 }
 
 .trust-badge:last-child {
@@ -495,6 +609,11 @@ h3 {
   color: var(--text);
   font-size: clamp(0.98rem, 0.9rem + 0.28vw, 1.12rem);
   line-height: 1.25;
+}
+
+.trust-badge:hover {
+  background: color-mix(in srgb, var(--primary) 6%, transparent);
+  transform: translateY(-2px);
 }
 
 .section-heading {
@@ -577,7 +696,19 @@ h3 {
   padding: 24px;
   position: relative;
   overflow: hidden;
-  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+  transition: transform 240ms ease, box-shadow 240ms ease, border-color 240ms ease, background 240ms ease;
+}
+
+.service-card > *,
+.detail-card > *,
+.solution-card > *,
+.package-card > *,
+.case-card > *,
+.improvement-card > *,
+.testimonial-card > *,
+.process-step > * {
+  position: relative;
+  z-index: 1;
 }
 
 .service-card::before,
@@ -593,6 +724,27 @@ h3 {
   height: 2px;
   background: linear-gradient(90deg, var(--primary), color-mix(in srgb, var(--accent) 72%, var(--primary)));
   opacity: 0.68;
+  z-index: 1;
+}
+
+.service-card::after,
+.detail-card::after,
+.solution-card::after,
+.package-card::after,
+.case-card::after,
+.improvement-card::after,
+.process-step::after,
+.testimonial-card::after {
+  content: "";
+  position: absolute;
+  inset: auto -20% -44% 18%;
+  height: 150px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--primary) 12%, transparent), transparent 68%);
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 260ms ease, transform 260ms ease;
+  z-index: 0;
 }
 
 .service-card:hover,
@@ -606,49 +758,85 @@ h3 {
   transform: translateY(-4px);
 }
 
-.hero-content,
-.trust-badge,
-.service-card,
-.detail-card,
-.solution-card,
-.package-card,
-.case-card,
-.improvement-card,
-.process-step,
-.testimonial-card {
-  animation: enterpriseRise 520ms ease both;
+.service-card:hover::after,
+.detail-card:hover::after,
+.solution-card:hover::after,
+.package-card:hover::after,
+.case-card:hover::after,
+.improvement-card:hover::after,
+.process-step:hover::after,
+.testimonial-card:hover::after {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.trust-badge:nth-child(2),
-.service-card:nth-child(2),
-.detail-card:nth-child(2),
-.solution-card:nth-child(2) {
-  animation-delay: 60ms;
-}
-
-.trust-badge:nth-child(3),
-.service-card:nth-child(3),
-.detail-card:nth-child(3),
-.solution-card:nth-child(3) {
-  animation-delay: 110ms;
-}
-
-.trust-badge:nth-child(4),
-.service-card:nth-child(4),
-.detail-card:nth-child(4),
-.solution-card:nth-child(4) {
-  animation-delay: 160ms;
-}
-
-@keyframes enterpriseRise {
+@keyframes ambientNetwork {
   from {
-    opacity: 0;
-    transform: translateY(12px);
+    background-position: 0 0, 0 0, 0 0, 0 0;
+    opacity: 0.28;
+  }
+  to {
+    background-position: 54px -36px, -42px 48px, 42px 42px, 42px 42px;
+    opacity: 0.42;
+  }
+}
+
+@keyframes heroSignal {
+  from {
+    background-position: center, 0 0, 100% 100%;
+    opacity: 0.22;
+  }
+  to {
+    background-position: center, 38% 24%, 68% 44%;
+    opacity: 0.38;
+  }
+}
+
+@keyframes pageFadeIn {
+  from {
+    opacity: 0.92;
+    transform: translateY(4px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.reveal-item {
+  opacity: 0;
+  translate: 0 18px;
+  transition:
+    opacity 620ms ease,
+    translate 620ms cubic-bezier(0.2, 0.72, 0.2, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, translate;
+}
+
+.reveal-item.reveal-now {
+  transition: none;
+}
+
+.reveal-item.is-visible {
+  opacity: 1;
+  translate: 0 0;
 }
 
 .card-icon {
@@ -665,6 +853,20 @@ h3 {
   font-size: 0.74rem;
   font-weight: 950;
   line-height: 1;
+  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease, background 220ms ease;
+}
+
+.service-card:hover .card-icon,
+.detail-card:hover .card-icon,
+.solution-card:hover .card-icon,
+.package-card:hover .card-icon,
+.case-card:hover .card-icon,
+.improvement-card:hover .card-icon,
+.process-step:hover .card-icon {
+  border-color: color-mix(in srgb, var(--primary) 42%, var(--line));
+  background: color-mix(in srgb, var(--primary) 14%, var(--surface));
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--primary) 13%, transparent);
+  transform: translateY(-2px) scale(1.04);
 }
 
 .service-card p,
@@ -1134,6 +1336,13 @@ textarea {
   transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
 }
 
+input:hover,
+select:hover,
+textarea:hover {
+  border-color: color-mix(in srgb, var(--primary) 22%, var(--line));
+  background: color-mix(in srgb, var(--surface-soft) 82%, var(--surface));
+}
+
 textarea {
   resize: vertical;
   min-height: 132px;
@@ -1158,14 +1367,22 @@ textarea:focus {
   margin-top: 14px;
   color: var(--muted);
   font-weight: 750;
+  transition: color 180ms ease, transform 180ms ease;
 }
 
 .form-status.success {
   color: var(--success);
+  transform: translateY(-1px);
 }
 
 .form-status.error {
   color: var(--danger);
+  transform: translateY(-1px);
+}
+
+.form-card.is-submitting {
+  border-color: color-mix(in srgb, var(--primary) 34%, var(--line));
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--line) 70%, transparent), 0 24px 56px color-mix(in srgb, var(--primary) 9%, transparent);
 }
 
 .admin-layout {
@@ -1238,6 +1455,13 @@ textarea:focus {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--surface);
+  transition: transform 220ms ease, border-color 220ms ease, background 220ms ease;
+}
+
+.admin-stats div:hover {
+  border-color: color-mix(in srgb, var(--primary) 28%, var(--line));
+  background: color-mix(in srgb, var(--primary) 5%, var(--surface));
+  transform: translateY(-3px);
 }
 
 .admin-stats strong,
@@ -1282,6 +1506,13 @@ textarea:focus {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--surface);
+  transition: transform 220ms ease, border-color 220ms ease, background 220ms ease;
+}
+
+.admin-item:hover {
+  border-color: color-mix(in srgb, var(--primary) 24%, var(--line));
+  background: color-mix(in srgb, var(--primary) 4%, var(--surface));
+  transform: translateY(-2px);
 }
 
 .admin-item.compact {
@@ -1380,6 +1611,7 @@ textarea:focus {
   box-shadow: var(--shadow);
   color: var(--text);
   font-weight: 800;
+  animation: toastIn 240ms ease both;
 }
 
 .toast.success {
@@ -1913,5 +2145,14 @@ textarea:focus {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+  }
+
+  body::after {
+    animation: none !important;
+  }
+
+  .reveal-item {
+    opacity: 1 !important;
+    translate: 0 0 !important;
   }
 }

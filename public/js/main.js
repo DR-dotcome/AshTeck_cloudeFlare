@@ -16,6 +16,7 @@
   const originalAttributes = new WeakMap();
   let currentLanguage = normalizeLanguage(localStorage.getItem(languageKey) || "en");
   let originalDocumentTitle = "";
+  let revealObserver = null;
   const adminState = {
     messagesPage: 1,
     quotesPage: 1,
@@ -1663,6 +1664,7 @@
     bindForm("#quote-request-form", "/api/quote");
     initAdmin();
     applyLanguage(currentLanguage);
+    initMotion();
   });
 
   function normalizeLanguage(language) {
@@ -1916,14 +1918,153 @@
   }
 
   function markActiveNav() {
-    const page = window.location.pathname.split("/").pop() || "index.html";
+    const page = normalizePageName(window.location.pathname.split("/").pop() || "index.html");
 
     document.querySelectorAll(".site-nav a").forEach((link) => {
-      const linkPage = link.getAttribute("href");
+      const linkPage = normalizePageName((link.getAttribute("href") || "").split("#")[0].split("/").pop() || "index.html");
 
       if (linkPage === page) {
         link.classList.add("active");
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.classList.remove("active");
+        link.removeAttribute("aria-current");
       }
+    });
+  }
+
+  function normalizePageName(page) {
+    const clean = String(page || "index.html").replace(/\.html$/i, "");
+    return clean || "index";
+  }
+
+  function initMotion() {
+    document.body.classList.add("motion-ready");
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    const revealSelector = [
+      ".hero-content",
+      ".hero-metrics div",
+      ".trust-badge",
+      ".section-heading",
+      ".service-card",
+      ".detail-card",
+      ".solution-card",
+      ".package-card",
+      ".case-card",
+      ".improvement-card",
+      ".testimonial-card",
+      ".process-step",
+      ".contact-panel",
+      ".form-card",
+      ".admin-toolbar",
+      ".admin-controls",
+      ".admin-stats div",
+      ".admin-section",
+      ".admin-item",
+      ".cta-section .container",
+      ".footer-grid > *"
+    ].join(",");
+
+    revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) {
+          return;
+        }
+
+        showRevealElement(entry.target);
+      });
+    }, {
+      rootMargin: "0px 0px -8% 0px",
+      threshold: 0.12
+    });
+
+    const isElementInView = (element) => {
+      const rect = element.getBoundingClientRect();
+      return rect.top < window.innerHeight * 0.92 && rect.bottom > 0;
+    };
+
+    const showRevealElement = (element) => {
+      element.classList.add("is-visible");
+      element.style.opacity = "1";
+      element.style.translate = "0 0";
+      revealObserver.unobserve(element);
+    };
+
+    const revealIfVisible = (element) => {
+      if (isElementInView(element)) {
+        showRevealElement(element);
+        return true;
+      }
+
+      return false;
+    };
+
+    const revealElements = (root) => {
+      const elements = [];
+
+      if (root.nodeType === Node.ELEMENT_NODE && root.matches(revealSelector)) {
+        elements.push(root);
+      }
+
+      if (root.querySelectorAll) {
+        elements.push(...root.querySelectorAll(revealSelector));
+      }
+
+      elements.forEach((element, index) => {
+        if (element.classList.contains("reveal-item") || element.hidden) {
+          return;
+        }
+
+        element.classList.add("reveal-item");
+        element.style.setProperty("--reveal-delay", `${Math.min((index % 6) * 55, 275)}ms`);
+
+        if (isElementInView(element)) {
+          element.classList.add("reveal-now");
+          showRevealElement(element);
+          window.setTimeout(() => element.classList.remove("reveal-now"), 80);
+        } else {
+          element.style.opacity = "0";
+          element.style.translate = "0 18px";
+          revealObserver.observe(element);
+        }
+      });
+    };
+
+    revealElements(document.body);
+
+    let revealFrame = 0;
+    const revealVisibleElements = () => {
+      if (revealFrame) {
+        return;
+      }
+
+      revealFrame = window.requestAnimationFrame(() => {
+        revealFrame = 0;
+        document.querySelectorAll(".reveal-item:not(.is-visible)").forEach(revealIfVisible);
+      });
+    };
+
+    window.addEventListener("scroll", revealVisibleElements, { passive: true });
+    window.addEventListener("resize", revealVisibleElements);
+    window.setTimeout(revealVisibleElements, 120);
+
+    const mutationObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (node.nodeType === Node.ELEMENT_NODE) {
+            revealElements(node);
+          }
+        });
+      });
+    });
+
+    mutationObserver.observe(document.body, {
+      childList: true,
+      subtree: true
     });
   }
 
@@ -2063,13 +2204,27 @@
       return;
     }
 
+    const form = button.closest("form");
+
     if (isLoading) {
       button.dataset.originalText = button.textContent;
       button.textContent = translatePhrase("Sending...");
+      button.classList.add("is-loading");
+      button.setAttribute("aria-busy", "true");
       button.disabled = true;
+
+      if (form) {
+        form.classList.add("is-submitting");
+      }
     } else {
       button.textContent = button.dataset.originalText || button.textContent;
+      button.classList.remove("is-loading");
+      button.removeAttribute("aria-busy");
       button.disabled = false;
+
+      if (form) {
+        form.classList.remove("is-submitting");
+      }
     }
   }
 
