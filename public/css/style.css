@@ -18,6 +18,12 @@
   --hero-overlay:
     linear-gradient(90deg, rgba(247, 248, 250, 0.98), rgba(247, 248, 250, 0.88) 44%, rgba(247, 248, 250, 0.42) 100%),
     linear-gradient(180deg, rgba(247, 248, 250, 0.20), rgba(247, 248, 250, 0.92));
+  --cta-image: url("../assets/enterprise-hero-light.png");
+  --cta-overlay:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(247, 248, 250, 0.86) 58%, rgba(247, 248, 250, 0.64)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.35), rgba(247, 248, 250, 0.92));
+  --cta-text: var(--text);
+  --cta-border: var(--line);
   --radius: 8px;
   --radius-small: 6px;
   --container: 1160px;
@@ -43,6 +49,12 @@
   --hero-overlay:
     linear-gradient(90deg, rgba(0, 0, 0, 0.96), rgba(0, 0, 0, 0.78) 44%, rgba(0, 0, 0, 0.28) 100%),
     linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.92));
+  --cta-image: url("../assets/enterprise-hero-dark.png");
+  --cta-overlay:
+    linear-gradient(135deg, rgba(0, 0, 0, 0.94), rgba(0, 0, 0, 0.78) 58%, rgba(0, 0, 0, 0.46)),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.92));
+  --cta-text: #ffffff;
+  --cta-border: color-mix(in srgb, #ffffff 12%, transparent);
 }
 
 * {
@@ -844,12 +856,12 @@ h3 {
 }
 
 .cta-section {
-  color: #ffffff;
+  color: var(--cta-text);
   background:
-    linear-gradient(135deg, rgba(0, 0, 0, 0.92), rgba(4, 4, 4, 0.78)),
-    url("../assets/enterprise-hero-dark.png") center / cover;
-  border-top: 1px solid color-mix(in srgb, #ffffff 12%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, #ffffff 12%, transparent);
+    var(--cta-overlay),
+    var(--cta-image) center / cover;
+  border-top: 1px solid var(--cta-border);
+  border-bottom: 1px solid var(--cta-border);
 }
 
 .cta-content {
@@ -1724,12 +1736,6 @@ textarea:focus {
 
   .page-hero {
     min-height: 390px;
-  }
-
-  .hero-overlay {
-    background:
-      linear-gradient(90deg, rgba(5, 12, 22, 0.91), rgba(5, 12, 22, 0.68)),
-      linear-gradient(180deg, rgba(5, 12, 22, 0.14), rgba(5, 12, 22, 0.82));
   }
 
   .hero-content {
