@@ -88,21 +88,9 @@
       fr: "Admin",
       ar: "الإدارة"
     },
-    "Dark": {
-      fr: "Sombre",
-      ar: "داكن"
-    },
-    "Light": {
-      fr: "Clair",
-      ar: "فاتح"
-    },
     "Open navigation": {
       fr: "Ouvrir la navigation",
       ar: "فتح القائمة"
-    },
-    "Toggle light and dark mode": {
-      fr: "Changer le mode clair ou sombre",
-      ar: "تبديل الوضع الفاتح والداكن"
     },
     "StraitSec home": {
       fr: "Accueil StraitSec",
@@ -1669,7 +1657,6 @@
   document.addEventListener("DOMContentLoaded", () => {
     originalDocumentTitle = document.title;
     initLanguage();
-    initTheme();
     initNavigation();
     markActiveNav();
     bindForm("#contact-form", "/api/contact");
@@ -1684,7 +1671,6 @@
 
   function initLanguage() {
     const header = document.querySelector(".site-header");
-    const themeToggle = document.querySelector("[data-theme-toggle]");
 
     if (header && !document.querySelector("[data-language-select]")) {
       const control = document.createElement("label");
@@ -1708,7 +1694,7 @@
 
       select.value = currentLanguage;
       control.append(text, select);
-      header.insertBefore(control, themeToggle || null);
+      header.appendChild(control);
     }
 
     const selector = document.querySelector("[data-language-select]");
@@ -1736,7 +1722,6 @@
 
     applyTranslations(document.body);
     updateLocalizedVisibility(document.body);
-    applyTheme(document.documentElement.dataset.theme || "light");
   }
 
   function applyTranslations(root) {
@@ -1861,33 +1846,6 @@
     }
 
     return translations[text]?.[currentLanguage] || text;
-  }
-
-  function initTheme() {
-    const toggle = document.querySelector("[data-theme-toggle]");
-    const savedTheme = localStorage.getItem("straitsec-theme");
-    const preferredTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    const initialTheme = savedTheme || preferredTheme;
-
-    applyTheme(initialTheme);
-
-    if (toggle) {
-      toggle.addEventListener("click", () => {
-        const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-        localStorage.setItem("straitsec-theme", nextTheme);
-        applyTheme(nextTheme);
-      });
-    }
-  }
-
-  function applyTheme(theme) {
-    document.documentElement.dataset.theme = theme;
-    const label = document.querySelector("[data-theme-label]");
-
-    if (label) {
-      label.dataset.noTranslate = "true";
-      label.textContent = translatePhrase(theme === "dark" ? "Light" : "Dark");
-    }
   }
 
   function initNavigation() {
