@@ -317,13 +317,21 @@
       fr: "Conseils simples et priorisés pour mots de passe, mises à jour, sauvegardes, phishing et processus plus sûrs.",
       ar: "إرشادات بسيطة ومرتبة للأولويات حول كلمات المرور والتحديثات والنسخ الاحتياطي ومخاطر التصيد وسير عمل أكثر أمانا."
     },
-    "Cloud-ready and backup-aware solutions": {
-      fr: "Solutions prêtes pour le cloud et conscientes des sauvegardes",
-      ar: "حلول جاهزة للسحابة ومراعية للنسخ الاحتياطي"
+    "Backup-aware solutions": {
+      fr: "Solutions pensées pour les sauvegardes",
+      ar: "حلول تراعي النسخ الاحتياطي"
     },
     "Backup planning, file organization, restore checks, and sensible cloud options for critical data.": {
       fr: "Planification des sauvegardes, organisation des fichiers, tests de restauration et options cloud raisonnables pour les données critiques.",
       ar: "تخطيط النسخ الاحتياطي وتنظيم الملفات وفحوصات الاسترجاع وخيارات سحابية مناسبة للبيانات المهمة."
+    },
+    "Small business friendly approach": {
+      fr: "Une approche adaptée aux petites entreprises",
+      ar: "نهج مناسب للمشاريع الصغيرة"
+    },
+    "Practical guidance, clear priorities, and service plans sized for growing teams and everyday operations.": {
+      fr: "Des conseils pratiques, des priorités claires et des services adaptés aux équipes en croissance et aux opérations quotidiennes.",
+      ar: "إرشادات عملية وأولويات واضحة وخطط خدمة مناسبة للفرق النامية والعمليات اليومية."
     },
     "Clean physical work": {
       fr: "Travail physique propre",
@@ -429,7 +437,7 @@
       fr: "Administrateur scolaire",
       ar: "مسؤول مدرسة"
     },
-    "“La connexion est plus rapide, les caméras sont accessibles à distance, et le support est très réactif.”": {
+    "“The connection is faster, the cameras are easy to access remotely, and support is responsive.”": {
       fr: "« La connexion est plus rapide, les caméras sont accessibles à distance, et le support est très réactif. »",
       ar: "« الاتصال أصبح أسرع، والكاميرات متاحة عن بعد، والدعم سريع الاستجابة. »"
     },
@@ -493,21 +501,25 @@
       fr: "Services IT, infrastructure digitale, systemes de cameras, sauvegardes, formation et conseils cybersecurite pratiques.",
       ar: "\u062e\u062f\u0645\u0627\u062a \u062a\u0642\u0646\u064a\u0629 \u0648\u0628\u0646\u064a\u0629 \u0631\u0642\u0645\u064a\u0629 \u0648\u0623\u0646\u0638\u0645\u0629 \u0643\u0627\u0645\u064a\u0631\u0627\u062a \u0648\u0646\u0633\u062e \u0627\u062d\u062a\u064a\u0627\u0637\u064a \u0648\u062a\u062f\u0631\u064a\u0628 \u0648\u0625\u0631\u0634\u0627\u062f\u0627\u062a \u0623\u0645\u0646 \u0633\u064a\u0628\u0631\u0627\u0646\u064a \u0639\u0645\u0644\u064a\u0629."
     },
+    "Reliable networks, camera systems, maintenance, backups, training, and practical cybersecurity guidance.": {
+      fr: "Réseaux fiables, systèmes de caméras, maintenance, sauvegardes, formation et conseils pratiques en cybersécurité.",
+      ar: "شبكات موثوقة وأنظمة كاميرات وصيانة ونسخ احتياطي وتدريب وإرشادات عملية في الأمن السيبراني."
+    },
     "Pages": {
       fr: "Pages",
       ar: "الصفحات"
     },
-    "Phone: +212 600 000 000": {
-      fr: "Téléphone : +212 600 000 000",
-      ar: "الهاتف: +212 600 000 000"
+    "Tangier, Morocco": {
+      fr: "Tanger, Maroc",
+      ar: "طنجة، المغرب"
     },
-    "Email: contact@straitsec.example": {
-      fr: "Email : contact@straitsec.example",
-      ar: "البريد: contact@straitsec.example"
+    "Phone: +212 6 XX XX XX XX": {
+      fr: "Téléphone : +212 6 XX XX XX XX",
+      ar: "الهاتف: +212 6 XX XX XX XX"
     },
-    "خدمة محلية ودعم عن بعد": {
-      fr: "Service local et support à distance",
-      ar: "خدمة محلية ودعم عن بعد"
+    "Remote support available": {
+      fr: "Support à distance disponible",
+      ar: "دعم عن بعد متاح"
     },
     "© 2026 StraitSec. All rights reserved.": {
       fr: "© 2026 StraitSec. Tous droits réservés.",
@@ -572,6 +584,10 @@
     "IP camera installation, camera placement, NVR configuration, remote access, storage planning, and account security.": {
       fr: "Installation de caméras IP, positionnement, configuration NVR, accès à distance, stockage et sécurité des comptes.",
       ar: "تركيب كاميرات IP، تحديد الأماكن، إعداد NVR، الوصول عن بعد، تخطيط التخزين، وأمان الحسابات."
+    },
+    "Indoor and outdoor camera coverage, NVR recording, mobile access, and camera network separation when possible.": {
+      fr: "Couverture par caméras intérieures et extérieures, enregistrement NVR, accès mobile et séparation du réseau des caméras lorsque possible.",
+      ar: "تغطية بالكاميرات الداخلية والخارجية وتسجيل NVR والوصول عبر الهاتف وفصل شبكة الكاميرات عند الإمكان."
     },
     "Indoor and outdoor camera coverage": {
       fr: "Couverture intérieure et extérieure",
@@ -649,6 +665,10 @@
       fr: "Revue pratique des mots de passe, exposition routeur, firmware, sécurité Wi-Fi, sauvegardes, comptes, accès distant et habitudes risquées.",
       ar: "مراجعة عملية لكلمات المرور وانكشاف الراوتر والتحديثات وأمان الواي فاي والنسخ الاحتياطي وحسابات المستخدمين والوصول عن بعد والعادات الخطرة."
     },
+    "A basic review of network, devices, accounts, Wi-Fi, backups, and common security risks with practical recommendations.": {
+      fr: "Une revue de base du réseau, des appareils, des comptes, du Wi-Fi, des sauvegardes et des risques courants, avec des recommandations pratiques.",
+      ar: "مراجعة أساسية للشبكة والأجهزة والحسابات والواي فاي والنسخ الاحتياطي ومخاطر الأمن الشائعة، مع توصيات عملية."
+    },
     "Clear findings with priority levels": {
       fr: "Constats clairs avec niveaux de priorité",
       ar: "نتائج واضحة مع مستويات أولوية"
@@ -709,6 +729,18 @@
       fr: "Sessions pour employes sur phishing, ingenierie sociale, mots de passe, navigation sure, nouvelles menaces et outils de securite de base.",
       ar: "\u062d\u0635\u0635 \u062a\u062f\u0631\u064a\u0628\u064a\u0629 \u0644\u0644\u0645\u0648\u0638\u0641\u064a\u0646 \u062d\u0648\u0644 \u0627\u0644\u062a\u0635\u064a\u062f \u0648\u0627\u0644\u0647\u0646\u062f\u0633\u0629 \u0627\u0644\u0627\u062c\u062a\u0645\u0627\u0639\u064a\u0629 \u0648\u0623\u0645\u0627\u0646 \u0643\u0644\u0645\u0627\u062a \u0627\u0644\u0645\u0631\u0648\u0631 \u0648\u0627\u0644\u062a\u0635\u0641\u062d \u0627\u0644\u0622\u0645\u0646 \u0648\u0627\u0644\u062a\u0647\u062f\u064a\u062f\u0627\u062a \u0627\u0644\u062c\u062f\u064a\u062f\u0629."
     },
+    "Phishing and social engineering awareness": {
+      fr: "Sensibilisation au phishing et à l'ingénierie sociale",
+      ar: "التوعية بالتصيد والهندسة الاجتماعية"
+    },
+    "Password safety and safe browsing": {
+      fr: "Sécurité des mots de passe et navigation sûre",
+      ar: "أمان كلمات المرور والتصفح الآمن"
+    },
+    "New cyber threats and basic security tools": {
+      fr: "Nouvelles menaces cyber et outils de sécurité de base",
+      ar: "تهديدات سيبرانية جديدة وأدوات أمن أساسية"
+    },
     "Workshops & Practical Training": {
       fr: "Ateliers et formation pratique",
       ar: "\u0648\u0631\u0634\u0627\u062a \u0648\u062a\u062f\u0631\u064a\u0628 \u0639\u0645\u0644\u064a"
@@ -716,6 +748,18 @@
     "Practical workshops for small teams, students, and businesses about networking, cybersecurity basics, digital tools, and safe IT practices.": {
       fr: "Ateliers pratiques pour petites equipes, etudiants et entreprises sur reseaux, bases cybersécurite, outils digitaux et bonnes pratiques IT.",
       ar: "\u0648\u0631\u0634\u0627\u062a \u0639\u0645\u0644\u064a\u0629 \u0644\u0644\u0641\u0631\u0642 \u0627\u0644\u0635\u063a\u064a\u0631\u0629 \u0648\u0627\u0644\u0637\u0644\u0627\u0628 \u0648\u0627\u0644\u0634\u0631\u0643\u0627\u062a \u062d\u0648\u0644 \u0627\u0644\u0634\u0628\u0643\u0627\u062a \u0648\u0623\u0633\u0627\u0633\u064a\u0627\u062a \u0627\u0644\u0623\u0645\u0646 \u0627\u0644\u0633\u064a\u0628\u0631\u0627\u0646\u064a \u0648\u0627\u0644\u0623\u062f\u0648\u0627\u062a \u0627\u0644\u0631\u0642\u0645\u064a\u0629."
+    },
+    "Networking and cybersecurity basics": {
+      fr: "Bases des réseaux et de la cybersécurité",
+      ar: "أساسيات الشبكات والأمن السيبراني"
+    },
+    "Digital tools for small teams": {
+      fr: "Outils numériques pour les petites équipes",
+      ar: "أدوات رقمية للفرق الصغيرة"
+    },
+    "Safe IT practices for daily work": {
+      fr: "Bonnes pratiques IT pour le travail quotidien",
+      ar: "ممارسات تقنية آمنة للعمل اليومي"
     },
     "Reliable networks, cameras, Wi-Fi, maintenance, and cybersecurity basics.": {
       fr: "Réseaux fiables, caméras, Wi-Fi, maintenance et bases de cybersécurité.",
@@ -737,8 +781,8 @@
       fr: "LAN de bureau fiable, Wi-Fi invité sécurisé, partage imprimante, sauvegardes, caméras visibles et maintenance simple.",
       ar: "شبكة مكتبية موثوقة، واي فاي ضيوف آمن، مشاركة الطابعات، نسخ احتياطي، رؤية الكاميرات، وصيانة بسيطة."
     },
-    "Infrastructure propre pour travailler sans interruptions.": {
-      fr: "Infrastructure propre pour travailler sans interruptions.",
+    "Clean infrastructure for uninterrupted daily work.": {
+      fr: "Une infrastructure propre pour un travail quotidien sans interruption.",
       ar: "بنية تحتية منظمة للعمل دون انقطاع."
     },
     "For Shops": {
@@ -749,9 +793,9 @@
       fr: "Réseaux prêts pour caisse, couverture CCTV, Wi-Fi stable pour équipe et clients, caméras ou paiements isolés.",
       ar: "شبكات جاهزة لنقاط البيع، تغطية كاميرات، واي فاي مستقر للموظفين والزبائن، وعزل أجهزة الكاميرات أو الدفع."
     },
-    "شبكة مستقرة للمحل وكاميرات واضحة للمتابعة اليومية.": {
-      fr: "Réseau stable pour le magasin et caméras claires pour le suivi quotidien.",
-      ar: "شبكة مستقرة للمحل وكاميرات واضحة للمتابعة اليومية."
+    "A stable shop network and clear camera access for everyday operations.": {
+      fr: "Un réseau de magasin stable et un accès clair aux caméras pour les opérations quotidiennes.",
+      ar: "شبكة مستقرة للمتجر ووصول واضح إلى الكاميرات للعمليات اليومية."
     },
     "For Schools": {
       fr: "Pour les écoles",
@@ -761,8 +805,8 @@
       fr: "Réseaux de laboratoire, points d'accès, bases de filtrage, séparation administrative et support documenté.",
       ar: "شبكات المختبر، تخطيط نقاط الوصول، أساسيات أمان المحتوى، فصل أجهزة الإدارة، ودعم موثق."
     },
-    "Connexion fiable pour les classes, l'administration et les invités.": {
-      fr: "Connexion fiable pour les classes, l'administration et les invités.",
+    "Reliable access for classes, administration, and guests.": {
+      fr: "Un accès fiable pour les classes, l'administration et les invités.",
       ar: "اتصال موثوق للفصول والإدارة والضيوف."
     },
     "For Homes": {
@@ -773,9 +817,9 @@
       fr: "Wi-Fi dans toute la maison, caméras intelligentes, contrôle parental de base, sauvegardes et aide quotidienne.",
       ar: "واي فاي لكل المنزل، إعداد كاميرات ذكية، أساسيات الرقابة الأبوية، نسخ احتياطي، ومساعدة لمشاكل الأجهزة اليومية."
     },
-    "واي فاي قوي في البيت، كاميرات، وحماية أساسية للعائلة.": {
-      fr: "Wi-Fi puissant à la maison, caméras et protection de base pour la famille.",
-      ar: "واي فاي قوي في البيت، كاميرات، وحماية أساسية للعائلة."
+    "Strong home Wi-Fi, camera visibility, and practical protection for the family.": {
+      fr: "Un Wi-Fi domestique performant, une bonne visibilité des caméras et une protection pratique pour la famille.",
+      ar: "واي فاي منزلي قوي ورؤية واضحة للكاميرات وحماية عملية للعائلة."
     },
     "For Offices": {
       fr: "Pour les bureaux",
@@ -785,8 +829,8 @@
       fr: "Câblage structuré, connectivité salle de réunion, ressources partagées, accès distant sécurisé et maintenance proactive.",
       ar: "كابلات منظمة، اتصال غرف الاجتماعات، موارد مشتركة، وصول آمن عن بعد، وصيانة استباقية."
     },
-    "Un bureau connecté, organisé et prêt pour la croissance.": {
-      fr: "Un bureau connecté, organisé et prêt pour la croissance.",
+    "A connected, organized office that is ready to grow.": {
+      fr: "Un bureau connecté, organisé et prêt à grandir.",
       ar: "مكتب متصل ومنظم وجاهز للنمو."
     },
     "Solution Packages": {
@@ -1033,9 +1077,9 @@
       fr: "Téléphone",
       ar: "الهاتف"
     },
-    "Casablanca • Rabat • Remote support": {
-      fr: "Casablanca • Rabat • Support à distance",
-      ar: "الدار البيضاء • الرباط • دعم عن بعد"
+    "Tangier, Morocco • Remote support": {
+      fr: "Tanger, Maroc • Support à distance",
+      ar: "طنجة، المغرب • دعم عن بعد"
     },
     "Contact Form": {
       fr: "Formulaire de contact",
