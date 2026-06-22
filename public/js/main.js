@@ -1659,6 +1659,7 @@
     originalDocumentTitle = document.title;
     initLanguage();
     initNavigation();
+    initHeaderState();
     markActiveNav();
     bindForm("#contact-form", "/api/contact");
     bindForm("#quote-request-form", "/api/quote");
@@ -1915,6 +1916,29 @@
         closeNavigation();
       }
     });
+  }
+
+  function initHeaderState() {
+    const header = document.querySelector(".site-header");
+
+    if (!header) {
+      return;
+    }
+
+    let frame = 0;
+    const updateHeader = () => {
+      if (frame) {
+        return;
+      }
+
+      frame = window.requestAnimationFrame(() => {
+        frame = 0;
+        header.classList.toggle("is-scrolled", window.scrollY > 8);
+      });
+    };
+
+    updateHeader();
+    window.addEventListener("scroll", updateHeader, { passive: true });
   }
 
   function markActiveNav() {

@@ -5,6 +5,7 @@ const RATE_LIMITS = {
 };
 
 const rateBuckets = new Map();
+const MAX_JSON_BODY_BYTES = 12 * 1024;
 
 const contactLimits = {
   name: 80,
@@ -94,7 +95,7 @@ async function routeApi(request, env, url) {
   if (!env.DB) {
     return jsonResponse(503, {
       success: false,
-      message: "D1 database binding DB is missing."
+      message: "Service is temporarily unavailable. Please try again later."
     });
   }
 
@@ -244,7 +245,15 @@ async function handleAdminLogin(request, env) {
   if (limited) return limited;
 
   const jwtErrors = getJwtSetupErrors(env);
-  const body = await readJson(request);
+  let body;
+
+  try {
+    body = await readJson(request);
+  } catch {
+    await logActivity(env, request, "admin_login_failed", { reason: "invalid_json" });
+    return jsonResponse(400, { success: false, message: "Invalid email or password." });
+  }
+
   const { payload, password, errors } = validateAdminLogin(body);
 
   if (errors.length) {
@@ -253,8 +262,8 @@ async function handleAdminLogin(request, env) {
   }
 
   if (jwtErrors.length) {
-    await logActivity(env, request, "admin_login_failed", { reason: "jwt_not_configured", email: payload.email });
-    return jsonResponse(503, { success: false, message: `Setup error: ${jwtErrors.join(" ")}`, errors: jwtErrors });
+    await logActivity(env, request, "admin_login_failed", { reason: "jwt_not_configured", email: payload.email, details: jwtErrors });
+    return jsonResponse(503, { success: false, message: "Admin authentication is temporarily unavailable." });
   }
 
   const admin = await env.DB.prepare("SELECT * FROM admins WHERE email = ?").bind(payload.email).first();
@@ -679,6 +688,12 @@ function listResponse(data, count, page, limit) {
 }
 
 async function readJson(request) {
+  const contentLength = Number(request.headers.get("content-length") || "0");
+
+  if (Number.isFinite(contentLength) && contentLength > MAX_JSON_BODY_BYTES) {
+    throw new HttpError(413, "Request body is too large.");
+  }
+
   try {
     return await request.json();
   } catch {
@@ -691,6 +706,7 @@ function checkRateLimit(request, bucket) {
   const ip = getClientIp(request);
   const key = `${bucket}:${ip}`;
   const now = Date.now();
+  pruneRateBuckets(now);
   const existing = rateBuckets.get(key) || { count: 0, resetAt: now + config.windowMs };
 
   if (existing.resetAt <= now) {
@@ -702,7 +718,13 @@ function checkRateLimit(request, bucket) {
   rateBuckets.set(key, existing);
 
   if (existing.count > config.limit) {
-    return jsonResponse(429, { success: false, message: "Too many requests. Please try again later." });
+    const retryAfter = Math.max(1, Math.ceil((existing.resetAt - now) / 1000));
+    return jsonResponse(429, { success: false, message: "Too many requests. Please try again later." }, {
+      "Retry-After": String(retryAfter),
+      "RateLimit-Limit": String(config.limit),
+      "RateLimit-Remaining": "0",
+      "RateLimit-Reset": String(Math.ceil(existing.resetAt / 1000))
+    });
   }
 
   return null;
@@ -745,7 +767,7 @@ async function signJwt(payload, env) {
 async function verifyJwt(token, env) {
   const jwtErrors = getJwtSetupErrors(env);
   if (jwtErrors.length) {
-    throw new HttpError(503, `Setup error: ${jwtErrors.join(" ")}`);
+    throw new HttpError(503, "Admin authentication is temporarily unavailable.");
   }
 
   const parts = token.split(".");
@@ -812,14 +834,29 @@ async function logActivity(env, request, event, metadata = {}, adminId = null) {
 }
 
 function getClientIp(request) {
-  return request.headers.get("CF-Connecting-IP") || request.headers.get("x-forwarded-for") || "unknown";
+  const cloudflareIp = request.headers.get("CF-Connecting-IP");
+  const forwardedIp = (request.headers.get("x-forwarded-for") || "").split(",")[0].trim();
+  return normalizeText(cloudflareIp || forwardedIp || "unknown").slice(0, 64) || "unknown";
 }
 
-function jsonResponse(status, payload) {
+function pruneRateBuckets(now) {
+  if (rateBuckets.size < 250) {
+    return;
+  }
+
+  for (const [key, value] of rateBuckets) {
+    if (value.resetAt <= now) {
+      rateBuckets.delete(key);
+    }
+  }
+}
+
+function jsonResponse(status, payload, extraHeaders = {}) {
   return new Response(JSON.stringify(payload), {
     status,
     headers: {
       ...securityHeaders(),
+      ...extraHeaders,
       "Content-Type": "application/json; charset=utf-8"
     }
   });
@@ -842,11 +879,15 @@ function csvResponse(filename, csv) {
 
 function securityHeaders() {
   return {
-    "Content-Security-Policy": "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data:; script-src 'self'; style-src 'self'; connect-src 'self'",
+    "Cache-Control": "no-store",
+    "Content-Security-Policy": "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data:; script-src 'self'; style-src 'self'; connect-src 'self'; font-src 'self'",
     "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Cross-Origin-Opener-Policy": "same-origin",
+    "Cross-Origin-Resource-Policy": "same-origin",
     "X-Content-Type-Options": "nosniff",
     "X-Frame-Options": "DENY",
-    "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=()"
+    "X-Permitted-Cross-Domain-Policies": "none",
+    "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
   };
 }
 

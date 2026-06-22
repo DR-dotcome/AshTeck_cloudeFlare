@@ -153,6 +153,13 @@ li {
   background: color-mix(in srgb, var(--surface) 84%, transparent);
   backdrop-filter: blur(22px);
   box-shadow: 0 1px 0 color-mix(in srgb, var(--text) 4%, transparent);
+  transition: background 240ms ease, border-color 240ms ease, box-shadow 240ms ease;
+}
+
+.site-header.is-scrolled {
+  border-bottom-color: color-mix(in srgb, var(--primary) 18%, var(--line));
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.32);
 }
 
 .site-header > * {
@@ -1801,9 +1808,9 @@ textarea:focus {
     box-shadow: var(--shadow);
     opacity: 0;
     pointer-events: none;
-    transform: translateY(-8px);
+    transform: translateY(-6px) scale(0.99);
     visibility: hidden;
-    transition: opacity 180ms ease, transform 180ms ease, max-height 220ms ease, visibility 180ms ease;
+    transition: opacity 220ms ease, transform 220ms ease, max-height 260ms ease, visibility 220ms ease;
   }
 
   .site-nav.open,
