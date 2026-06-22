@@ -1969,19 +1969,6 @@
       ".footer-grid > *"
     ].join(",");
 
-    revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) {
-          return;
-        }
-
-        showRevealElement(entry.target);
-      });
-    }, {
-      rootMargin: "0px 0px -8% 0px",
-      threshold: 0.12
-    });
-
     const isElementInView = (element) => {
       const rect = element.getBoundingClientRect();
       return rect.top < window.innerHeight * 0.92 && rect.bottom > 0;
@@ -1991,8 +1978,21 @@
       element.classList.add("is-visible");
       element.style.opacity = "1";
       element.style.translate = "0 0";
-      revealObserver.unobserve(element);
+      revealObserver?.unobserve(element);
     };
+
+    if ("IntersectionObserver" in window) {
+      revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            showRevealElement(entry.target);
+          }
+        });
+      }, {
+        rootMargin: "0px 0px -8% 0px",
+        threshold: 0.12
+      });
+    }
 
     const revealIfVisible = (element) => {
       if (isElementInView(element)) {
@@ -2015,7 +2015,7 @@
       }
 
       elements.forEach((element, index) => {
-        if (element.classList.contains("reveal-item") || element.hidden) {
+        if (element.classList.contains("reveal-item") || element.hidden || element.closest(".hidden")) {
           return;
         }
 
@@ -2029,7 +2029,10 @@
         } else {
           element.style.opacity = "0";
           element.style.translate = "0 18px";
-          revealObserver.observe(element);
+
+          if (revealObserver) {
+            revealObserver.observe(element);
+          }
         }
       });
     };
@@ -2050,6 +2053,10 @@
 
     window.addEventListener("scroll", revealVisibleElements, { passive: true });
     window.addEventListener("resize", revealVisibleElements);
+    window.addEventListener("straitsec:refresh-reveals", () => {
+      revealElements(document.body);
+      revealVisibleElements();
+    });
     window.setTimeout(revealVisibleElements, 120);
 
     const mutationObserver = new MutationObserver((mutations) => {
@@ -2266,8 +2273,9 @@
     toast.textContent = translatePhrase(message);
     root.appendChild(toast);
     window.setTimeout(() => {
-      toast.remove();
-    }, 4200);
+      toast.classList.add("is-leaving");
+      window.setTimeout(() => toast.remove(), 200);
+    }, 4000);
   }
 
   function initAdmin() {
@@ -2523,6 +2531,7 @@
     document.body.classList.add("admin-authenticated");
     loginForm.classList.add("hidden");
     dashboard.classList.remove("hidden");
+    window.requestAnimationFrame(() => window.dispatchEvent(new Event("straitsec:refresh-reveals")));
   }
 
   function showLogin(loginForm, dashboard) {

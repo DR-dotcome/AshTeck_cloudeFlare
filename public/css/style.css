@@ -35,6 +35,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 96px;
   overflow-x: clip;
 }
 
@@ -794,12 +795,10 @@ h3 {
 
 @keyframes pageFadeIn {
   from {
-    opacity: 0.92;
-    transform: translateY(4px);
+    opacity: 0.96;
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
@@ -817,6 +816,13 @@ h3 {
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes toastOut {
+  to {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
   }
 }
 
@@ -1616,6 +1622,10 @@ textarea:focus {
 
 .toast.success {
   border-color: color-mix(in srgb, var(--success) 45%, var(--line));
+}
+
+.toast.is-leaving {
+  animation: toastOut 180ms ease both;
 }
 
 .toast.error {
