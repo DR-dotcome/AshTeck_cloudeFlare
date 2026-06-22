@@ -513,9 +513,9 @@
       fr: "Tanger, Maroc",
       ar: "طنجة، المغرب"
     },
-    "Phone: +212 6 XX XX XX XX": {
-      fr: "Téléphone : +212 6 XX XX XX XX",
-      ar: "الهاتف: +212 6 XX XX XX XX"
+    "Phone: +212 553721516": {
+      fr: "Téléphone : +212 553721516",
+      ar: "الهاتف: +212 553721516"
     },
     "Remote support available": {
       fr: "Support à distance disponible",
